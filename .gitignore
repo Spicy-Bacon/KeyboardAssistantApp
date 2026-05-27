@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.keyboard_assistant.sqlite3
+*.sqlite3
+
