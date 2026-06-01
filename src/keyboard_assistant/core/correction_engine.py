@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from keyboard_assistant.core.candidate_generator import Candidate, CandidateGenerator
 from keyboard_assistant.core.context import extract_text_context
 from keyboard_assistant.core.models import AppContext, Suggestion
 from keyboard_assistant.data.defaults import (
@@ -44,6 +45,7 @@ class CorrectionEngine:
 
     def __init__(self, database: Database) -> None:
         self.database = database
+        self.candidate_generator = CandidateGenerator(database)
 
     def suggest(
         self,
@@ -53,11 +55,10 @@ class CorrectionEngine:
     ) -> list[Suggestion]:
         app_context = app_context or AppContext()
         context = extract_text_context(text)
-        candidates: list[Suggestion] = []
-        at_word_boundary = bool(text and text[-1].isspace())
+        suggestions: list[Suggestion] = []
 
         if context.has_double_space:
-            candidates.append(
+            suggestions.append(
                 Suggestion(
                     original=text,
                     replacement=" ".join(text.split()),
@@ -67,16 +68,11 @@ class CorrectionEngine:
                 )
             )
 
-        word = context.current_word
-        if word and not at_word_boundary:
-            candidates.extend(self._word_suggestions(word, context.starts_new_sentence))
-
-        if not at_word_boundary:
-            candidates.extend(self._contextual_suggestions(context.previous_words, word))
-        else:
-            completed_words = tuple(part for part in (*context.previous_words, word) if part)
-            candidates.extend(self._phrase_predictions(completed_words, app_context))
-        return self._rank(candidates, app_context, correction_strength)
+        suggestions.extend(
+            _suggestion_from_candidate(candidate)
+            for candidate in self.candidate_generator.generate(text, app_context)
+        )
+        return self._rank(suggestions, app_context, correction_strength)
 
     def _word_suggestions(self, word: str, starts_new_sentence: bool) -> list[Suggestion]:
         lower = word.lower()
@@ -208,6 +204,24 @@ class CorrectionEngine:
 
         adjusted.sort(key=lambda item: (item.confidence, item.kind), reverse=True)
         return adjusted[:3]
+
+
+def _suggestion_from_candidate(candidate: Candidate) -> Suggestion:
+    kind_map = {
+        "contraction": "apostrophe",
+        "repeated_letter": "repeated_character",
+        "keyboard_slip": "keyboard_neighbor",
+        "confusion_pair": "contextual",
+        "phrase_prediction": "next_word",
+        "user_phrase_prediction": "next_word",
+    }
+    return Suggestion(
+        original=candidate.original_text,
+        replacement=candidate.suggestion_text,
+        kind=kind_map.get(candidate.suggestion_type, candidate.suggestion_type),
+        confidence=candidate.base_confidence,
+        auto_apply=candidate.should_auto_apply,
+    )
 
 
 def _match_case(source: str, replacement: str) -> str:
