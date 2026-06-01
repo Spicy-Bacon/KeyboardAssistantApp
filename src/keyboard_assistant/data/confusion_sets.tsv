@@ -1,0 +1,62 @@
+will meat	will meet	will|you|we|they	0.84
+to much	too much	amount|many|much|expensive|late	0.84
+too go	to go	go|come|leave|send|check	0.84
+your welcome	you're welcome	welcome|thanks|thank	0.88
+youre welcome	you're welcome	welcome|thanks|thank	0.90
+should of	should have	should|could|would|might|must	0.90
+could of	could have	should|could|would|might|must	0.90
+would of	would have	should|could|would|might|must	0.90
+might of	might have	should|could|would|might|must	0.86
+must of	must have	should|could|would|might|must	0.86
+kind of	kind of	type|sort|somewhat	0.75
+then	than	more|less|rather|better|worse|older|younger	0.78
+than	then	next|after|before|and|since	0.72
+there	their	people|team|company|family|students	0.72
+their	there	is|are|was|were|will|should|over|here	0.72
+theyre	they're	are|coming|going|working|available	0.88
+their there	they're there	are|arrived|waiting	0.78
+your	you're	are|going|welcome|right|wrong|available	0.76
+youre	you're	are|going|welcome|right|wrong|available	0.88
+you're	your	name|email|address|phone|file|work	0.72
+its	it's	is|been|going|working|ready|done	0.76
+it's	its	name|value|own|place|file|setting	0.72
+affect	effect	result|impact|cause|change	0.70
+effect	affect	will|can|could|may|might	0.70
+accept	except	other than|but|exclude|excluding	0.72
+except	accept	offer|invite|proposal|change	0.72
+advice	advise	please|can|could|would|should	0.70
+advise	advice	need|some|good|better|your	0.70
+loose	lose	win|lost|losing|weight|track	0.76
+lose	loose	not tight|free|loosen	0.68
+principal	principle	rule|idea|belief|concept	0.70
+principle	principal	school|main|amount|investigator	0.70
+stationary	stationery	paper|pen|office|supplies	0.72
+stationery	stationary	still|not moving|fixed	0.72
+compliment	complement	add|complete|match|pair	0.70
+complement	compliment	praise|nice|kind|said	0.70
+passed	past	ago|history|previous|beyond	0.70
+past	passed	test|exam|went|walked|moved	0.70
+peace	piece	part|slice|bit|section	0.72
+piece	peace	quiet|calm|war|mind	0.72
+weather	whether	or not|if|decide|choice	0.74
+whether	weather	rain|sunny|cold|forecast	0.74
+hear	here	place|location|there|now	0.72
+here	hear	sound|listen|heard|from you	0.72
+write	right	correct|side|now|away	0.70
+right	write	email|message|letter|essay	0.70
+no	know	understand|learn|remember|tell	0.68
+know	no	not|none|answer|problem	0.68
+buy	by	near|with|from|deadline	0.66
+by	buy	purchase|pay|shop|order	0.66
+bare	bear	carry|animal|market|with me	0.66
+bear	bare	empty|plain|minimum	0.66
+break	brake	car|bike|pedal|stop	0.68
+brake	break	pause|damage|rest|split	0.68
+mail	male	female|gender|person	0.62
+male	mail	email|post|send|letter	0.62
+forth	fourth	number|place|rank|quarter	0.66
+fourth	forth	back and forth|bring forth	0.66
+site	sight	see|view|vision	0.68
+sight	site	website|location|construction	0.68
+cite	site	website|location|place	0.68
+site	cite	reference|source|quote|paper	0.68
