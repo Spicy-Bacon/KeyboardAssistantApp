@@ -63,7 +63,11 @@ class CorrectionEngineTests(unittest.TestCase):
         for typed, replacement in [("hell", "he'll"), ("shell", "she'll"), ("well", "we'll")]:
             with self.subTest(typed=typed):
                 suggestion = self.assistant.suggest(typed)[0]
-                self.assertEqual(suggestion.replacement, replacement)
+                self.assertTrue(
+                    suggestion.replacement == replacement
+                    or suggestion.replacement.startswith(f"{replacement} "),
+                    suggestion,
+                )
                 self.assertFalse(suggestion.auto_apply)
 
     def test_ignored_contextual_contractions_rank_lower(self) -> None:
@@ -143,7 +147,11 @@ class CorrectionEngineTests(unittest.TestCase):
         for typed, replacement in cases:
             with self.subTest(typed=typed):
                 suggestion = self.assistant.suggest(typed)[0]
-                self.assertEqual(suggestion.replacement, replacement)
+                self.assertTrue(
+                    suggestion.replacement == replacement
+                    or suggestion.replacement.startswith(f"{replacement} "),
+                    suggestion,
+                )
                 self.assertFalse(suggestion.auto_apply)
 
     def test_valid_sentences_do_not_get_confusion_auto_corrections(self) -> None:

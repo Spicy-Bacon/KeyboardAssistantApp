@@ -119,7 +119,7 @@ class DefaultDataTests(unittest.TestCase):
     def test_confusion_sets_meet_expanded_quality_floor(self) -> None:
         rule_pairs = {(rule.wrong, rule.suggestion) for rule in defaults.CONFUSION_RULES}
 
-        self.assertGreaterEqual(len(defaults.CONFUSION_RULES), 200)
+        self.assertGreaterEqual(len(defaults.CONFUSION_RULES), 500)
         self.assertEqual(len(defaults.CONFUSION_RULES), len(rule_pairs))
 
         for rule in defaults.CONFUSION_RULES:

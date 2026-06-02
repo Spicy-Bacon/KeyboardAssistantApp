@@ -1,36 +1,86 @@
+a account	an account	article	0.76
+a address	an address	article	0.76
+a agenda	an agenda	article	0.76
+a analysis	an analysis	article	0.76
 a answer	an answer	article	0.78
 a apple	an apple	article	0.78
+a argument	an argument	article	0.76
+a attachment	an attachment	article	0.76
+a author	an author	article	0.76
 a email	an email	article	0.78
+a event	an event	article	0.76
+a exam	an exam	article	0.76
 a example	an example	article	0.78
+a exercise	an exercise	article	0.76
+a experiment	an experiment	article	0.76
+a extension	an extension	article	0.76
 a honest answer	an honest answer	article	0.78
 a hour	an hour	article	0.78
 a idea	an idea	article	0.78
+a image	an image	article	0.76
+a important point	an important point	article	0.76
+a introduction	an introduction	article	0.76
+a invitation	an invitation	article	0.76
 a issue	an issue	article	0.78
 a lots of	a lot of	phrase	0.82
+a online class	an online class	article	0.76
 a option	an option	article	0.78
 a outline	an outline	article	0.78
 a update	an update	article	0.78
+a urgent message	an urgent message	article	0.76
 accept	except	other than|but|exclude|excluding	0.72
+accept for	except for	phrase	0.76
+access of	access to	preposition	0.72
+according with	according to	preposition	0.72
 advice	advise	please|can|could|would|should	0.70
+advice me	advise me	phrase	0.76
 advise	advice	need|some|good|better|your	0.70
+advise for	advice for	phrase	0.76
 affect	effect	result|impact|cause|change	0.70
+affect of this	effect of this	phrase	0.76
+afraid from	afraid of	preposition	0.72
+agree to the idea	agree with the idea	preposition	0.72
+agree to this point	agree with this point	preposition	0.72
 allowed	aloud	read|say|spoken|voice	0.66
 alot of	a lot of	phrase	0.88
 aloud	allowed	permission|permit|can|may	0.66
+an basic idea	a basic idea	article	0.74
+an clear answer	a clear answer	article	0.74
+an daily update	a daily update	article	0.74
 an european example	a european example	article	0.78
+an good example	a good example	article	0.74
+an helpful answer	a helpful answer	article	0.74
+an new email	a new email	article	0.74
 an one page	a one page	article	0.78
 an one time	a one time	article	0.78
+an regular update	a regular update	article	0.74
+an simple outline	a simple outline	article	0.74
 an unique idea	a unique idea	article	0.78
 an unit	a unit	article	0.78
 an university	a university	article	0.78
+an useful example	a useful example	article	0.74
 an useful note	a useful note	article	0.78
 an user	a user	article	0.78
+an weekly update	a weekly update	article	0.74
+apologise for late reply	apologise for the late reply	email	0.74
+apologize for late reply	apologize for the late reply	email	0.74
+approach for	approach to	preposition	0.72
+arrive to	arrive at	preposition	0.72
+arrived to	arrived at	preposition	0.72
+arriving to	arriving at	preposition	0.72
+as per my last email	as mentioned earlier	email	0.74
+as per your request	as requested	email	0.74
+attached herewith	attached	email	0.74
+attention on	attention to	preposition	0.72
+bad in	bad at	preposition	0.72
 bare	bear	carry|animal|market|with me	0.66
 bare with me	bear with me	phrase	0.84
 based off	based on	phrase	0.78
 based off of	based on	phrase	0.80
 bear	bare	empty|plain|minimum	0.66
 beckon call	beck and call	phrase	0.78
+belong with	belong to	preposition	0.72
+belongs with	belongs to	preposition	0.72
 better then	better than	phrase	0.78
 brake	break	pause|damage|rest|split	0.68
 break	brake	car|bike|pedal|stop	0.68
@@ -43,12 +93,21 @@ coarse	course	class|module|study|training	0.68
 complement	compliment	praise|nice|kind|said	0.70
 compliment	complement	add|complete|match|pair	0.70
 continue on	continue	phrase	0.72
+contribution for	contribution to	preposition	0.72
 cope up with	cope with	phrase	0.78
 could had	could have	phrase	0.82
+could have began	could have begun	verb_form	0.76
+could have did	could have done	verb_form	0.76
+could have spoke	could have spoken	verb_form	0.76
 could have went	could have gone	phrase	0.82
+could have wrote	could have written	verb_form	0.76
 could of	could have	should|could|would|might|must	0.90
+could to	could	modal	0.70
 course	coarse	rough|texture|grain	0.62
 deep seeded	deep seated	phrase	0.76
+depend of	depend on	preposition	0.72
+depending of	depending on	preposition	0.72
+depends of	depends on	preposition	0.72
 desert	dessert	cake|sweet|after dinner	0.68
 dessert	desert	sand|dry|hot	0.62
 different then	different than	phrase	0.76
@@ -58,6 +117,8 @@ discuss about this	discuss this	phrase	0.80
 dual	duel	fight|contest	0.60
 duel	dual	two|double|purpose	0.62
 effect	affect	will|can|could|may|might	0.70
+effect the outcome	affect the outcome	phrase	0.76
+effect the result	affect the result	phrase	0.76
 ensure	insure	policy|insurance|cover	0.62
 enter in	enter	phrase	0.72
 every day tasks	everyday tasks	phrase	0.78
@@ -67,61 +128,137 @@ everyday at	every day at	phrase	0.78
 everyday i	every day i	phrase	0.80
 everyday we	every day we	phrase	0.78
 except	accept	offer|invite|proposal|change	0.72
+except the offer	accept the offer	phrase	0.76
 explain me	explain to me	phrase	0.80
 farther	further	discussion|details|more	0.66
 first come first serve	first come first served	phrase	0.82
+focus in	focus on	preposition	0.72
+focused in	focused on	preposition	0.72
 for all intensive purposes	for all intents and purposes	phrase	0.82
 formally	formerly	previously|used to|before	0.68
 formerly	formally	officially|formal|properly	0.66
 forth	fourth	number|place|rank|quarter	0.66
 fourth	forth	back and forth|bring forth	0.66
 further	farther	distance|away|miles	0.64
+good in	good at	preposition	0.72
 he are	he is	agreement	0.78
 he have	he has	agreement	0.74
+he have been	he has been	verb_form	0.74
 he were	he was	agreement	0.74
+he were going	he was going	verb_form	0.72
 hear	here	place|location|there|now	0.72
 here	hear	sound|listen|heard|from you	0.72
+i am looking forward to hear	i am looking forward to hearing	email	0.74
+i am writing you	i am writing to you	email	0.74
 i could of been	i could have been	verb_form	0.78
 i done	i did	verb_form	0.78
+i has been	i have been	verb_form	0.74
 i have did	i have done	verb_form	0.78
 i have saw	i have seen	verb_form	0.78
+i look forward to hear	i look forward to hearing	email	0.74
 i seen	i saw	verb_form	0.78
 i should of been	i should have been	verb_form	0.78
 i would of been	i would have been	verb_form	0.78
+i write to inform	i am writing to inform	email	0.74
+in regards to	regarding	email	0.74
 in to my	into my	phrase	0.80
 in to the	into the	phrase	0.82
 in to your	into your	phrase	0.80
 insure	ensure	make sure|confirm|protect	0.68
 intensive purposes	intents and purposes	phrase	0.80
+interested about	interested in	preposition	0.72
+interested on	interested in	preposition	0.72
+invitation for	invitation to	preposition	0.72
 it are	it is	agreement	0.78
 it have	it has	agreement	0.74
+it have been	it has been	verb_form	0.74
+it is own	its own	phrase	0.76
+it is value	its value	phrase	0.76
 it were	it was	agreement	0.74
+it were going	it was going	verb_form	0.72
 it's	its	name|value|own|place|file|setting	0.72
 its	it's	is|been|going|working|ready|done	0.76
+its done	it's done	phrase	0.76
+its going	it's going	phrase	0.76
+its ready	it's ready	phrase	0.76
+its working	it's working	phrase	0.76
+key of	key to	preposition	0.72
 kindly advice	kindly advise	phrase	0.80
+kindly requesting	requesting	email	0.74
 know	no	not|none|answer|problem	0.68
 lead	led	past|yesterday|last	0.66
 led	lead	guide|manage|team	0.64
 less then	less than	phrase	0.78
 lessen	lesson	class|learn|course	0.66
 lesson	lessen	reduce|decrease|lower	0.66
+let me to know	let me know	email	0.74
+listen music	listen to music	preposition	0.72
+listen the	listen to the	preposition	0.72
+listening music	listening to music	preposition	0.72
 log in to	log into	phrase	0.78
 look forward for	look forward to	phrase	0.84
 looking forward for	looking forward to	phrase	0.86
 loose	lose	win|lost|losing|weight|track	0.76
+loose track	lose track	phrase	0.76
+loose weight	lose weight	phrase	0.76
 lose	loose	not tight|free|loosen	0.68
+lose connection	loose connection	phrase	0.76
 mail	male	female|gender|person	0.62
 male	mail	email|post|send|letter	0.62
+many answer	many answers	count	0.76
+many chapter	many chapters	count	0.76
+many class	many classs	count	0.76
+many course	many courses	count	0.76
+many document	many documents	count	0.76
+many email	many emails	count	0.76
+many example	many examples	count	0.76
+many file	many files	count	0.76
+many idea	many ideas	count	0.76
+many issue	many issues	count	0.76
+many note	many notes	count	0.76
+many paragraph	many paragraphs	count	0.76
+many question	many questions	count	0.76
+many section	many sections	count	0.76
+many task	many tasks	count	0.76
+married with	married to	preposition	0.72
 meet up with	meet with	phrase	0.76
 might had	might have	phrase	0.78
+might have began	might have begun	verb_form	0.76
+might have did	might have done	verb_form	0.76
+might have spoke	might have spoken	verb_form	0.76
+might have went	might have gone	verb_form	0.76
+might have wrote	might have written	verb_form	0.76
 might of	might have	should|could|would|might|must	0.86
+might to	might	modal	0.70
 more then	more than	phrase	0.78
 morning	mourning	grief|loss|funeral	0.60
 mourning	morning	today|tomorrow|early	0.66
 must had	must have	phrase	0.78
+must have began	must have begun	verb_form	0.76
+must have did	must have done	verb_form	0.76
+must have spoke	must have spoken	verb_form	0.76
+must have went	must have gone	verb_form	0.76
+must have wrote	must have written	verb_form	0.76
 must of	must have	should|could|would|might|must	0.86
+must to	must	modal	0.70
+need of	need for	preposition	0.72
 no	know	understand|learn|remember|tell	0.68
 older then	older than	phrase	0.76
+one answers	one answer	count	0.72
+one chapters	one chapter	count	0.72
+one classes	one class	count	0.72
+one courses	one course	count	0.72
+one documents	one document	count	0.72
+one emails	one email	count	0.72
+one examples	one example	count	0.72
+one files	one file	count	0.72
+one ideas	one idea	count	0.72
+one issues	one issue	count	0.72
+one notes	one note	count	0.72
+one paragraphs	one paragraph	count	0.72
+one questions	one question	count	0.72
+one sections	one section	count	0.72
+one tasks	one task	count	0.72
 other then	other than	phrase	0.78
 passed	past	ago|history|previous|beyond	0.70
 past	passed	test|exam|went|walked|moved	0.70
@@ -131,6 +268,12 @@ personnel	personal	private|own|individual	0.66
 piece	peace	quiet|calm|war|mind	0.72
 please advice	please advise	phrase	0.84
 please bare with me	please bear with me	phrase	0.86
+please confirm me	please confirm	email	0.74
+please find attached herewith	please find attached	email	0.74
+please find the below	please see below	email	0.74
+please let me to know	please let me know	email	0.74
+please see bellow	please see below	email	0.74
+please update me on	please update me about	email	0.74
 precede	proceed	continue|go|move	0.66
 principal	principle	rule|idea|belief|concept	0.70
 principle	principal	school|main|amount|investigator	0.70
@@ -138,56 +281,170 @@ proceed	precede	before|comes before	0.62
 quiet	quite	very|really|rather	0.68
 quite	quiet	silent|noise|calm	0.66
 rather then	rather than	phrase	0.80
+reason of	reason for	preposition	0.72
+regarding to the	regarding the	email	0.74
 repeat again	repeat	phrase	0.72
 reply back	reply	phrase	0.74
+reply for	reply to	preposition	0.72
 reply me	reply to me	phrase	0.78
 request for	request	phrase	0.72
+response for	response to	preposition	0.72
+responsible of	responsible for	preposition	0.72
 return back	return	phrase	0.74
 revert back	revert	phrase	0.72
 right	write	email|message|letter|essay	0.70
 role	roll	bread|list|turn	0.62
 roll	role	job|part|position	0.66
+several answer	several answers	count	0.76
+several chapter	several chapters	count	0.76
+several class	several classs	count	0.76
+several course	several courses	count	0.76
+several document	several documents	count	0.76
+several email	several emails	count	0.76
+several example	several examples	count	0.76
+several file	several files	count	0.76
+several idea	several ideas	count	0.76
+several issue	several issues	count	0.76
+several note	several notes	count	0.76
+several paragraph	several paragraphs	count	0.76
+several question	several questions	count	0.76
+several section	several sections	count	0.76
+several task	several tasks	count	0.76
 she are	she is	agreement	0.78
 she have	she has	agreement	0.74
+she have been	she has been	verb_form	0.74
 she were	she was	agreement	0.74
+she were going	she was going	verb_form	0.72
 should had	should have	phrase	0.82
+should have began	should have begun	verb_form	0.76
+should have did	should have done	verb_form	0.76
+should have spoke	should have spoken	verb_form	0.76
 should have went	should have gone	phrase	0.82
+should have wrote	should have written	verb_form	0.76
 should of	should have	should|could|would|might|must	0.90
+should to	should	modal	0.70
 sight	site	website|location|construction	0.68
+similar with	similar to	preposition	0.72
 site	cite	reference|source|quote|paper	0.68
 site	sight	see|view|vision	0.68
+skilled on	skilled at	preposition	0.72
+solution of	solution to	preposition	0.72
+sorry for late reply	sorry for the late reply	email	0.74
+sorry for the delay reply	sorry for the delayed reply	email	0.74
 stationary	stationery	paper|pen|office|supplies	0.72
 stationery	stationary	still|not moving|fixed	0.72
 than	then	next|after|before|and|since	0.72
 thank you alot	thank you a lot	phrase	0.84
+thank you in advance for your help	thank you for your help	email	0.74
+thank you to your email	thank you for your email	preposition	0.72
 thanks alot	thanks a lot	phrase	0.86
+thanks to your email	thanks for your email	preposition	0.72
+thanks to your message	thanks for your message	preposition	0.72
+the answer are	the answer is	agreement	0.76
+the answer have	the answer has	agreement	0.72
+the answer were	the answer was	agreement	0.72
+the answers has	the answers have	agreement	0.72
+the answers is	the answers are	agreement	0.76
+the answers was	the answers were	agreement	0.72
+the chapter are	the chapter is	agreement	0.76
+the chapter have	the chapter has	agreement	0.72
+the chapter were	the chapter was	agreement	0.72
+the chapters has	the chapters have	agreement	0.72
+the chapters is	the chapters are	agreement	0.76
+the chapters was	the chapters were	agreement	0.72
+the class are	the class is	agreement	0.76
+the class have	the class has	agreement	0.72
+the class were	the class was	agreement	0.72
+the classes has	the classes have	agreement	0.72
+the classes is	the classes are	agreement	0.76
+the classes was	the classes were	agreement	0.72
+the course are	the course is	agreement	0.76
+the course have	the course has	agreement	0.72
+the course were	the course was	agreement	0.72
+the courses has	the courses have	agreement	0.72
+the courses is	the courses are	agreement	0.76
+the courses was	the courses were	agreement	0.72
 the document are	the document is	agreement	0.78
 the document have	the document has	agreement	0.74
 the document were	the document was	agreement	0.74
 the documents has	the documents have	agreement	0.74
 the documents is	the documents are	agreement	0.78
 the documents was	the documents were	agreement	0.74
+the email are	the email is	agreement	0.76
+the email have	the email has	agreement	0.72
+the email were	the email was	agreement	0.72
+the emails has	the emails have	agreement	0.72
+the emails is	the emails are	agreement	0.76
+the emails was	the emails were	agreement	0.72
+the example are	the example is	agreement	0.76
+the example have	the example has	agreement	0.72
+the example were	the example was	agreement	0.72
+the examples has	the examples have	agreement	0.72
+the examples is	the examples are	agreement	0.76
+the examples was	the examples were	agreement	0.72
 the file are	the file is	agreement	0.78
 the file have	the file has	agreement	0.74
 the file were	the file was	agreement	0.74
 the files has	the files have	agreement	0.74
 the files is	the files are	agreement	0.78
 the files was	the files were	agreement	0.74
+the idea are	the idea is	agreement	0.76
+the idea have	the idea has	agreement	0.72
+the idea were	the idea was	agreement	0.72
+the ideas has	the ideas have	agreement	0.72
+the ideas is	the ideas are	agreement	0.76
+the ideas was	the ideas were	agreement	0.72
+the issue are	the issue is	agreement	0.76
+the issue have	the issue has	agreement	0.72
+the issue were	the issue was	agreement	0.72
+the issues has	the issues have	agreement	0.72
+the issues is	the issues are	agreement	0.76
+the issues was	the issues were	agreement	0.72
 the meeting are	the meeting is	agreement	0.78
 the meeting have	the meeting has	agreement	0.74
 the meeting were	the meeting was	agreement	0.74
 the meetings has	the meetings have	agreement	0.74
 the meetings is	the meetings are	agreement	0.78
 the meetings was	the meetings were	agreement	0.74
+the note are	the note is	agreement	0.76
+the note have	the note has	agreement	0.72
+the note were	the note was	agreement	0.72
+the notes has	the notes have	agreement	0.72
+the notes is	the notes are	agreement	0.76
+the notes was	the notes were	agreement	0.72
+the paragraph are	the paragraph is	agreement	0.76
+the paragraph have	the paragraph has	agreement	0.72
+the paragraph were	the paragraph was	agreement	0.72
+the paragraphs has	the paragraphs have	agreement	0.72
+the paragraphs is	the paragraphs are	agreement	0.76
+the paragraphs was	the paragraphs were	agreement	0.72
+the question are	the question is	agreement	0.76
+the question have	the question has	agreement	0.72
+the question were	the question was	agreement	0.72
+the questions has	the questions have	agreement	0.72
+the questions is	the questions are	agreement	0.76
+the questions was	the questions were	agreement	0.72
 the report are	the report is	agreement	0.78
 the report have	the report has	agreement	0.74
 the report were	the report was	agreement	0.74
 the reports has	the reports have	agreement	0.74
 the reports is	the reports are	agreement	0.78
 the reports was	the reports were	agreement	0.74
+the section are	the section is	agreement	0.76
+the section have	the section has	agreement	0.72
+the section were	the section was	agreement	0.72
+the sections has	the sections have	agreement	0.72
+the sections is	the sections are	agreement	0.76
+the sections was	the sections were	agreement	0.72
 the students has	the students have	agreement	0.74
 the students is	the students are	agreement	0.78
 the students was	the students were	agreement	0.74
+the task are	the task is	agreement	0.76
+the task have	the task has	agreement	0.72
+the task were	the task was	agreement	0.72
+the tasks has	the tasks have	agreement	0.72
+the tasks is	the tasks are	agreement	0.76
+the tasks was	the tasks were	agreement	0.72
 the update are	the update is	agreement	0.78
 the update have	the update has	agreement	0.74
 the update were	the update was	agreement	0.74
@@ -195,12 +452,17 @@ the updates has	the updates have	agreement	0.74
 the updates is	the updates are	agreement	0.78
 the updates was	the updates were	agreement	0.74
 their	there	is|are|was|were|will|should|over|here	0.72
+their available	they're available	phrase	0.76
+their going	they're going	phrase	0.76
 their there	they're there	are|arrived|waiting	0.78
+their working	they're working	phrase	0.76
 then	than	more|less|rather|better|worse|older|younger	0.78
 there	their	people|team|company|family|students	0.72
 there are a	there is a	agreement	0.74
 there are an	there is an	agreement	0.74
 there are one	there is one	agreement	0.74
+there available	they're available	phrase	0.76
+there going	they're going	phrase	0.76
 there is documents	there are documents	agreement	0.78
 there is many	there are many	agreement	0.78
 there is people	there are people	agreement	0.78
@@ -209,45 +471,106 @@ there is three	there are three	agreement	0.78
 there is two	there are two	agreement	0.78
 they done	they did	verb_form	0.78
 they has	they have	agreement	0.74
+they has been	they have been	verb_form	0.74
 they have did	they have done	verb_form	0.78
 they have saw	they have seen	verb_form	0.78
 they is	they are	agreement	0.78
 they seen	they saw	verb_form	0.78
 they should of been	they should have been	verb_form	0.78
 they was	they were	agreement	0.74
+they was going	they were going	verb_form	0.70
 theyre	they're	are|coming|going|working|available	0.88
+this email is regarding to	this email is regarding	email	0.74
+three answer	three answers	count	0.74
+three chapter	three chapters	count	0.74
+three class	three classs	count	0.74
+three course	three courses	count	0.74
+three document	three documents	count	0.74
+three email	three emails	count	0.74
+three example	three examples	count	0.74
+three file	three files	count	0.74
+three idea	three ideas	count	0.74
+three issue	three issues	count	0.74
+three note	three notes	count	0.74
+three paragraph	three paragraphs	count	0.74
+three question	three questions	count	0.74
+three section	three sections	count	0.74
+three task	three tasks	count	0.74
 threw	through	via|across|process	0.66
 through	threw	tossed|ball|past	0.60
+tired from	tired of	preposition	0.72
+to late	too late	phrase	0.76
+to many	too many	phrase	0.76
 to much	too much	amount|many|much|expensive|late	0.84
+to soon	too soon	phrase	0.76
 too go	to go	go|come|leave|send|check	0.84
+too the file	to the file	phrase	0.76
+too the meeting	to the meeting	phrase	0.76
+two answer	two answers	count	0.74
+two chapter	two chapters	count	0.74
+two class	two classs	count	0.74
+two course	two courses	count	0.74
+two document	two documents	count	0.74
+two email	two emails	count	0.74
+two example	two examples	count	0.74
+two file	two files	count	0.74
+two idea	two ideas	count	0.74
+two issue	two issues	count	0.74
+two many	too many	phrase	0.76
+two much	too much	phrase	0.76
+two note	two notes	count	0.74
+two paragraph	two paragraphs	count	0.74
+two question	two questions	count	0.74
+two section	two sections	count	0.74
+two task	two tasks	count	0.74
 waist	waste	time|money|resources	0.66
 waste	waist	body|belt|size	0.60
 we could of been	we could have been	verb_form	0.78
 we done	we did	verb_form	0.78
 we has	we have	agreement	0.74
+we has been	we have been	verb_form	0.74
 we have did	we have done	verb_form	0.78
 we have saw	we have seen	verb_form	0.78
 we is	we are	agreement	0.78
 we seen	we saw	verb_form	0.78
 we should of been	we should have been	verb_form	0.78
 we was	we were	agreement	0.74
+we was going	we were going	verb_form	0.70
 we would of been	we would have been	verb_form	0.78
 weak	week	monday|friday|next|last	0.66
 weather	whether	or not|if|decide|choice	0.74
+weather or not	whether or not	phrase	0.76
 week	weak	strong|strength|signal	0.60
 whether	weather	rain|sunny|cold|forecast	0.74
+whether forecast	weather forecast	phrase	0.76
 will meat	will meet	will|you|we|they	0.84
+with regards to	regarding	email	0.74
 worse then	worse than	phrase	0.78
 would had	would have	phrase	0.82
+would have began	would have begun	verb_form	0.76
+would have did	would have done	verb_form	0.76
+would have spoke	would have spoken	verb_form	0.76
 would have went	would have gone	phrase	0.82
+would have wrote	would have written	verb_form	0.76
 would of	would have	should|could|would|might|must	0.90
+would to	would	modal	0.70
 write	right	correct|side|now|away	0.70
 you done	you did	verb_form	0.78
+you has been	you have been	verb_form	0.74
 you seen	you saw	verb_form	0.78
 you should of been	you should have been	verb_form	0.78
+you was going	you were going	verb_form	0.70
 you're	your	name|email|address|phone|file|work	0.72
 younger then	younger than	phrase	0.76
 your	you're	are|going|welcome|right|wrong|available	0.76
+your available	you're available	phrase	0.76
+your going	you're going	phrase	0.76
+your right	you're right	phrase	0.76
 your welcome	you're welcome	welcome|thanks|thank	0.88
+your wrong	you're wrong	phrase	0.76
 youre	you're	are|going|welcome|right|wrong|available	0.88
+youre available	you're available	phrase	0.76
+youre going	you're going	phrase	0.76
+youre right	you're right	phrase	0.76
 youre welcome	you're welcome	welcome|thanks|thank	0.90
+youre wrong	you're wrong	phrase	0.76

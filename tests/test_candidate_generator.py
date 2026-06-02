@@ -1,5 +1,6 @@
 import tempfile
 import unittest
+import time
 from pathlib import Path
 
 from keyboard_assistant.core.candidate_generator import CandidateGenerator
@@ -123,6 +124,14 @@ class CandidateGeneratorTests(unittest.TestCase):
             for candidate in candidates
         ]
         self.assertEqual(len(keys), len(set(keys)))
+
+    def test_confusion_lookup_remains_fast_with_expanded_rules(self) -> None:
+        start = time.perf_counter()
+        for _ in range(100):
+            self.generator.generate("please review the document before the meeting")
+        elapsed = time.perf_counter() - start
+
+        self.assertLess(elapsed, 0.50)
 
 
 if __name__ == "__main__":
