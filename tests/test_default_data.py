@@ -14,10 +14,27 @@ class DefaultDataTests(unittest.TestCase):
                 self.assertGreater(len(resource.read_text(encoding="utf-8").splitlines()), 0)
 
     def test_common_typos_load_from_local_tsv(self) -> None:
-        self.assertGreaterEqual(len(defaults.TYPO_RULES), 300)
+        self.assertGreaterEqual(len(defaults.TYPO_RULES), 1500)
         self.assertEqual(defaults.TYPO_MAP["teh"], "the")
         self.assertEqual(defaults.TYPO_MAP["recieve"], "receive")
         self.assertGreater(defaults.TYPO_CONFIDENCE["teh"], 0.9)
+
+    def test_common_typos_do_not_directly_correct_risky_real_words(self) -> None:
+        risky_pairs = [
+            ("form", "from"),
+            ("from", "form"),
+            ("were", "we're"),
+            ("were", "where"),
+            ("well", "we'll"),
+            ("ill", "I'll"),
+            ("than", "then"),
+            ("then", "than"),
+            ("shell", "she'll"),
+            ("hell", "he'll"),
+        ]
+        for typo, correction in risky_pairs:
+            with self.subTest(typo=typo, correction=correction):
+                self.assertNotEqual(defaults.TYPO_MAP.get(typo), correction)
 
     def test_contractions_include_safe_and_contextual_categories(self) -> None:
         self.assertEqual(defaults.CONTRACTIONS["dont"], "don't")

@@ -31,13 +31,13 @@ class CorrectionEngineTests(unittest.TestCase):
     def test_transposed_word_suggestion(self) -> None:
         suggestions = self.assistant.suggest("peolpe")
         self.assertEqual(suggestions[0].replacement, "people")
-        self.assertEqual(suggestions[0].kind, "transposition")
+        self.assertIn(suggestions[0].kind, {"transposition", "typo"})
         self.assertFalse(suggestions[0].auto_apply)
 
     def test_missing_character_word_suggestion(self) -> None:
         suggestions = self.assistant.suggest("abot")
         self.assertEqual(suggestions[0].replacement, "about")
-        self.assertEqual(suggestions[0].kind, "edit_distance")
+        self.assertIn(suggestions[0].kind, {"edit_distance", "typo"})
         self.assertFalse(suggestions[0].auto_apply)
 
     def test_common_word_does_not_get_fuzzy_suggestion(self) -> None:
