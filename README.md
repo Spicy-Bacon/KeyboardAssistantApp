@@ -97,9 +97,28 @@ Current limitations:
 $env:PYTHONPATH="src"
 python -m unittest discover -s tests
 python -m unittest tests.test_fresh_install_benchmark
+python scripts\validate_language_data.py
 ```
 
 The fresh-install benchmark uses `tests/fixtures/fresh_install_cases.json`, disables learning and local AI, and enforces an 85% minimum deterministic pass rate.
+
+## Language Data
+
+Bundled language data lives in `src/keyboard_assistant/data/` and is validated before expansion:
+
+```powershell
+python scripts\validate_language_data.py
+```
+
+Current TSV formats:
+
+- `common_typos.tsv`: `typo<TAB>correction<TAB>confidence`
+- `common_words.tsv`: `word<TAB>frequency_score`
+- `common_phrases.tsv`: `prefix<TAB>suggestion<TAB>confidence`
+- `confusion_sets.tsv`: `wrong_phrase_or_word<TAB>suggestion<TAB>context_hint<TAB>confidence`
+- `contractions.tsv`: `input<TAB>correction<TAB>category<TAB>confidence`
+
+Long-term dataset targets are `5,000+` typos, `50,000+` common words, `10,000+` phrase patterns, `500+` confusion rules, and complete common contraction coverage.
 
 ## Build a Packaged Artifact
 
