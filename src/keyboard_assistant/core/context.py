@@ -39,6 +39,20 @@ class TypedBuffer:
     def clear(self) -> None:
         self._chars.clear()
 
+    def replace_suffix(self, original: str, replacement: str) -> None:
+        if not original:
+            self._chars.extend(replacement)
+            if len(self._chars) > self.max_chars:
+                self._chars = self._chars[-self.max_chars :]
+            return
+        text = self.text
+        if text.endswith(original):
+            self._chars = list(text[: -len(original)] + replacement)
+        else:
+            self._chars.extend(replacement)
+        if len(self._chars) > self.max_chars:
+            self._chars = self._chars[-self.max_chars :]
+
     def context(self) -> TextContext:
         return extract_text_context(self.text)
 
@@ -64,4 +78,3 @@ def _starts_new_sentence(prefix: str) -> bool:
     if not stripped:
         return True
     return stripped[-1] in ".!?"
-

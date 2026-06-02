@@ -21,7 +21,20 @@ class TextContextTests(unittest.TestCase):
             buffer.push(char)
         self.assertEqual(buffer.text, "teh")
 
+    def test_typed_buffer_replaces_suffix(self) -> None:
+        buffer = TypedBuffer()
+        for char in "I typed teh":
+            buffer.push(char)
+        buffer.replace_suffix("teh", "the ")
+        self.assertEqual(buffer.text, "I typed the ")
+
+    def test_typed_buffer_empty_suffix_appends(self) -> None:
+        buffer = TypedBuffer()
+        for char in "I will ":
+            buffer.push(char)
+        buffer.replace_suffix("", "go")
+        self.assertEqual(buffer.text, "I will go")
+
 
 if __name__ == "__main__":
     unittest.main()
-

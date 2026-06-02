@@ -7,8 +7,9 @@ dependencies = []
 
 [project.scripts]
 keyboard-assistant = "keyboard_assistant.cli:main"
+keyboard-assistant-live = "keyboard_assistant.desktop:main"
+keyboard-assistant-settings = "keyboard_assistant.settings_app:main"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
-

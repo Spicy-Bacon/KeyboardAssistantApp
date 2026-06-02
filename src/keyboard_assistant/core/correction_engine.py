@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from keyboard_assistant.core.candidate_generator import Candidate, CandidateGenerator
+from keyboard_assistant.core.candidate_generator import CandidateGenerator
 from keyboard_assistant.core.context import extract_text_context
 from keyboard_assistant.core.models import AppContext, Suggestion
+from keyboard_assistant.core.suggestion_ranker import SuggestionRanker
 from keyboard_assistant.data.defaults import (
     COMMON_WORDS,
     CONTRACTION_CATEGORIES,
@@ -46,6 +47,7 @@ class CorrectionEngine:
     def __init__(self, database: Database) -> None:
         self.database = database
         self.candidate_generator = CandidateGenerator(database)
+        self.suggestion_ranker = SuggestionRanker(database)
 
     def suggest(
         self,
@@ -69,10 +71,13 @@ class CorrectionEngine:
             )
 
         suggestions.extend(
-            _suggestion_from_candidate(candidate)
-            for candidate in self.candidate_generator.generate(text, app_context)
+            self.suggestion_ranker.rank(
+                self.candidate_generator.generate(text, app_context),
+                app_context=app_context,
+                correction_strength=correction_strength,
+            )
         )
-        return self._rank(suggestions, app_context, correction_strength)
+        return suggestions[:3]
 
     def _word_suggestions(self, word: str, starts_new_sentence: bool) -> list[Suggestion]:
         lower = word.lower()
@@ -204,24 +209,6 @@ class CorrectionEngine:
 
         adjusted.sort(key=lambda item: (item.confidence, item.kind), reverse=True)
         return adjusted[:3]
-
-
-def _suggestion_from_candidate(candidate: Candidate) -> Suggestion:
-    kind_map = {
-        "contraction": "apostrophe",
-        "repeated_letter": "repeated_character",
-        "keyboard_slip": "keyboard_neighbor",
-        "confusion_pair": "contextual",
-        "phrase_prediction": "next_word",
-        "user_phrase_prediction": "next_word",
-    }
-    return Suggestion(
-        original=candidate.original_text,
-        replacement=candidate.suggestion_text,
-        kind=kind_map.get(candidate.suggestion_type, candidate.suggestion_type),
-        confidence=candidate.base_confidence,
-        auto_apply=candidate.should_auto_apply,
-    )
 
 
 def _match_case(source: str, replacement: str) -> str:
