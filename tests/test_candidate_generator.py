@@ -64,6 +64,11 @@ class CandidateGeneratorTests(unittest.TestCase):
         self.assertEqual(candidate.suggestion_text, "about")
         self.assertEqual(candidate.suggestion_type, "edit_distance")
 
+    def test_extra_letter_edit_distance_candidate(self) -> None:
+        candidate = self.generator.generate("abouyt")[0]
+        self.assertEqual(candidate.suggestion_text, "about")
+        self.assertEqual(candidate.suggestion_type, "edit_distance")
+
     def test_confusion_pair_candidate(self) -> None:
         candidate = self.generator.generate("your welcome")[0]
         self.assertEqual(candidate.original_text, "your welcome")
@@ -83,6 +88,14 @@ class CandidateGeneratorTests(unittest.TestCase):
         self.assertEqual(candidate.suggestion_text, "everyone")
         self.assertEqual(candidate.suggestion_type, "user_phrase_prediction")
         self.assertEqual(candidate.source, "user_phrase_history")
+
+    def test_candidates_are_deduplicated_by_original_suggestion_and_type(self) -> None:
+        candidates = self.generator.generate("youre welcome")
+        keys = [
+            (candidate.original_text.lower(), candidate.suggestion_text.lower(), candidate.suggestion_type)
+            for candidate in candidates
+        ]
+        self.assertEqual(len(keys), len(set(keys)))
 
 
 if __name__ == "__main__":
