@@ -116,6 +116,27 @@ class DefaultDataTests(unittest.TestCase):
         self.assertEqual(defaults.NEXT_WORD_FALLBACKS[("let", "me")], "know")
         self.assertEqual(defaults.NEXT_WORD_FALLBACKS[("i", "will")], "check")
 
+    def test_common_phrases_meet_expanded_quality_floor(self) -> None:
+        phrase_pairs = {(rule.prefix, rule.suggestion): rule for rule in defaults.PHRASE_RULES}
+        required_pairs = {
+            ("thank", "you"),
+            ("thank you", "for"),
+            ("let me", "know"),
+            ("please let", "me"),
+            ("looking forward", "to"),
+            ("as soon", "as"),
+        }
+
+        self.assertGreaterEqual(len(defaults.PHRASE_RULES), 1000)
+        self.assertEqual(len(defaults.PHRASE_RULES), len(phrase_pairs))
+        self.assertTrue(required_pairs <= set(phrase_pairs))
+
+        for rule in defaults.PHRASE_RULES:
+            with self.subTest(prefix=rule.prefix, suggestion=rule.suggestion):
+                self.assertGreaterEqual(rule.confidence, 0.0)
+                self.assertLessEqual(rule.confidence, 1.0)
+                self.assertLessEqual(len(rule.suggestion.split()), 3)
+
 
 if __name__ == "__main__":
     unittest.main()

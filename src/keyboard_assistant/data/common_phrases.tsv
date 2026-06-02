@@ -1,138 +1,3477 @@
-my	name	0.78
-my name	is	0.78
-name	is	0.78
-i	am	0.78
-i am	now	0.78
-am	now	0.78
-now	studying	0.78
-studying	in	0.78
-studying in	the	0.78
-in	the	0.78
-in the	university	0.78
-the	university	0.78
-the university	of	0.78
-university	of	0.78
-university of	Exeter	0.78
-of	Exeter	0.78
+﻿a	good	0.72
+a	great	0.72
+a	result	0.72
+a good	day	0.76
+a great	weekend	0.76
+a result	of	0.76
+addition	to	0.72
+addition to	this	0.76
+after	the	0.72
+after the	meeting	0.76
+after the meeting	we	0.80
+afternoon	i	0.72
+afternoon	please	0.72
+afternoon	thank	0.72
+afternoon	the	0.72
+afternoon	we	0.72
+afternoon i	hope	0.76
+afternoon please	see	0.76
+afternoon thank	you	0.76
+afternoon the	meeting	0.76
+afternoon the	update	0.76
+afternoon we	can	0.76
+afternoon we can	talk	0.80
+am	now	0.72
+am	studying	0.72
+am now	studying	0.76
+am now studying	in	0.80
+am studying at	university	0.80
+and	thank	0.72
+and thank	you	0.76
+are	well	0.72
+argues	the	0.72
+argues the	argument	0.76
+argues the	evidence	0.76
+argues the	key	0.76
+argues the	main	0.76
+argues the	method	0.76
+argues the	question	0.76
+argues the	result	0.76
+argues the	topic	0.76
+argues the key	point	0.80
+argues the main	idea	0.80
+article	argues	0.72
+article	compares	0.72
+article	discusses	0.72
+article	explains	0.72
+article	reviews	0.72
+article	shows	0.72
+article	suggests	0.72
+article	summarizes	0.72
+article argues	the	0.76
+article argues the	argument	0.80
+article argues the	evidence	0.80
+article argues the	key	0.80
+article argues the	main	0.80
+article argues the	method	0.80
+article argues the	question	0.80
+article argues the	result	0.80
+article argues the	topic	0.80
+article compares	the	0.76
+article compares the	argument	0.80
+article compares the	evidence	0.80
+article compares the	key	0.80
+article compares the	main	0.80
+article compares the	method	0.80
+article compares the	question	0.80
+article compares the	result	0.80
+article compares the	topic	0.80
+article discusses	the	0.76
+article discusses the	argument	0.80
+article discusses the	evidence	0.80
+article discusses the	key	0.80
+article discusses the	main	0.80
+article discusses the	method	0.80
+article discusses the	question	0.80
+article discusses the	result	0.80
+article discusses the	topic	0.80
+article explains	the	0.76
+article explains the	argument	0.80
+article explains the	evidence	0.80
+article explains the	key	0.80
+article explains the	main	0.80
+article explains the	method	0.80
+article explains the	question	0.80
+article explains the	result	0.80
+article explains the	topic	0.80
+article reviews	the	0.76
+article reviews the	argument	0.80
+article reviews the	evidence	0.80
+article reviews the	key	0.80
+article reviews the	main	0.80
+article reviews the	method	0.80
+article reviews the	question	0.80
+article reviews the	result	0.80
+article reviews the	topic	0.80
+article shows	the	0.76
+article shows the	argument	0.80
+article shows the	evidence	0.80
+article shows the	key	0.80
+article shows the	main	0.80
+article shows the	method	0.80
+article shows the	question	0.80
+article shows the	result	0.80
+article shows the	topic	0.80
+article suggests	the	0.76
+article suggests the	argument	0.80
+article suggests the	evidence	0.80
+article suggests the	key	0.80
+article suggests the	main	0.80
+article suggests the	method	0.80
+article suggests the	question	0.80
+article suggests the	result	0.80
+article suggests the	topic	0.80
+article summarizes	the	0.76
+article summarizes the	argument	0.80
+article summarizes the	evidence	0.80
+article summarizes the	key	0.80
+article summarizes the	main	0.80
+article summarizes the	method	0.80
+article summarizes the	question	0.80
+article summarizes the	result	0.80
+article summarizes the	topic	0.80
+as	a	0.72
+as	possible	0.72
+as	soon	0.72
+as	you	0.72
+as a	result	0.76
+as a result	of	0.80
+as soon	as	0.86
+as soon as	possible	0.80
+as soon as	you	0.80
+as you	can	0.76
+assignment	can	0.72
+assignment	is	0.72
+assignment	should	0.72
+assignment	will	0.72
+assignment can	check	0.76
+assignment can	review	0.76
+assignment can	send	0.76
+assignment can	update	0.76
+assignment can check	before	0.80
+assignment can check	later	0.80
+assignment can check	next	0.80
+assignment can check	the	0.80
+assignment can check	this	0.80
+assignment can check	today	0.80
+assignment can check	tomorrow	0.80
+assignment can review	before	0.80
+assignment can review	later	0.80
+assignment can review	next	0.80
+assignment can review	the	0.80
+assignment can review	this	0.80
+assignment can review	today	0.80
+assignment can review	tomorrow	0.80
+assignment can send	before	0.80
+assignment can send	later	0.80
+assignment can send	next	0.80
+assignment can send	the	0.80
+assignment can send	this	0.80
+assignment can send	today	0.80
+assignment can send	tomorrow	0.80
+assignment can update	before	0.80
+assignment can update	later	0.80
+assignment can update	next	0.80
+assignment can update	the	0.80
+assignment can update	this	0.80
+assignment can update	today	0.80
+assignment can update	tomorrow	0.80
+assignment is	due	0.76
+assignment is due	soon	0.80
+assignment should	check	0.76
+assignment should	confirm	0.76
+assignment should	review	0.76
+assignment should check	before	0.80
+assignment should check	later	0.80
+assignment should check	next	0.80
+assignment should check	the	0.80
+assignment should check	this	0.80
+assignment should check	today	0.80
+assignment should check	tomorrow	0.80
+assignment should confirm	before	0.80
+assignment should confirm	later	0.80
+assignment should confirm	next	0.80
+assignment should confirm	the	0.80
+assignment should confirm	this	0.80
+assignment should confirm	today	0.80
+assignment should confirm	tomorrow	0.80
+assignment should review	before	0.80
+assignment should review	later	0.80
+assignment should review	next	0.80
+assignment should review	the	0.80
+assignment should review	this	0.80
+assignment should review	today	0.80
+assignment should review	tomorrow	0.80
+assignment will	check	0.76
+assignment will	confirm	0.76
+assignment will	review	0.76
+assignment will	send	0.76
+assignment will	update	0.76
+assignment will check	before	0.80
+assignment will check	later	0.80
+assignment will check	next	0.80
+assignment will check	the	0.80
+assignment will check	this	0.80
+assignment will check	today	0.80
+assignment will check	tomorrow	0.80
+assignment will confirm	before	0.80
+assignment will confirm	later	0.80
+assignment will confirm	next	0.80
+assignment will confirm	the	0.80
+assignment will confirm	this	0.80
+assignment will confirm	today	0.80
+assignment will confirm	tomorrow	0.80
+assignment will review	before	0.80
+assignment will review	later	0.80
+assignment will review	next	0.80
+assignment will review	the	0.80
+assignment will review	this	0.80
+assignment will review	today	0.80
+assignment will review	tomorrow	0.80
+assignment will send	before	0.80
+assignment will send	later	0.80
+assignment will send	next	0.80
+assignment will send	the	0.80
+assignment will send	this	0.80
+assignment will send	today	0.80
+assignment will send	tomorrow	0.80
+assignment will update	before	0.80
+assignment will update	later	0.80
+assignment will update	next	0.80
+assignment will update	the	0.80
+assignment will update	this	0.80
+assignment will update	today	0.80
+assignment will update	tomorrow	0.80
+at	all	0.72
+at	the	0.72
+at	university	0.72
+at	your	0.72
+at the	same	0.76
+at the same	time	0.80
+at your	convenience	0.76
+attach	after	0.72
+attach	before	0.72
+attach	the	0.72
+attach	today	0.72
+attach	tomorrow	0.72
+attach	when	0.72
+attach after	the	0.76
+attach after the	meeting	0.80
+attach before	the	0.76
+attach before the	meeting	0.80
+attach the	details	0.76
+attach the	document	0.76
+attach the	draft	0.76
+attach the	feedback	0.76
+attach the	file	0.76
+attach the	notes	0.76
+attach the	report	0.76
+attach the	schedule	0.76
+attach when	possible	0.76
+attach when	you	0.76
+attach when you	can	0.80
+attached	document	0.72
+attached	file	0.72
+attached	the	0.72
+attached the	document	0.76
+back	to	0.72
+back to	you	0.76
+be	clear	0.72
+because	of	0.72
+because of	this	0.76
+been	updated	0.72
+before	the	0.72
+before the	meeting	0.76
+before the meeting	please	0.80
+best	regards	0.72
+best regards	and	0.76
+best regards and	thank	0.80
+by	the	0.72
+by the	end	0.76
+by the end	of	0.80
+can	check	0.72
+can	discuss	0.72
+can	meet	0.72
+can	review	0.72
+can	send	0.72
+can	talk	0.72
+can	update	0.72
+can	you	0.72
+can check	before	0.76
+can check	later	0.76
+can check	next	0.76
+can check	the	0.76
+can check	this	0.76
+can check	today	0.76
+can check	tomorrow	0.76
+can check before	the	0.80
+can check later	today	0.80
+can check next	week	0.80
+can check the	details	0.80
+can check the	document	0.80
+can check the	file	0.80
+can check the	notes	0.80
+can check the	plan	0.80
+can check the	report	0.80
+can check the	schedule	0.80
+can check the	update	0.80
+can check this	week	0.80
+can discuss	this	0.76
+can discuss this	later	0.80
+can review	before	0.76
+can review	later	0.76
+can review	next	0.76
+can review	the	0.76
+can review	this	0.76
+can review	today	0.76
+can review	tomorrow	0.76
+can review before	the	0.80
+can review later	today	0.80
+can review next	week	0.80
+can review the	details	0.80
+can review the	document	0.80
+can review the	file	0.80
+can review the	notes	0.80
+can review the	plan	0.80
+can review the	report	0.80
+can review the	schedule	0.80
+can review the	update	0.80
+can review this	week	0.80
+can send	before	0.76
+can send	later	0.76
+can send	next	0.76
+can send	the	0.76
+can send	this	0.76
+can send	today	0.76
+can send	tomorrow	0.76
+can send before	the	0.80
+can send later	today	0.80
+can send next	week	0.80
+can send the	details	0.80
+can send the	document	0.80
+can send the	file	0.80
+can send the	notes	0.80
+can send the	plan	0.80
+can send the	report	0.80
+can send the	schedule	0.80
+can send the	update	0.80
+can send this	week	0.80
+can update	before	0.76
+can update	later	0.76
+can update	next	0.76
+can update	the	0.76
+can update	this	0.76
+can update	today	0.76
+can update	tomorrow	0.76
+can update before	the	0.80
+can update later	today	0.80
+can update next	week	0.80
+can update the	details	0.80
+can update the	document	0.80
+can update the	file	0.80
+can update the	notes	0.80
+can update the	plan	0.80
+can update the	report	0.80
+can update the	schedule	0.80
+can update the	update	0.80
+can update this	week	0.80
+can you	please	0.76
+can you please	attach	0.80
+can you please	check	0.80
+can you please	confirm	0.80
+can you please	explain	0.80
+can you please	review	0.80
+can you please	send	0.80
+can you please	share	0.80
+can you please	update	0.80
+check	after	0.72
+check	before	0.72
+check	later	0.72
+check	next	0.72
+check	the	0.72
+check	this	0.72
+check	today	0.72
+check	tomorrow	0.72
+check	when	0.72
+check after	the	0.76
+check after the	meeting	0.80
+check before	the	0.76
+check before the	meeting	0.80
+check later	today	0.76
+check next	week	0.76
+check the	details	0.76
+check the	document	0.76
+check the	draft	0.76
+check the	feedback	0.76
+check the	file	0.76
+check the	notes	0.76
+check the	plan	0.76
+check the	report	0.76
+check the	schedule	0.76
+check the	update	0.76
+check this	later	0.76
+check this	week	0.76
+check when	possible	0.76
+check when	you	0.76
+check when you	can	0.80
+class	argues	0.72
+class	compares	0.72
+class	discusses	0.72
+class	explains	0.72
+class	reviews	0.72
+class	shows	0.72
+class	suggests	0.72
+class	summarizes	0.72
+class argues	the	0.76
+class argues the	argument	0.80
+class argues the	evidence	0.80
+class argues the	key	0.80
+class argues the	main	0.80
+class argues the	method	0.80
+class argues the	question	0.80
+class argues the	result	0.80
+class argues the	topic	0.80
+class compares	the	0.76
+class compares the	argument	0.80
+class compares the	evidence	0.80
+class compares the	key	0.80
+class compares the	main	0.80
+class compares the	method	0.80
+class compares the	question	0.80
+class compares the	result	0.80
+class compares the	topic	0.80
+class discusses	the	0.76
+class discusses the	argument	0.80
+class discusses the	evidence	0.80
+class discusses the	key	0.80
+class discusses the	main	0.80
+class discusses the	method	0.80
+class discusses the	question	0.80
+class discusses the	result	0.80
+class discusses the	topic	0.80
+class explains	the	0.76
+class explains the	argument	0.80
+class explains the	evidence	0.80
+class explains the	key	0.80
+class explains the	main	0.80
+class explains the	method	0.80
+class explains the	question	0.80
+class explains the	result	0.80
+class explains the	topic	0.80
+class reviews	the	0.76
+class reviews the	argument	0.80
+class reviews the	evidence	0.80
+class reviews the	key	0.80
+class reviews the	main	0.80
+class reviews the	method	0.80
+class reviews the	question	0.80
+class reviews the	result	0.80
+class reviews the	topic	0.80
+class shows	the	0.76
+class shows the	argument	0.80
+class shows the	evidence	0.80
+class shows the	key	0.80
+class shows the	main	0.80
+class shows the	method	0.80
+class shows the	question	0.80
+class shows the	result	0.80
+class shows the	topic	0.80
+class suggests	the	0.76
+class suggests the	argument	0.80
+class suggests the	evidence	0.80
+class suggests the	key	0.80
+class suggests the	main	0.80
+class suggests the	method	0.80
+class suggests the	question	0.80
+class suggests the	result	0.80
+class suggests the	topic	0.80
+class summarizes	the	0.76
+class summarizes the	argument	0.80
+class summarizes the	evidence	0.80
+class summarizes the	key	0.80
+class summarizes the	main	0.80
+class summarizes the	method	0.80
+class summarizes the	question	0.80
+class summarizes the	result	0.80
+class summarizes the	topic	0.80
+coming	soon	0.72
+compares	the	0.72
+compares the	argument	0.76
+compares the	evidence	0.76
+compares the	key	0.76
+compares the	main	0.76
+compares the	method	0.76
+compares the	question	0.76
+compares the	result	0.76
+compares the	topic	0.76
+compares the key	point	0.80
+compares the main	idea	0.80
+confirm	after	0.72
+confirm	before	0.72
+confirm	later	0.72
+confirm	next	0.72
+confirm	the	0.72
+confirm	this	0.72
+confirm	today	0.72
+confirm	tomorrow	0.72
+confirm	when	0.72
+confirm after	the	0.76
+confirm after the	meeting	0.80
+confirm before	the	0.76
+confirm before the	meeting	0.80
+confirm later	today	0.76
+confirm next	week	0.76
+confirm the	details	0.76
+confirm the	document	0.76
+confirm the	draft	0.76
+confirm the	feedback	0.76
+confirm the	file	0.76
+confirm the	notes	0.76
+confirm the	plan	0.76
+confirm the	report	0.76
+confirm the	schedule	0.76
+confirm the	update	0.76
+confirm this	week	0.76
+confirm when	possible	0.76
+confirm when	you	0.76
+confirm when you	can	0.80
+contrast	to	0.72
+contrast to	this	0.76
+could	you	0.72
+could you	please	0.76
+could you please	attach	0.80
+could you please	check	0.80
+could you please	confirm	0.80
+could you please	explain	0.80
+could you please	review	0.80
+could you please	send	0.80
+could you please	share	0.80
+could you please	update	0.80
+course	argues	0.72
+course	compares	0.72
+course	discusses	0.72
+course	explains	0.72
+course	reviews	0.72
+course	shows	0.72
+course	suggests	0.72
+course	summarizes	0.72
+course argues	the	0.76
+course argues the	argument	0.80
+course argues the	evidence	0.80
+course argues the	key	0.80
+course argues the	main	0.80
+course argues the	method	0.80
+course argues the	question	0.80
+course argues the	result	0.80
+course argues the	topic	0.80
+course compares	the	0.76
+course compares the	argument	0.80
+course compares the	evidence	0.80
+course compares the	key	0.80
+course compares the	main	0.80
+course compares the	method	0.80
+course compares the	question	0.80
+course compares the	result	0.80
+course compares the	topic	0.80
+course discusses	the	0.76
+course discusses the	argument	0.80
+course discusses the	evidence	0.80
+course discusses the	key	0.80
+course discusses the	main	0.80
+course discusses the	method	0.80
+course discusses the	question	0.80
+course discusses the	result	0.80
+course discusses the	topic	0.80
+course explains	the	0.76
+course explains the	argument	0.80
+course explains the	evidence	0.80
+course explains the	key	0.80
+course explains the	main	0.80
+course explains the	method	0.80
+course explains the	question	0.80
+course explains the	result	0.80
+course explains the	topic	0.80
+course reviews	the	0.76
+course reviews the	argument	0.80
+course reviews the	evidence	0.80
+course reviews the	key	0.80
+course reviews the	main	0.80
+course reviews the	method	0.80
+course reviews the	question	0.80
+course reviews the	result	0.80
+course reviews the	topic	0.80
+course shows	the	0.76
+course shows the	argument	0.80
+course shows the	evidence	0.80
+course shows the	key	0.80
+course shows the	main	0.80
+course shows the	method	0.80
+course shows the	question	0.80
+course shows the	result	0.80
+course shows the	topic	0.80
+course suggests	the	0.76
+course suggests the	argument	0.80
+course suggests the	evidence	0.80
+course suggests the	key	0.80
+course suggests the	main	0.80
+course suggests the	method	0.80
+course suggests the	question	0.80
+course suggests the	result	0.80
+course suggests the	topic	0.80
+course summarizes	the	0.76
+course summarizes the	argument	0.80
+course summarizes the	evidence	0.80
+course summarizes the	key	0.80
+course summarizes the	main	0.80
+course summarizes the	method	0.80
+course summarizes the	question	0.80
+course summarizes the	result	0.80
+course summarizes the	topic	0.80
+deadline	is	0.72
+deadline is	coming	0.76
+deadline is coming	soon	0.80
+dear	team	0.72
+dear team	i	0.76
+dear team	please	0.76
+dear team	thank	0.76
+dear team	the	0.76
+dear team i	hope	0.80
+dear team please	see	0.80
+dear team thank	you	0.80
+dear team the	meeting	0.80
+dear team the	update	0.80
+discuss	this	0.72
+discuss this	later	0.76
+discusses	the	0.72
+discusses the	argument	0.76
+discusses the	evidence	0.76
+discusses the	key	0.76
+discusses the	main	0.76
+discusses the	method	0.76
+discusses the	question	0.76
+discusses the	result	0.76
+discusses the	topic	0.76
+discusses the key	point	0.80
+discusses the main	idea	0.80
+document	can	0.72
+document	is	0.72
+document	should	0.72
+document	will	0.72
+document can	check	0.76
+document can	review	0.76
+document can	send	0.76
+document can	update	0.76
+document can check	before	0.80
+document can check	later	0.80
+document can check	next	0.80
+document can check	the	0.80
+document can check	this	0.80
+document can check	today	0.80
+document can check	tomorrow	0.80
+document can review	before	0.80
+document can review	later	0.80
+document can review	next	0.80
+document can review	the	0.80
+document can review	this	0.80
+document can review	today	0.80
+document can review	tomorrow	0.80
+document can send	before	0.80
+document can send	later	0.80
+document can send	next	0.80
+document can send	the	0.80
+document can send	this	0.80
+document can send	today	0.80
+document can send	tomorrow	0.80
+document can update	before	0.80
+document can update	later	0.80
+document can update	next	0.80
+document can update	the	0.80
+document can update	this	0.80
+document can update	today	0.80
+document can update	tomorrow	0.80
+document is	ready	0.76
+document is ready	to	0.80
+document should	check	0.76
+document should	confirm	0.76
+document should	review	0.76
+document should check	before	0.80
+document should check	later	0.80
+document should check	next	0.80
+document should check	the	0.80
+document should check	this	0.80
+document should check	today	0.80
+document should check	tomorrow	0.80
+document should confirm	before	0.80
+document should confirm	later	0.80
+document should confirm	next	0.80
+document should confirm	the	0.80
+document should confirm	this	0.80
+document should confirm	today	0.80
+document should confirm	tomorrow	0.80
+document should review	before	0.80
+document should review	later	0.80
+document should review	next	0.80
+document should review	the	0.80
+document should review	this	0.80
+document should review	today	0.80
+document should review	tomorrow	0.80
+document will	check	0.76
+document will	confirm	0.76
+document will	review	0.76
+document will	send	0.76
+document will	update	0.76
+document will check	before	0.80
+document will check	later	0.80
+document will check	next	0.80
+document will check	the	0.80
+document will check	this	0.80
+document will check	today	0.80
+document will check	tomorrow	0.80
+document will confirm	before	0.80
+document will confirm	later	0.80
+document will confirm	next	0.80
+document will confirm	the	0.80
+document will confirm	this	0.80
+document will confirm	today	0.80
+document will confirm	tomorrow	0.80
+document will review	before	0.80
+document will review	later	0.80
+document will review	next	0.80
+document will review	the	0.80
+document will review	this	0.80
+document will review	today	0.80
+document will review	tomorrow	0.80
+document will send	before	0.80
+document will send	later	0.80
+document will send	next	0.80
+document will send	the	0.80
+document will send	this	0.80
+document will send	today	0.80
+document will send	tomorrow	0.80
+document will update	before	0.80
+document will update	later	0.80
+document will update	next	0.80
+document will update	the	0.80
+document will update	this	0.80
+document will update	today	0.80
+document will update	tomorrow	0.80
+due	soon	0.72
+during	the	0.72
+during the	meeting	0.76
+during the meeting	we	0.80
+end	of	0.72
+end of	the	0.76
+end of the	day	0.80
+end of the	week	0.80
+evening	i	0.72
+evening	please	0.72
+evening	thank	0.72
+evening	the	0.72
+evening i	hope	0.76
+evening i	will	0.76
+evening i will	check	0.80
+evening please	see	0.76
+evening thank	you	0.76
+evening the	meeting	0.76
+evening the	update	0.76
+everyone	i	0.72
+everyone	please	0.72
+everyone	thank	0.72
+everyone	the	0.72
+everyone i	hope	0.76
+everyone please	see	0.76
+everyone thank	you	0.76
+everyone the	meeting	0.76
+everyone the	update	0.76
+example	the	0.72
+explain	after	0.72
+explain	before	0.72
+explain	the	0.72
+explain	today	0.72
+explain	tomorrow	0.72
+explain	when	0.72
+explain after	the	0.76
+explain after the	meeting	0.80
+explain before	the	0.76
+explain before the	meeting	0.80
+explain the	details	0.76
+explain the	document	0.76
+explain the	draft	0.76
+explain the	feedback	0.76
+explain the	file	0.76
+explain the	notes	0.76
+explain the	report	0.76
+explain the	schedule	0.76
+explain when	possible	0.76
+explain when	you	0.76
+explain when you	can	0.80
+explains	the	0.72
+explains the	argument	0.76
+explains the	evidence	0.76
+explains the	key	0.76
+explains the	main	0.76
+explains the	method	0.76
+explains the	question	0.76
+explains the	result	0.76
+explains the	topic	0.76
+explains the key	point	0.80
+explains the main	idea	0.80
+finally	we	0.72
+finally we	can	0.76
+find	the	0.72
+find the	attached	0.76
+find the attached	document	0.80
+first	of	0.72
+first of	all	0.76
+follow	up	0.72
+follow up	on	0.76
+follow up	soon	0.76
+follow up on	this	0.80
+for	example	0.72
+for	instance	0.72
+for	review	0.72
+for	the	0.72
+for	your	0.72
+for example	the	0.76
+for instance	the	0.76
+for the	next	0.76
+for the	update	0.76
+for the next	step	0.80
+for your	help	0.76
+for your	information	0.76
+for your	message	0.76
+for your	reference	0.76
+for your	time	0.76
+forward	to	0.72
+forward to	hearing	0.76
+forward to	your	0.76
+forward to hearing	from	0.80
+forward to your	reply	0.80
+from	you	0.72
+get	back	0.72
+get back	to	0.76
+get back to	you	0.80
+good	afternoon	0.72
+good	day	0.72
+good	evening	0.72
+good	morning	0.72
+good	to	0.72
+good afternoon	i	0.76
+good afternoon	please	0.76
+good afternoon	thank	0.76
+good afternoon	the	0.76
+good afternoon i	hope	0.80
+good afternoon please	see	0.80
+good afternoon thank	you	0.80
+good afternoon the	meeting	0.80
+good afternoon the	update	0.80
+good evening	i	0.76
+good evening	please	0.76
+good evening	thank	0.76
+good evening	the	0.76
+good evening i	hope	0.80
+good evening please	see	0.80
+good evening thank	you	0.80
+good evening the	meeting	0.80
+good evening the	update	0.80
+good morning	i	0.76
+good morning	please	0.76
+good morning	thank	0.76
+good morning	the	0.76
+good morning i	hope	0.80
+good morning please	see	0.80
+good morning thank	you	0.80
+good morning the	meeting	0.80
+good morning the	update	0.80
+good to	me	0.76
+great	weekend	0.72
+has	been	0.72
+has been	updated	0.76
+have	a	0.72
+have	attached	0.72
+have	shared	0.72
+have a	good	0.76
+have a	great	0.76
+have a good	day	0.80
+have a great	weekend	0.80
+have attached	the	0.76
+have attached the	document	0.80
+have shared	the	0.76
+have shared the	file	0.80
+hearing	from	0.72
+hearing from	you	0.76
+hello	everyone	0.72
+hello everyone	i	0.76
+hello everyone	please	0.76
+hello everyone	thank	0.76
+hello everyone	the	0.76
+hello everyone i	hope	0.80
+hello everyone please	see	0.80
+hello everyone thank	you	0.80
+hello everyone the	meeting	0.80
+hello everyone the	update	0.80
+hi	everyone	0.72
+hi everyone	i	0.76
+hi everyone	please	0.76
+hi everyone	thank	0.76
+hi everyone	the	0.76
+hi everyone i	hope	0.80
+hi everyone please	see	0.80
+hi everyone thank	you	0.80
+hi everyone the	meeting	0.80
+hi everyone the	update	0.80
+hope	this	0.72
+hope	you	0.72
+hope this	helps	0.76
+hope you	are	0.76
+hope you are	well	0.80
+however	the	0.72
+i	am	0.72
+i	can	0.72
+i	have	0.72
+i	hope	0.72
+i	should	0.72
+i	will	0.72
+i am	now	0.76
+i am	studying	0.76
+i am now	studying	0.80
+i can	check	0.76
+i can	review	0.76
+i can	send	0.76
+i can	update	0.76
+i can check	before	0.80
+i can check	later	0.80
+i can check	next	0.80
+i can check	the	0.80
+i can check	this	0.80
+i can check	today	0.80
+i can check	tomorrow	0.80
+i can review	before	0.80
+i can review	later	0.80
+i can review	next	0.80
+i can review	the	0.80
+i can review	this	0.80
+i can review	today	0.80
+i can review	tomorrow	0.80
+i can send	before	0.80
+i can send	later	0.80
+i can send	next	0.80
+i can send	the	0.80
+i can send	this	0.80
+i can send	today	0.80
+i can send	tomorrow	0.80
+i can update	before	0.80
+i can update	later	0.80
+i can update	next	0.80
+i can update	the	0.80
+i can update	this	0.80
+i can update	today	0.80
+i can update	tomorrow	0.80
+i have	attached	0.76
+i have	shared	0.76
+i have attached	the	0.80
+i have shared	the	0.80
+i hope	this	0.76
+i hope	you	0.76
+i hope this	helps	0.80
+i hope you	are	0.80
+i should	check	0.76
+i should	confirm	0.76
+i should	review	0.76
+i should check	before	0.80
+i should check	later	0.80
+i should check	next	0.80
+i should check	the	0.80
+i should check	this	0.80
+i should check	today	0.80
+i should check	tomorrow	0.80
+i should confirm	before	0.80
+i should confirm	later	0.80
+i should confirm	next	0.80
+i should confirm	the	0.80
+i should confirm	this	0.80
+i should confirm	today	0.80
+i should confirm	tomorrow	0.80
+i should review	before	0.80
+i should review	later	0.80
+i should review	next	0.80
+i should review	the	0.80
+i should review	this	0.80
+i should review	today	0.80
+i should review	tomorrow	0.80
+i will	check	0.76
+i will	confirm	0.76
+i will	get	0.76
+i will	review	0.76
+i will	send	0.76
+i will	update	0.76
+i will check	before	0.80
+i will check	later	0.80
+i will check	next	0.80
+i will check	the	0.80
+i will check	this	0.80
+i will check	today	0.80
+i will check	tomorrow	0.80
+i will confirm	before	0.80
+i will confirm	later	0.80
+i will confirm	next	0.80
+i will confirm	the	0.80
+i will confirm	this	0.80
+i will confirm	today	0.80
+i will confirm	tomorrow	0.80
+i will get	back	0.80
+i will review	before	0.80
+i will review	later	0.80
+i will review	next	0.80
+i will review	the	0.80
+i will review	this	0.80
+i will review	today	0.80
+i will review	tomorrow	0.80
+i will send	before	0.80
+i will send	later	0.80
+i will send	next	0.80
+i will send	the	0.80
+i will send	this	0.80
+i will send	today	0.80
+i will send	tomorrow	0.80
+i will update	before	0.80
+i will update	later	0.80
+i will update	next	0.80
+i will update	the	0.80
+i will update	this	0.80
+i will update	today	0.80
+i will update	tomorrow	0.80
+in	addition	0.72
+in	contrast	0.72
+in	the	0.72
+in	university	0.72
+in addition	to	0.76
+in addition to	this	0.80
+in contrast	to	0.76
+in contrast to	this	0.80
+in the	afternoon	0.76
+in the	evening	0.76
+in the	meantime	0.76
+in the	morning	0.76
+in the afternoon	we	0.80
+in the evening	i	0.80
+in the meantime	please	0.80
+in the morning	we	0.80
+instance	the	0.72
+is	coming	0.72
+is	due	0.72
+is	helpful	0.72
+is	moving	0.72
+is	ready	0.72
+is	scheduled	0.72
+is coming	soon	0.76
+is due	soon	0.76
+is moving	forward	0.76
+is ready	for	0.76
+is ready	to	0.76
+is ready for	review	0.80
+is ready to	send	0.80
+is scheduled	for	0.76
+key	point	0.72
+kind	regards	0.72
+kind regards	and	0.76
+kind regards and	thank	0.80
+know	if	0.72
+know	what	0.72
+know	when	0.72
+know what	you	0.76
+know what you	think	0.80
+know when	you	0.76
+know when you	can	0.80
+later	today	0.72
+lecture	argues	0.72
+lecture	compares	0.72
+lecture	discusses	0.72
+lecture	explains	0.72
+lecture	reviews	0.72
+lecture	shows	0.72
+lecture	suggests	0.72
+lecture	summarizes	0.72
+lecture argues	the	0.76
+lecture argues the	argument	0.80
+lecture argues the	evidence	0.80
+lecture argues the	key	0.80
+lecture argues the	main	0.80
+lecture argues the	method	0.80
+lecture argues the	question	0.80
+lecture argues the	result	0.80
+lecture argues the	topic	0.80
+lecture compares	the	0.76
+lecture compares the	argument	0.80
+lecture compares the	evidence	0.80
+lecture compares the	key	0.80
+lecture compares the	main	0.80
+lecture compares the	method	0.80
+lecture compares the	question	0.80
+lecture compares the	result	0.80
+lecture compares the	topic	0.80
+lecture discusses	the	0.76
+lecture discusses the	argument	0.80
+lecture discusses the	evidence	0.80
+lecture discusses the	key	0.80
+lecture discusses the	main	0.80
+lecture discusses the	method	0.80
+lecture discusses the	question	0.80
+lecture discusses the	result	0.80
+lecture discusses the	topic	0.80
+lecture explains	the	0.76
+lecture explains the	argument	0.80
+lecture explains the	evidence	0.80
+lecture explains the	key	0.80
+lecture explains the	main	0.80
+lecture explains the	method	0.80
+lecture explains the	question	0.80
+lecture explains the	result	0.80
+lecture explains the	topic	0.80
+lecture reviews	the	0.76
+lecture reviews the	argument	0.80
+lecture reviews the	evidence	0.80
+lecture reviews the	key	0.80
+lecture reviews the	main	0.80
+lecture reviews the	method	0.80
+lecture reviews the	question	0.80
+lecture reviews the	result	0.80
+lecture reviews the	topic	0.80
+lecture shows	the	0.76
+lecture shows the	argument	0.80
+lecture shows the	evidence	0.80
+lecture shows the	key	0.80
+lecture shows the	main	0.80
+lecture shows the	method	0.80
+lecture shows the	question	0.80
+lecture shows the	result	0.80
+lecture shows the	topic	0.80
+lecture suggests	the	0.76
+lecture suggests the	argument	0.80
+lecture suggests the	evidence	0.80
+lecture suggests the	key	0.80
+lecture suggests the	main	0.80
+lecture suggests the	method	0.80
+lecture suggests the	question	0.80
+lecture suggests the	result	0.80
+lecture suggests the	topic	0.80
+lecture summarizes	the	0.76
+lecture summarizes the	argument	0.80
+lecture summarizes the	evidence	0.80
+lecture summarizes the	key	0.80
+lecture summarizes the	main	0.80
+lecture summarizes the	method	0.80
+lecture summarizes the	question	0.80
+lecture summarizes the	result	0.80
+lecture summarizes the	topic	0.80
+let	me	0.72
+let me	know	0.86
+let me know	if	0.80
+let me know	what	0.80
+let me know	when	0.80
+looking	forward	0.72
+looking forward	to	0.86
+looking forward to	hearing	0.80
+looking forward to	your	0.80
+looks	good	0.72
+looks good	to	0.76
+looks good to	me	0.80
+main	idea	0.72
+make	sure	0.72
+makes	sense	0.72
+me	know	0.72
+me know	if	0.76
+me know	what	0.76
+me know	when	0.76
+me know what	you	0.80
+me know when	you	0.80
+meantime	please	0.72
+meantime please	review	0.76
+meeting	can	0.72
+meeting	is	0.72
+meeting	please	0.72
+meeting	should	0.72
+meeting	we	0.72
+meeting	will	0.72
+meeting can	check	0.76
+meeting can	review	0.76
+meeting can	send	0.76
+meeting can	update	0.76
+meeting can check	before	0.80
+meeting can check	later	0.80
+meeting can check	next	0.80
+meeting can check	the	0.80
+meeting can check	this	0.80
+meeting can check	today	0.80
+meeting can check	tomorrow	0.80
+meeting can review	before	0.80
+meeting can review	later	0.80
+meeting can review	next	0.80
+meeting can review	the	0.80
+meeting can review	this	0.80
+meeting can review	today	0.80
+meeting can review	tomorrow	0.80
+meeting can send	before	0.80
+meeting can send	later	0.80
+meeting can send	next	0.80
+meeting can send	the	0.80
+meeting can send	this	0.80
+meeting can send	today	0.80
+meeting can send	tomorrow	0.80
+meeting can update	before	0.80
+meeting can update	later	0.80
+meeting can update	next	0.80
+meeting can update	the	0.80
+meeting can update	this	0.80
+meeting can update	today	0.80
+meeting can update	tomorrow	0.80
+meeting is	scheduled	0.76
+meeting is scheduled	for	0.80
+meeting please	review	0.76
+meeting should	check	0.76
+meeting should	confirm	0.76
+meeting should	review	0.76
+meeting should check	before	0.80
+meeting should check	later	0.80
+meeting should check	next	0.80
+meeting should check	the	0.80
+meeting should check	this	0.80
+meeting should check	today	0.80
+meeting should check	tomorrow	0.80
+meeting should confirm	before	0.80
+meeting should confirm	later	0.80
+meeting should confirm	next	0.80
+meeting should confirm	the	0.80
+meeting should confirm	this	0.80
+meeting should confirm	today	0.80
+meeting should confirm	tomorrow	0.80
+meeting should review	before	0.80
+meeting should review	later	0.80
+meeting should review	next	0.80
+meeting should review	the	0.80
+meeting should review	this	0.80
+meeting should review	today	0.80
+meeting should review	tomorrow	0.80
+meeting we	can	0.76
+meeting we	discussed	0.76
+meeting we can	discuss	0.80
+meeting will	check	0.76
+meeting will	confirm	0.76
+meeting will	review	0.76
+meeting will	send	0.76
+meeting will	update	0.76
+meeting will check	before	0.80
+meeting will check	later	0.80
+meeting will check	next	0.80
+meeting will check	the	0.80
+meeting will check	this	0.80
+meeting will check	today	0.80
+meeting will check	tomorrow	0.80
+meeting will confirm	before	0.80
+meeting will confirm	later	0.80
+meeting will confirm	next	0.80
+meeting will confirm	the	0.80
+meeting will confirm	this	0.80
+meeting will confirm	today	0.80
+meeting will confirm	tomorrow	0.80
+meeting will review	before	0.80
+meeting will review	later	0.80
+meeting will review	next	0.80
+meeting will review	the	0.80
+meeting will review	this	0.80
+meeting will review	today	0.80
+meeting will review	tomorrow	0.80
+meeting will send	before	0.80
+meeting will send	later	0.80
+meeting will send	next	0.80
+meeting will send	the	0.80
+meeting will send	this	0.80
+meeting will send	today	0.80
+meeting will send	tomorrow	0.80
+meeting will update	before	0.80
+meeting will update	later	0.80
+meeting will update	next	0.80
+meeting will update	the	0.80
+meeting will update	this	0.80
+meeting will update	today	0.80
+meeting will update	tomorrow	0.80
+message	can	0.72
+message	should	0.72
+message	will	0.72
+message can	check	0.76
+message can	review	0.76
+message can	send	0.76
+message can	update	0.76
+message can check	before	0.80
+message can check	later	0.80
+message can check	next	0.80
+message can check	the	0.80
+message can check	this	0.80
+message can check	today	0.80
+message can check	tomorrow	0.80
+message can review	before	0.80
+message can review	later	0.80
+message can review	next	0.80
+message can review	the	0.80
+message can review	this	0.80
+message can review	today	0.80
+message can review	tomorrow	0.80
+message can send	before	0.80
+message can send	later	0.80
+message can send	next	0.80
+message can send	the	0.80
+message can send	this	0.80
+message can send	today	0.80
+message can send	tomorrow	0.80
+message can update	before	0.80
+message can update	later	0.80
+message can update	next	0.80
+message can update	the	0.80
+message can update	this	0.80
+message can update	today	0.80
+message can update	tomorrow	0.80
+message should	check	0.76
+message should	confirm	0.76
+message should	review	0.76
+message should check	before	0.80
+message should check	later	0.80
+message should check	next	0.80
+message should check	the	0.80
+message should check	this	0.80
+message should check	today	0.80
+message should check	tomorrow	0.80
+message should confirm	before	0.80
+message should confirm	later	0.80
+message should confirm	next	0.80
+message should confirm	the	0.80
+message should confirm	this	0.80
+message should confirm	today	0.80
+message should confirm	tomorrow	0.80
+message should review	before	0.80
+message should review	later	0.80
+message should review	next	0.80
+message should review	the	0.80
+message should review	this	0.80
+message should review	today	0.80
+message should review	tomorrow	0.80
+message will	check	0.76
+message will	confirm	0.76
+message will	review	0.76
+message will	send	0.76
+message will	update	0.76
+message will check	before	0.80
+message will check	later	0.80
+message will check	next	0.80
+message will check	the	0.80
+message will check	this	0.80
+message will check	today	0.80
+message will check	tomorrow	0.80
+message will confirm	before	0.80
+message will confirm	later	0.80
+message will confirm	next	0.80
+message will confirm	the	0.80
+message will confirm	this	0.80
+message will confirm	today	0.80
+message will confirm	tomorrow	0.80
+message will review	before	0.80
+message will review	later	0.80
+message will review	next	0.80
+message will review	the	0.80
+message will review	this	0.80
+message will review	today	0.80
+message will review	tomorrow	0.80
+message will send	before	0.80
+message will send	later	0.80
+message will send	next	0.80
+message will send	the	0.80
+message will send	this	0.80
+message will send	today	0.80
+message will send	tomorrow	0.80
+message will update	before	0.80
+message will update	later	0.80
+message will update	next	0.80
+message will update	the	0.80
+message will update	this	0.80
+message will update	today	0.80
+message will update	tomorrow	0.80
+mind	checking	0.72
+module	argues	0.72
+module	compares	0.72
+module	discusses	0.72
+module	explains	0.72
+module	reviews	0.72
+module	shows	0.72
+module	suggests	0.72
+module	summarizes	0.72
+module argues	the	0.76
+module argues the	argument	0.80
+module argues the	evidence	0.80
+module argues the	key	0.80
+module argues the	main	0.80
+module argues the	method	0.80
+module argues the	question	0.80
+module argues the	result	0.80
+module argues the	topic	0.80
+module compares	the	0.76
+module compares the	argument	0.80
+module compares the	evidence	0.80
+module compares the	key	0.80
+module compares the	main	0.80
+module compares the	method	0.80
+module compares the	question	0.80
+module compares the	result	0.80
+module compares the	topic	0.80
+module discusses	the	0.76
+module discusses the	argument	0.80
+module discusses the	evidence	0.80
+module discusses the	key	0.80
+module discusses the	main	0.80
+module discusses the	method	0.80
+module discusses the	question	0.80
+module discusses the	result	0.80
+module discusses the	topic	0.80
+module explains	the	0.76
+module explains the	argument	0.80
+module explains the	evidence	0.80
+module explains the	key	0.80
+module explains the	main	0.80
+module explains the	method	0.80
+module explains the	question	0.80
+module explains the	result	0.80
+module explains the	topic	0.80
+module reviews	the	0.76
+module reviews the	argument	0.80
+module reviews the	evidence	0.80
+module reviews the	key	0.80
+module reviews the	main	0.80
+module reviews the	method	0.80
+module reviews the	question	0.80
+module reviews the	result	0.80
+module reviews the	topic	0.80
+module shows	the	0.76
+module shows the	argument	0.80
+module shows the	evidence	0.80
+module shows the	key	0.80
+module shows the	main	0.80
+module shows the	method	0.80
+module shows the	question	0.80
+module shows the	result	0.80
+module shows the	topic	0.80
+module suggests	the	0.76
+module suggests the	argument	0.80
+module suggests the	evidence	0.80
+module suggests the	key	0.80
+module suggests the	main	0.80
+module suggests the	method	0.80
+module suggests the	question	0.80
+module suggests the	result	0.80
+module suggests the	topic	0.80
+module summarizes	the	0.76
+module summarizes the	argument	0.80
+module summarizes the	evidence	0.80
+module summarizes the	key	0.80
+module summarizes the	main	0.80
+module summarizes the	method	0.80
+module summarizes the	question	0.80
+module summarizes the	result	0.80
+module summarizes the	topic	0.80
+morning	i	0.72
+morning	please	0.72
+morning	thank	0.72
+morning	the	0.72
+morning	we	0.72
+morning i	hope	0.76
+morning please	see	0.76
+morning thank	you	0.76
+morning the	meeting	0.76
+morning the	update	0.76
+morning we	can	0.76
+morning we can	meet	0.80
+moving	forward	0.72
+much	for	0.72
+much for	your	0.76
+much for your	help	0.80
+next	page	0.72
+next	step	0.72
+next	we	0.72
+next	week	0.72
+next we	should	0.76
+no	problem	0.72
+no problem	at	0.76
+no problem at	all	0.80
+now	studying	0.72
+now studying	in	0.76
+now studying in	university	0.80
+of	all	0.72
+of	the	0.72
+of	this	0.72
+of the	day	0.76
+of the	week	0.76
+on	the	0.72
+on	this	0.72
+on the	next	0.76
+on the	other	0.76
+on the next	page	0.80
+on the other	hand	0.80
+other	hand	0.72
+overall	the	0.72
+paper	argues	0.72
+paper	compares	0.72
+paper	discusses	0.72
+paper	explains	0.72
+paper	reviews	0.72
+paper	shows	0.72
+paper	suggests	0.72
+paper	summarizes	0.72
+paper argues	the	0.76
+paper argues the	argument	0.80
+paper argues the	evidence	0.80
+paper argues the	key	0.80
+paper argues the	main	0.80
+paper argues the	method	0.80
+paper argues the	question	0.80
+paper argues the	result	0.80
+paper argues the	topic	0.80
+paper compares	the	0.76
+paper compares the	argument	0.80
+paper compares the	evidence	0.80
+paper compares the	key	0.80
+paper compares the	main	0.80
+paper compares the	method	0.80
+paper compares the	question	0.80
+paper compares the	result	0.80
+paper compares the	topic	0.80
+paper discusses	the	0.76
+paper discusses the	argument	0.80
+paper discusses the	evidence	0.80
+paper discusses the	key	0.80
+paper discusses the	main	0.80
+paper discusses the	method	0.80
+paper discusses the	question	0.80
+paper discusses the	result	0.80
+paper discusses the	topic	0.80
+paper explains	the	0.76
+paper explains the	argument	0.80
+paper explains the	evidence	0.80
+paper explains the	key	0.80
+paper explains the	main	0.80
+paper explains the	method	0.80
+paper explains the	question	0.80
+paper explains the	result	0.80
+paper explains the	topic	0.80
+paper reviews	the	0.76
+paper reviews the	argument	0.80
+paper reviews the	evidence	0.80
+paper reviews the	key	0.80
+paper reviews the	main	0.80
+paper reviews the	method	0.80
+paper reviews the	question	0.80
+paper reviews the	result	0.80
+paper reviews the	topic	0.80
+paper shows	the	0.76
+paper shows the	argument	0.80
+paper shows the	evidence	0.80
+paper shows the	key	0.80
+paper shows the	main	0.80
+paper shows the	method	0.80
+paper shows the	question	0.80
+paper shows the	result	0.80
+paper shows the	topic	0.80
+paper suggests	the	0.76
+paper suggests the	argument	0.80
+paper suggests the	evidence	0.80
+paper suggests the	key	0.80
+paper suggests the	main	0.80
+paper suggests the	method	0.80
+paper suggests the	question	0.80
+paper suggests the	result	0.80
+paper suggests the	topic	0.80
+paper summarizes	the	0.76
+paper summarizes the	argument	0.80
+paper summarizes the	evidence	0.80
+paper summarizes the	key	0.80
+paper summarizes the	main	0.80
+paper summarizes the	method	0.80
+paper summarizes the	question	0.80
+paper summarizes the	result	0.80
+paper summarizes the	topic	0.80
+plan	can	0.72
+plan	looks	0.72
+plan	should	0.72
+plan	will	0.72
+plan can	check	0.76
+plan can	review	0.76
+plan can	send	0.76
+plan can	update	0.76
+plan can check	before	0.80
+plan can check	later	0.80
+plan can check	next	0.80
+plan can check	the	0.80
+plan can check	this	0.80
+plan can check	today	0.80
+plan can check	tomorrow	0.80
+plan can review	before	0.80
+plan can review	later	0.80
+plan can review	next	0.80
+plan can review	the	0.80
+plan can review	this	0.80
+plan can review	today	0.80
+plan can review	tomorrow	0.80
+plan can send	before	0.80
+plan can send	later	0.80
+plan can send	next	0.80
+plan can send	the	0.80
+plan can send	this	0.80
+plan can send	today	0.80
+plan can send	tomorrow	0.80
+plan can update	before	0.80
+plan can update	later	0.80
+plan can update	next	0.80
+plan can update	the	0.80
+plan can update	this	0.80
+plan can update	today	0.80
+plan can update	tomorrow	0.80
+plan looks	good	0.76
+plan looks good	to	0.80
+plan should	check	0.76
+plan should	confirm	0.76
+plan should	review	0.76
+plan should check	before	0.80
+plan should check	later	0.80
+plan should check	next	0.80
+plan should check	the	0.80
+plan should check	this	0.80
+plan should check	today	0.80
+plan should check	tomorrow	0.80
+plan should confirm	before	0.80
+plan should confirm	later	0.80
+plan should confirm	next	0.80
+plan should confirm	the	0.80
+plan should confirm	this	0.80
+plan should confirm	today	0.80
+plan should confirm	tomorrow	0.80
+plan should review	before	0.80
+plan should review	later	0.80
+plan should review	next	0.80
+plan should review	the	0.80
+plan should review	this	0.80
+plan should review	today	0.80
+plan should review	tomorrow	0.80
+plan will	check	0.76
+plan will	confirm	0.76
+plan will	review	0.76
+plan will	send	0.76
+plan will	update	0.76
+plan will check	before	0.80
+plan will check	later	0.80
+plan will check	next	0.80
+plan will check	the	0.80
+plan will check	this	0.80
+plan will check	today	0.80
+plan will check	tomorrow	0.80
+plan will confirm	before	0.80
+plan will confirm	later	0.80
+plan will confirm	next	0.80
+plan will confirm	the	0.80
+plan will confirm	this	0.80
+plan will confirm	today	0.80
+plan will confirm	tomorrow	0.80
+plan will review	before	0.80
+plan will review	later	0.80
+plan will review	next	0.80
+plan will review	the	0.80
+plan will review	this	0.80
+plan will review	today	0.80
+plan will review	tomorrow	0.80
+plan will send	before	0.80
+plan will send	later	0.80
+plan will send	next	0.80
+plan will send	the	0.80
+plan will send	this	0.80
+plan will send	today	0.80
+plan will send	tomorrow	0.80
+plan will update	before	0.80
+plan will update	later	0.80
+plan will update	next	0.80
+plan will update	the	0.80
+plan will update	this	0.80
+plan will update	today	0.80
+plan will update	tomorrow	0.80
+please	attach	0.72
+please	check	0.72
+please	confirm	0.72
+please	explain	0.72
+please	find	0.72
+please	let	0.72
+please	review	0.72
+please	see	0.72
+please	send	0.72
+please	share	0.72
+please	update	0.72
+please attach	after	0.76
+please attach	before	0.76
+please attach	the	0.76
+please attach	today	0.76
+please attach	tomorrow	0.76
+please attach	when	0.76
+please attach after	the	0.80
+please attach before	the	0.80
+please attach the	details	0.80
+please attach the	document	0.80
+please attach the	draft	0.80
+please attach the	feedback	0.80
+please attach the	file	0.80
+please attach the	notes	0.80
+please attach the	report	0.80
+please attach the	schedule	0.80
+please attach when	possible	0.80
+please attach when	you	0.80
+please check	after	0.76
+please check	before	0.76
+please check	the	0.76
+please check	today	0.76
+please check	tomorrow	0.76
+please check	when	0.76
+please check after	the	0.80
+please check before	the	0.80
+please check the	details	0.80
+please check the	document	0.80
+please check the	draft	0.80
+please check the	feedback	0.80
+please check the	file	0.80
+please check the	notes	0.80
+please check the	report	0.80
+please check the	schedule	0.80
+please check when	possible	0.80
+please check when	you	0.80
+please confirm	after	0.76
+please confirm	before	0.76
+please confirm	the	0.76
+please confirm	today	0.76
+please confirm	tomorrow	0.76
+please confirm	when	0.76
+please confirm after	the	0.80
+please confirm before	the	0.80
+please confirm the	details	0.80
+please confirm the	document	0.80
+please confirm the	draft	0.80
+please confirm the	feedback	0.80
+please confirm the	file	0.80
+please confirm the	notes	0.80
+please confirm the	report	0.80
+please confirm the	schedule	0.80
+please confirm when	possible	0.80
+please confirm when	you	0.80
+please explain	after	0.76
+please explain	before	0.76
+please explain	the	0.76
+please explain	today	0.76
+please explain	tomorrow	0.76
+please explain	when	0.76
+please explain after	the	0.80
+please explain before	the	0.80
+please explain the	details	0.80
+please explain the	document	0.80
+please explain the	draft	0.80
+please explain the	feedback	0.80
+please explain the	file	0.80
+please explain the	notes	0.80
+please explain the	report	0.80
+please explain the	schedule	0.80
+please explain when	possible	0.80
+please explain when	you	0.80
+please find	the	0.76
+please find the	attached	0.80
+please let	me	0.86
+please let me	know	0.80
+please review	after	0.76
+please review	before	0.76
+please review	the	0.76
+please review	today	0.76
+please review	tomorrow	0.76
+please review	when	0.76
+please review after	the	0.80
+please review before	the	0.80
+please review the	attached	0.80
+please review the	details	0.80
+please review the	document	0.80
+please review the	draft	0.80
+please review the	feedback	0.80
+please review the	file	0.80
+please review the	notes	0.80
+please review the	report	0.80
+please review the	schedule	0.80
+please review when	possible	0.80
+please review when	you	0.80
+please see	the	0.76
+please see the	attached	0.80
+please send	after	0.76
+please send	before	0.76
+please send	the	0.76
+please send	today	0.76
+please send	tomorrow	0.76
+please send	when	0.76
+please send after	the	0.80
+please send before	the	0.80
+please send the	details	0.80
+please send the	document	0.80
+please send the	draft	0.80
+please send the	feedback	0.80
+please send the	file	0.80
+please send the	notes	0.80
+please send the	report	0.80
+please send the	schedule	0.80
+please send when	possible	0.80
+please send when	you	0.80
+please share	after	0.76
+please share	before	0.76
+please share	the	0.76
+please share	today	0.76
+please share	tomorrow	0.76
+please share	when	0.76
+please share after	the	0.80
+please share before	the	0.80
+please share the	details	0.80
+please share the	document	0.80
+please share the	draft	0.80
+please share the	feedback	0.80
+please share the	file	0.80
+please share the	notes	0.80
+please share the	report	0.80
+please share the	schedule	0.80
+please share when	possible	0.80
+please share when	you	0.80
+please update	after	0.76
+please update	before	0.76
+please update	the	0.76
+please update	today	0.76
+please update	tomorrow	0.76
+please update	when	0.76
+please update after	the	0.80
+please update before	the	0.80
+please update the	details	0.80
+please update the	document	0.80
+please update the	draft	0.80
+please update the	feedback	0.80
+please update the	file	0.80
+please update the	notes	0.80
+please update the	report	0.80
+please update the	schedule	0.80
+please update when	possible	0.80
+please update when	you	0.80
+problem	at	0.72
+problem at	all	0.76
+project	can	0.72
+project	is	0.72
+project	should	0.72
+project	will	0.72
+project can	check	0.76
+project can	review	0.76
+project can	send	0.76
+project can	update	0.76
+project can check	before	0.80
+project can check	later	0.80
+project can check	next	0.80
+project can check	the	0.80
+project can check	this	0.80
+project can check	today	0.80
+project can check	tomorrow	0.80
+project can review	before	0.80
+project can review	later	0.80
+project can review	next	0.80
+project can review	the	0.80
+project can review	this	0.80
+project can review	today	0.80
+project can review	tomorrow	0.80
+project can send	before	0.80
+project can send	later	0.80
+project can send	next	0.80
+project can send	the	0.80
+project can send	this	0.80
+project can send	today	0.80
+project can send	tomorrow	0.80
+project can update	before	0.80
+project can update	later	0.80
+project can update	next	0.80
+project can update	the	0.80
+project can update	this	0.80
+project can update	today	0.80
+project can update	tomorrow	0.80
+project is	moving	0.76
+project is moving	forward	0.80
+project should	check	0.76
+project should	confirm	0.76
+project should	review	0.76
+project should check	before	0.80
+project should check	later	0.80
+project should check	next	0.80
+project should check	the	0.80
+project should check	this	0.80
+project should check	today	0.80
+project should check	tomorrow	0.80
+project should confirm	before	0.80
+project should confirm	later	0.80
+project should confirm	next	0.80
+project should confirm	the	0.80
+project should confirm	this	0.80
+project should confirm	today	0.80
+project should confirm	tomorrow	0.80
+project should review	before	0.80
+project should review	later	0.80
+project should review	next	0.80
+project should review	the	0.80
+project should review	this	0.80
+project should review	today	0.80
+project should review	tomorrow	0.80
+project will	check	0.76
+project will	confirm	0.76
+project will	review	0.76
+project will	send	0.76
+project will	update	0.76
+project will check	before	0.80
+project will check	later	0.80
+project will check	next	0.80
+project will check	the	0.80
+project will check	this	0.80
+project will check	today	0.80
+project will check	tomorrow	0.80
+project will confirm	before	0.80
+project will confirm	later	0.80
+project will confirm	next	0.80
+project will confirm	the	0.80
+project will confirm	this	0.80
+project will confirm	today	0.80
+project will confirm	tomorrow	0.80
+project will review	before	0.80
+project will review	later	0.80
+project will review	next	0.80
+project will review	the	0.80
+project will review	this	0.80
+project will review	today	0.80
+project will review	tomorrow	0.80
+project will send	before	0.80
+project will send	later	0.80
+project will send	next	0.80
+project will send	the	0.80
+project will send	this	0.80
+project will send	today	0.80
+project will send	tomorrow	0.80
+project will update	before	0.80
+project will update	later	0.80
+project will update	next	0.80
+project will update	the	0.80
+project will update	this	0.80
+project will update	today	0.80
+project will update	tomorrow	0.80
+ready	for	0.72
+ready	to	0.72
+ready for	review	0.76
+ready to	send	0.76
+regards	and	0.72
+regards and	thank	0.76
+regards and thank	you	0.80
+report	can	0.72
+report	is	0.72
+report	should	0.72
+report	will	0.72
+report can	check	0.76
+report can	review	0.76
+report can	send	0.76
+report can	update	0.76
+report can check	before	0.80
+report can check	later	0.80
+report can check	next	0.80
+report can check	the	0.80
+report can check	this	0.80
+report can check	today	0.80
+report can check	tomorrow	0.80
+report can review	before	0.80
+report can review	later	0.80
+report can review	next	0.80
+report can review	the	0.80
+report can review	this	0.80
+report can review	today	0.80
+report can review	tomorrow	0.80
+report can send	before	0.80
+report can send	later	0.80
+report can send	next	0.80
+report can send	the	0.80
+report can send	this	0.80
+report can send	today	0.80
+report can send	tomorrow	0.80
+report can update	before	0.80
+report can update	later	0.80
+report can update	next	0.80
+report can update	the	0.80
+report can update	this	0.80
+report can update	today	0.80
+report can update	tomorrow	0.80
+report is	ready	0.76
+report is ready	for	0.80
+report should	check	0.76
+report should	confirm	0.76
+report should	review	0.76
+report should check	before	0.80
+report should check	later	0.80
+report should check	next	0.80
+report should check	the	0.80
+report should check	this	0.80
+report should check	today	0.80
+report should check	tomorrow	0.80
+report should confirm	before	0.80
+report should confirm	later	0.80
+report should confirm	next	0.80
+report should confirm	the	0.80
+report should confirm	this	0.80
+report should confirm	today	0.80
+report should confirm	tomorrow	0.80
+report should review	before	0.80
+report should review	later	0.80
+report should review	next	0.80
+report should review	the	0.80
+report should review	this	0.80
+report should review	today	0.80
+report should review	tomorrow	0.80
+report will	check	0.76
+report will	confirm	0.76
+report will	review	0.76
+report will	send	0.76
+report will	update	0.76
+report will check	before	0.80
+report will check	later	0.80
+report will check	next	0.80
+report will check	the	0.80
+report will check	this	0.80
+report will check	today	0.80
+report will check	tomorrow	0.80
+report will confirm	before	0.80
+report will confirm	later	0.80
+report will confirm	next	0.80
+report will confirm	the	0.80
+report will confirm	this	0.80
+report will confirm	today	0.80
+report will confirm	tomorrow	0.80
+report will review	before	0.80
+report will review	later	0.80
+report will review	next	0.80
+report will review	the	0.80
+report will review	this	0.80
+report will review	today	0.80
+report will review	tomorrow	0.80
+report will send	before	0.80
+report will send	later	0.80
+report will send	next	0.80
+report will send	the	0.80
+report will send	this	0.80
+report will send	today	0.80
+report will send	tomorrow	0.80
+report will update	before	0.80
+report will update	later	0.80
+report will update	next	0.80
+report will update	the	0.80
+report will update	this	0.80
+report will update	today	0.80
+report will update	tomorrow	0.80
+research	argues	0.72
+research	compares	0.72
+research	discusses	0.72
+research	explains	0.72
+research	reviews	0.72
+research	shows	0.72
+research	suggests	0.72
+research	summarizes	0.72
+research argues	the	0.76
+research argues the	argument	0.80
+research argues the	evidence	0.80
+research argues the	key	0.80
+research argues the	main	0.80
+research argues the	method	0.80
+research argues the	question	0.80
+research argues the	result	0.80
+research argues the	topic	0.80
+research compares	the	0.76
+research compares the	argument	0.80
+research compares the	evidence	0.80
+research compares the	key	0.80
+research compares the	main	0.80
+research compares the	method	0.80
+research compares the	question	0.80
+research compares the	result	0.80
+research compares the	topic	0.80
+research discusses	the	0.76
+research discusses the	argument	0.80
+research discusses the	evidence	0.80
+research discusses the	key	0.80
+research discusses the	main	0.80
+research discusses the	method	0.80
+research discusses the	question	0.80
+research discusses the	result	0.80
+research discusses the	topic	0.80
+research explains	the	0.76
+research explains the	argument	0.80
+research explains the	evidence	0.80
+research explains the	key	0.80
+research explains the	main	0.80
+research explains the	method	0.80
+research explains the	question	0.80
+research explains the	result	0.80
+research explains the	topic	0.80
+research reviews	the	0.76
+research reviews the	argument	0.80
+research reviews the	evidence	0.80
+research reviews the	key	0.80
+research reviews the	main	0.80
+research reviews the	method	0.80
+research reviews the	question	0.80
+research reviews the	result	0.80
+research reviews the	topic	0.80
+research shows	the	0.76
+research shows the	argument	0.80
+research shows the	evidence	0.80
+research shows the	key	0.80
+research shows the	main	0.80
+research shows the	method	0.80
+research shows the	question	0.80
+research shows the	result	0.80
+research shows the	topic	0.80
+research suggests	the	0.76
+research suggests the	argument	0.80
+research suggests the	evidence	0.80
+research suggests the	key	0.80
+research suggests the	main	0.80
+research suggests the	method	0.80
+research suggests the	question	0.80
+research suggests the	result	0.80
+research suggests the	topic	0.80
+research summarizes	the	0.76
+research summarizes the	argument	0.80
+research summarizes the	evidence	0.80
+research summarizes the	key	0.80
+research summarizes the	main	0.80
+research summarizes the	method	0.80
+research summarizes the	question	0.80
+research summarizes the	result	0.80
+research summarizes the	topic	0.80
+result	of	0.72
+review	after	0.72
+review	before	0.72
+review	later	0.72
+review	next	0.72
+review	the	0.72
+review	this	0.72
+review	today	0.72
+review	tomorrow	0.72
+review	when	0.72
+review after	the	0.76
+review after the	meeting	0.80
+review before	the	0.76
+review before the	meeting	0.80
+review later	today	0.76
+review next	week	0.76
+review the	attached	0.76
+review the	details	0.76
+review the	document	0.76
+review the	draft	0.76
+review the	feedback	0.76
+review the	file	0.76
+review the	notes	0.76
+review the	plan	0.76
+review the	report	0.76
+review the	schedule	0.76
+review the	update	0.76
+review the attached	document	0.80
+review this	week	0.76
+review when	possible	0.76
+review when	you	0.76
+review when you	can	0.80
+reviews	the	0.72
+reviews the	argument	0.76
+reviews the	evidence	0.76
+reviews the	key	0.76
+reviews the	main	0.76
+reviews the	method	0.76
+reviews the	question	0.76
+reviews the	result	0.76
+reviews the	topic	0.76
+reviews the key	point	0.80
+reviews the main	idea	0.80
+same	time	0.72
+schedule	can	0.72
+schedule	has	0.72
+schedule	should	0.72
+schedule	will	0.72
+schedule can	check	0.76
+schedule can	review	0.76
+schedule can	send	0.76
+schedule can	update	0.76
+schedule can check	before	0.80
+schedule can check	later	0.80
+schedule can check	next	0.80
+schedule can check	the	0.80
+schedule can check	this	0.80
+schedule can check	today	0.80
+schedule can check	tomorrow	0.80
+schedule can review	before	0.80
+schedule can review	later	0.80
+schedule can review	next	0.80
+schedule can review	the	0.80
+schedule can review	this	0.80
+schedule can review	today	0.80
+schedule can review	tomorrow	0.80
+schedule can send	before	0.80
+schedule can send	later	0.80
+schedule can send	next	0.80
+schedule can send	the	0.80
+schedule can send	this	0.80
+schedule can send	today	0.80
+schedule can send	tomorrow	0.80
+schedule can update	before	0.80
+schedule can update	later	0.80
+schedule can update	next	0.80
+schedule can update	the	0.80
+schedule can update	this	0.80
+schedule can update	today	0.80
+schedule can update	tomorrow	0.80
+schedule has	been	0.76
+schedule has been	updated	0.80
+schedule should	check	0.76
+schedule should	confirm	0.76
+schedule should	review	0.76
+schedule should check	before	0.80
+schedule should check	later	0.80
+schedule should check	next	0.80
+schedule should check	the	0.80
+schedule should check	this	0.80
+schedule should check	today	0.80
+schedule should check	tomorrow	0.80
+schedule should confirm	before	0.80
+schedule should confirm	later	0.80
+schedule should confirm	next	0.80
+schedule should confirm	the	0.80
+schedule should confirm	this	0.80
+schedule should confirm	today	0.80
+schedule should confirm	tomorrow	0.80
+schedule should review	before	0.80
+schedule should review	later	0.80
+schedule should review	next	0.80
+schedule should review	the	0.80
+schedule should review	this	0.80
+schedule should review	today	0.80
+schedule should review	tomorrow	0.80
+schedule will	check	0.76
+schedule will	confirm	0.76
+schedule will	review	0.76
+schedule will	send	0.76
+schedule will	update	0.76
+schedule will check	before	0.80
+schedule will check	later	0.80
+schedule will check	next	0.80
+schedule will check	the	0.80
+schedule will check	this	0.80
+schedule will check	today	0.80
+schedule will check	tomorrow	0.80
+schedule will confirm	before	0.80
+schedule will confirm	later	0.80
+schedule will confirm	next	0.80
+schedule will confirm	the	0.80
+schedule will confirm	this	0.80
+schedule will confirm	today	0.80
+schedule will confirm	tomorrow	0.80
+schedule will review	before	0.80
+schedule will review	later	0.80
+schedule will review	next	0.80
+schedule will review	the	0.80
+schedule will review	this	0.80
+schedule will review	today	0.80
+schedule will review	tomorrow	0.80
+schedule will send	before	0.80
+schedule will send	later	0.80
+schedule will send	next	0.80
+schedule will send	the	0.80
+schedule will send	this	0.80
+schedule will send	today	0.80
+schedule will send	tomorrow	0.80
+schedule will update	before	0.80
+schedule will update	later	0.80
+schedule will update	next	0.80
+schedule will update	the	0.80
+schedule will update	this	0.80
+schedule will update	today	0.80
+schedule will update	tomorrow	0.80
+scheduled	for	0.72
+see	the	0.72
+see the	attached	0.76
+see the attached	file	0.80
+send	after	0.72
+send	before	0.72
+send	later	0.72
+send	next	0.72
+send	the	0.72
+send	this	0.72
+send	today	0.72
+send	tomorrow	0.72
+send	when	0.72
+send after	the	0.76
+send after the	meeting	0.80
+send before	the	0.76
+send before the	meeting	0.80
+send later	today	0.76
+send next	week	0.76
+send the	details	0.76
+send the	document	0.76
+send the	draft	0.76
+send the	feedback	0.76
+send the	file	0.76
+send the	notes	0.76
+send the	plan	0.76
+send the	report	0.76
+send the	schedule	0.76
+send the	update	0.76
+send this	week	0.76
+send when	possible	0.76
+send when	you	0.76
+send when you	can	0.80
+share	after	0.72
+share	before	0.72
+share	the	0.72
+share	today	0.72
+share	tomorrow	0.72
+share	when	0.72
+share after	the	0.76
+share after the	meeting	0.80
+share before	the	0.76
+share before the	meeting	0.80
+share the	details	0.76
+share the	document	0.76
+share the	draft	0.76
+share the	feedback	0.76
+share the	file	0.76
+share the	notes	0.76
+share the	report	0.76
+share the	schedule	0.76
+share when	possible	0.76
+share when	you	0.76
+share when you	can	0.80
+shared	the	0.72
+shared the	file	0.76
+should	check	0.72
+should	confirm	0.72
+should	follow	0.72
+should	review	0.72
+should check	before	0.76
+should check	later	0.76
+should check	next	0.76
+should check	the	0.76
+should check	this	0.76
+should check	today	0.76
+should check	tomorrow	0.76
+should check before	the	0.80
+should check later	today	0.80
+should check next	week	0.80
+should check the	details	0.80
+should check the	document	0.80
+should check the	file	0.80
+should check the	notes	0.80
+should check the	plan	0.80
+should check the	report	0.80
+should check the	schedule	0.80
+should check the	update	0.80
+should check this	week	0.80
+should confirm	before	0.76
+should confirm	later	0.76
+should confirm	next	0.76
+should confirm	the	0.76
+should confirm	this	0.76
+should confirm	today	0.76
+should confirm	tomorrow	0.76
+should confirm before	the	0.80
+should confirm later	today	0.80
+should confirm next	week	0.80
+should confirm the	details	0.80
+should confirm the	document	0.80
+should confirm the	file	0.80
+should confirm the	notes	0.80
+should confirm the	plan	0.80
+should confirm the	report	0.80
+should confirm the	schedule	0.80
+should confirm the	update	0.80
+should confirm this	week	0.80
+should follow	up	0.76
+should follow up	soon	0.80
+should review	before	0.76
+should review	later	0.76
+should review	next	0.76
+should review	the	0.76
+should review	this	0.76
+should review	today	0.76
+should review	tomorrow	0.76
+should review before	the	0.80
+should review later	today	0.80
+should review next	week	0.80
+should review the	details	0.80
+should review the	document	0.80
+should review the	file	0.80
+should review the	notes	0.80
+should review the	plan	0.80
+should review the	report	0.80
+should review the	schedule	0.80
+should review the	update	0.80
+should review this	week	0.80
+shows	the	0.72
+shows the	argument	0.76
+shows the	evidence	0.76
+shows the	key	0.76
+shows the	main	0.76
+shows the	method	0.76
+shows the	question	0.76
+shows the	result	0.76
+shows the	topic	0.76
+shows the key	point	0.80
+shows the main	idea	0.80
+so	much	0.72
+so much	for	0.76
+so much for	your	0.80
+soon	as	0.72
+soon as	possible	0.76
+soon as	you	0.76
+soon as you	can	0.80
+sounds	good	0.72
+study	argues	0.72
+study	compares	0.72
+study	discusses	0.72
+study	explains	0.72
+study	reviews	0.72
+study	shows	0.72
+study	suggests	0.72
+study	summarizes	0.72
+study argues	the	0.76
+study argues the	argument	0.80
+study argues the	evidence	0.80
+study argues the	key	0.80
+study argues the	main	0.80
+study argues the	method	0.80
+study argues the	question	0.80
+study argues the	result	0.80
+study argues the	topic	0.80
+study compares	the	0.76
+study compares the	argument	0.80
+study compares the	evidence	0.80
+study compares the	key	0.80
+study compares the	main	0.80
+study compares the	method	0.80
+study compares the	question	0.80
+study compares the	result	0.80
+study compares the	topic	0.80
+study discusses	the	0.76
+study discusses the	argument	0.80
+study discusses the	evidence	0.80
+study discusses the	key	0.80
+study discusses the	main	0.80
+study discusses the	method	0.80
+study discusses the	question	0.80
+study discusses the	result	0.80
+study discusses the	topic	0.80
+study explains	the	0.76
+study explains the	argument	0.80
+study explains the	evidence	0.80
+study explains the	key	0.80
+study explains the	main	0.80
+study explains the	method	0.80
+study explains the	question	0.80
+study explains the	result	0.80
+study explains the	topic	0.80
+study reviews	the	0.76
+study reviews the	argument	0.80
+study reviews the	evidence	0.80
+study reviews the	key	0.80
+study reviews the	main	0.80
+study reviews the	method	0.80
+study reviews the	question	0.80
+study reviews the	result	0.80
+study reviews the	topic	0.80
+study shows	the	0.76
+study shows the	argument	0.80
+study shows the	evidence	0.80
+study shows the	key	0.80
+study shows the	main	0.80
+study shows the	method	0.80
+study shows the	question	0.80
+study shows the	result	0.80
+study shows the	topic	0.80
+study suggests	the	0.76
+study suggests the	argument	0.80
+study suggests the	evidence	0.80
+study suggests the	key	0.80
+study suggests the	main	0.80
+study suggests the	method	0.80
+study suggests the	question	0.80
+study suggests the	result	0.80
+study suggests the	topic	0.80
+study summarizes	the	0.76
+study summarizes the	argument	0.80
+study summarizes the	evidence	0.80
+study summarizes the	key	0.80
+study summarizes the	main	0.80
+study summarizes the	method	0.80
+study summarizes the	question	0.80
+study summarizes the	result	0.80
+study summarizes the	topic	0.80
+studying	in	0.72
+studying at	university	0.76
+studying in	university	0.76
+suggests	the	0.72
+suggests the	argument	0.76
+suggests the	evidence	0.76
+suggests the	key	0.76
+suggests the	main	0.76
+suggests the	method	0.76
+suggests the	question	0.76
+suggests the	result	0.76
+suggests the	topic	0.76
+suggests the key	point	0.80
+suggests the main	idea	0.80
+summarizes	the	0.72
+summarizes the	argument	0.76
+summarizes the	evidence	0.76
+summarizes the	key	0.76
+summarizes the	main	0.76
+summarizes the	method	0.76
+summarizes the	question	0.76
+summarizes the	result	0.76
+summarizes the	topic	0.76
+summarizes the key	point	0.80
+summarizes the main	idea	0.80
+team	can	0.72
+team	i	0.72
+team	please	0.72
+team	should	0.72
+team	thank	0.72
+team	the	0.72
+team	will	0.72
+team can	check	0.76
+team can	review	0.76
+team can	send	0.76
+team can	update	0.76
+team can check	before	0.80
+team can check	later	0.80
+team can check	next	0.80
+team can check	the	0.80
+team can check	this	0.80
+team can check	today	0.80
+team can check	tomorrow	0.80
+team can review	before	0.80
+team can review	later	0.80
+team can review	next	0.80
+team can review	the	0.80
+team can review	this	0.80
+team can review	today	0.80
+team can review	tomorrow	0.80
+team can send	before	0.80
+team can send	later	0.80
+team can send	next	0.80
+team can send	the	0.80
+team can send	this	0.80
+team can send	today	0.80
+team can send	tomorrow	0.80
+team can update	before	0.80
+team can update	later	0.80
+team can update	next	0.80
+team can update	the	0.80
+team can update	this	0.80
+team can update	today	0.80
+team can update	tomorrow	0.80
+team i	hope	0.76
+team please	see	0.76
+team should	check	0.76
+team should	confirm	0.76
+team should	review	0.76
+team should check	before	0.80
+team should check	later	0.80
+team should check	next	0.80
+team should check	the	0.80
+team should check	this	0.80
+team should check	today	0.80
+team should check	tomorrow	0.80
+team should confirm	before	0.80
+team should confirm	later	0.80
+team should confirm	next	0.80
+team should confirm	the	0.80
+team should confirm	this	0.80
+team should confirm	today	0.80
+team should confirm	tomorrow	0.80
+team should review	before	0.80
+team should review	later	0.80
+team should review	next	0.80
+team should review	the	0.80
+team should review	this	0.80
+team should review	today	0.80
+team should review	tomorrow	0.80
+team thank	you	0.76
+team the	meeting	0.76
+team the	update	0.76
+team will	check	0.76
+team will	confirm	0.76
+team will	review	0.76
+team will	send	0.76
+team will	update	0.76
+team will check	before	0.80
+team will check	later	0.80
+team will check	next	0.80
+team will check	the	0.80
+team will check	this	0.80
+team will check	today	0.80
+team will check	tomorrow	0.80
+team will confirm	before	0.80
+team will confirm	later	0.80
+team will confirm	next	0.80
+team will confirm	the	0.80
+team will confirm	this	0.80
+team will confirm	today	0.80
+team will confirm	tomorrow	0.80
+team will review	before	0.80
+team will review	later	0.80
+team will review	next	0.80
+team will review	the	0.80
+team will review	this	0.80
+team will review	today	0.80
+team will review	tomorrow	0.80
+team will send	before	0.80
+team will send	later	0.80
+team will send	next	0.80
+team will send	the	0.80
+team will send	this	0.80
+team will send	today	0.80
+team will send	tomorrow	0.80
+team will update	before	0.80
+team will update	later	0.80
+team will update	next	0.80
+team will update	the	0.80
+team will update	this	0.80
+team will update	today	0.80
+team will update	tomorrow	0.80
 thank	you	0.86
 thank you	for	0.84
-thanks	for	0.82
-thanks so	much	0.82
-let	me	0.84
-let me	know	0.86
-please	let	0.84
-please let	me	0.86
-as	soon	0.80
-as soon	as	0.86
-soon	as	0.84
-in the	morning	0.84
-in the	afternoon	0.82
-in the	evening	0.82
-at the	moment	0.84
-at the	end	0.80
-at the	same	0.78
-by the	way	0.82
-for the	update	0.80
-for your	help	0.80
-for your	time	0.80
-if you	have	0.82
-if you	need	0.82
-if possible	please	0.78
-would you	please	0.80
-could you	please	0.82
-can you	please	0.80
-i will	check	0.86
-i will	send	0.82
-i will	update	0.80
-i will	let	0.80
-i can	check	0.80
-i can	send	0.78
-i have	attached	0.84
-i have	updated	0.78
-i just	wanted	0.80
-i wanted	to	0.80
-i need	to	0.82
-i think	we	0.76
-i hope	you	0.80
-we can	discuss	0.78
-we should	check	0.76
-we need	to	0.82
-we will	send	0.78
-you can	find	0.78
-you should	be	0.76
-you are	welcome	0.78
-are you	available	0.82
-are you	free	0.80
-do you	have	0.82
-do you	think	0.78
-do you	know	0.78
-this is	a	0.76
-this looks	good	0.76
-that sounds	good	0.78
-it would	be	0.78
-it is	important	0.76
-it looks	like	0.76
-the attached	file	0.78
-the meeting	is	0.78
+thank you	very	0.76
+thank you for	the	0.80
+thank you for	your	0.80
+thank you very	much	0.80
+thanks	for	0.72
+thanks	so	0.72
+thanks for	the	0.76
+thanks for	your	0.76
+thanks for the	update	0.80
+thanks for your	message	0.80
+thanks so	much	0.76
+thanks so much	for	0.80
+that	makes	0.72
+that	sounds	0.72
+that makes	sense	0.76
+that sounds	good	0.76
+the	afternoon	0.72
+the	argument	0.72
+the	article	0.72
+the	assignment	0.72
+the	attached	0.72
+the	class	0.72
+the	course	0.72
+the	day	0.72
+the	deadline	0.72
+the	details	0.72
+the	document	0.72
+the	draft	0.72
+the	end	0.72
+the	evening	0.72
+the	evidence	0.72
+the	feedback	0.72
+the	file	0.72
+the	key	0.72
+the	lecture	0.72
+the	main	0.72
+the	meantime	0.72
+the	meeting	0.72
+the	message	0.72
+the	method	0.72
+the	module	0.72
+the	morning	0.72
+the	next	0.72
+the	notes	0.72
+the	other	0.72
+the	paper	0.72
+the	plan	0.72
+the	project	0.72
+the	question	0.72
+the	report	0.72
+the	research	0.72
+the	result	0.72
+the	same	0.72
+the	schedule	0.72
+the	study	0.72
+the	team	0.72
+the	topic	0.72
+the	update	0.72
+the	week	0.72
+the afternoon	we	0.76
+the afternoon we	can	0.80
+the article	argues	0.76
+the article	compares	0.76
+the article	discusses	0.76
+the article	explains	0.76
+the article	reviews	0.76
+the article	shows	0.76
+the article	suggests	0.76
+the article	summarizes	0.76
+the article argues	the	0.80
+the article compares	the	0.80
+the article discusses	the	0.80
+the article explains	the	0.80
+the article reviews	the	0.80
+the article shows	the	0.80
+the article suggests	the	0.80
+the article summarizes	the	0.80
+the assignment	can	0.76
+the assignment	is	0.76
+the assignment	should	0.76
+the assignment	will	0.76
+the assignment can	check	0.80
+the assignment can	review	0.80
+the assignment can	send	0.80
+the assignment can	update	0.80
+the assignment is	due	0.80
+the assignment should	check	0.80
+the assignment should	confirm	0.80
+the assignment should	review	0.80
+the assignment will	check	0.80
+the assignment will	confirm	0.80
+the assignment will	review	0.80
+the assignment will	send	0.80
+the assignment will	update	0.80
+the attached	document	0.76
+the attached	file	0.76
+the class	argues	0.76
+the class	compares	0.76
+the class	discusses	0.76
+the class	explains	0.76
+the class	reviews	0.76
+the class	shows	0.76
+the class	suggests	0.76
+the class	summarizes	0.76
+the class argues	the	0.80
+the class compares	the	0.80
+the class discusses	the	0.80
+the class explains	the	0.80
+the class reviews	the	0.80
+the class shows	the	0.80
+the class suggests	the	0.80
+the class summarizes	the	0.80
+the course	argues	0.76
+the course	compares	0.76
+the course	discusses	0.76
+the course	explains	0.76
+the course	reviews	0.76
+the course	shows	0.76
+the course	suggests	0.76
+the course	summarizes	0.76
+the course argues	the	0.80
+the course compares	the	0.80
+the course discusses	the	0.80
+the course explains	the	0.80
+the course reviews	the	0.80
+the course shows	the	0.80
+the course suggests	the	0.80
+the course summarizes	the	0.80
+the deadline	is	0.76
+the deadline is	coming	0.80
+the document	can	0.76
 the document	is	0.76
-the next	step	0.78
-next week	I	0.76
-next time	we	0.74
-last week	I	0.74
-on Monday	I	0.72
-on Tuesday	I	0.72
-on Wednesday	I	0.72
-on Thursday	I	0.72
-on Friday	I	0.72
-best	regards	0.82
-kind	regards	0.82
-many	thanks	0.82
-with	regards	0.76
-see	you	0.78
-see you	soon	0.78
-talk	to	0.76
-talk to	you	0.80
-looking	forward	0.82
-looking forward	to	0.86
-please	find	0.78
-please find	attached	0.84
-please see	the	0.76
-please check	the	0.78
-please confirm	that	0.78
-please send	me	0.78
-let us	know	0.80
-feel	free	0.78
-feel free	to	0.84
-as discussed	please	0.76
-as mentioned	above	0.74
-in relation	to	0.76
-in response	to	0.76
-in terms	of	0.78
-with regard	to	0.76
-with regards	to	0.74
-at your	convenience	0.76
-when you	have	0.80
-when you	get	0.76
-once you	have	0.78
-before the	meeting	0.76
-after the	meeting	0.76
-during the	meeting	0.76
-could we	please	0.76
-would it	be	0.76
-happy	to	0.78
-happy to	help	0.82
-no	problem	0.80
-no worries	at	0.76
-not sure	if	0.76
-make sure	that	0.78
-make sure	to	0.78
-as well	as	0.78
-more than	happy	0.76
-going	to	0.78
-going to	be	0.78
-need to	check	0.78
-need to	update	0.76
-want to	make	0.76
-want to	check	0.76
-able	to	0.78
-able to	help	0.78
+the document	should	0.76
+the document	will	0.76
+the document can	check	0.80
+the document can	review	0.80
+the document can	send	0.80
+the document can	update	0.80
+the document is	ready	0.80
+the document should	check	0.80
+the document should	confirm	0.80
+the document should	review	0.80
+the document will	check	0.80
+the document will	confirm	0.80
+the document will	review	0.80
+the document will	send	0.80
+the document will	update	0.80
+the end	of	0.76
+the end of	the	0.80
+the evening	i	0.76
+the evening i	will	0.80
+the key	point	0.76
+the lecture	argues	0.76
+the lecture	compares	0.76
+the lecture	discusses	0.76
+the lecture	explains	0.76
+the lecture	reviews	0.76
+the lecture	shows	0.76
+the lecture	suggests	0.76
+the lecture	summarizes	0.76
+the lecture argues	the	0.80
+the lecture compares	the	0.80
+the lecture discusses	the	0.80
+the lecture explains	the	0.80
+the lecture reviews	the	0.80
+the lecture shows	the	0.80
+the lecture suggests	the	0.80
+the lecture summarizes	the	0.80
+the main	idea	0.76
+the meantime	please	0.76
+the meantime please	review	0.80
+the meeting	can	0.76
+the meeting	is	0.76
+the meeting	please	0.76
+the meeting	should	0.76
+the meeting	we	0.76
+the meeting	will	0.76
+the meeting can	check	0.80
+the meeting can	review	0.80
+the meeting can	send	0.80
+the meeting can	update	0.80
+the meeting is	scheduled	0.80
+the meeting please	review	0.80
+the meeting should	check	0.80
+the meeting should	confirm	0.80
+the meeting should	review	0.80
+the meeting we	can	0.80
+the meeting we	discussed	0.80
+the meeting will	check	0.80
+the meeting will	confirm	0.80
+the meeting will	review	0.80
+the meeting will	send	0.80
+the meeting will	update	0.80
+the message	can	0.76
+the message	should	0.76
+the message	will	0.76
+the message can	check	0.80
+the message can	review	0.80
+the message can	send	0.80
+the message can	update	0.80
+the message should	check	0.80
+the message should	confirm	0.80
+the message should	review	0.80
+the message will	check	0.80
+the message will	confirm	0.80
+the message will	review	0.80
+the message will	send	0.80
+the message will	update	0.80
+the module	argues	0.76
+the module	compares	0.76
+the module	discusses	0.76
+the module	explains	0.76
+the module	reviews	0.76
+the module	shows	0.76
+the module	suggests	0.76
+the module	summarizes	0.76
+the module argues	the	0.80
+the module compares	the	0.80
+the module discusses	the	0.80
+the module explains	the	0.80
+the module reviews	the	0.80
+the module shows	the	0.80
+the module suggests	the	0.80
+the module summarizes	the	0.80
+the morning	we	0.76
+the morning we	can	0.80
+the next	page	0.76
+the next	step	0.76
+the other	hand	0.76
+the paper	argues	0.76
+the paper	compares	0.76
+the paper	discusses	0.76
+the paper	explains	0.76
+the paper	reviews	0.76
+the paper	shows	0.76
+the paper	suggests	0.76
+the paper	summarizes	0.76
+the paper argues	the	0.80
+the paper compares	the	0.80
+the paper discusses	the	0.80
+the paper explains	the	0.80
+the paper reviews	the	0.80
+the paper shows	the	0.80
+the paper suggests	the	0.80
+the paper summarizes	the	0.80
+the plan	can	0.76
+the plan	looks	0.76
+the plan	should	0.76
+the plan	will	0.76
+the plan can	check	0.80
+the plan can	review	0.80
+the plan can	send	0.80
+the plan can	update	0.80
+the plan looks	good	0.80
+the plan should	check	0.80
+the plan should	confirm	0.80
+the plan should	review	0.80
+the plan will	check	0.80
+the plan will	confirm	0.80
+the plan will	review	0.80
+the plan will	send	0.80
+the plan will	update	0.80
+the project	can	0.76
+the project	is	0.76
+the project	should	0.76
+the project	will	0.76
+the project can	check	0.80
+the project can	review	0.80
+the project can	send	0.80
+the project can	update	0.80
+the project is	moving	0.80
+the project should	check	0.80
+the project should	confirm	0.80
+the project should	review	0.80
+the project will	check	0.80
+the project will	confirm	0.80
+the project will	review	0.80
+the project will	send	0.80
+the project will	update	0.80
+the report	can	0.76
+the report	is	0.76
+the report	should	0.76
+the report	will	0.76
+the report can	check	0.80
+the report can	review	0.80
+the report can	send	0.80
+the report can	update	0.80
+the report is	ready	0.80
+the report should	check	0.80
+the report should	confirm	0.80
+the report should	review	0.80
+the report will	check	0.80
+the report will	confirm	0.80
+the report will	review	0.80
+the report will	send	0.80
+the report will	update	0.80
+the research	argues	0.76
+the research	compares	0.76
+the research	discusses	0.76
+the research	explains	0.76
+the research	reviews	0.76
+the research	shows	0.76
+the research	suggests	0.76
+the research	summarizes	0.76
+the research argues	the	0.80
+the research compares	the	0.80
+the research discusses	the	0.80
+the research explains	the	0.80
+the research reviews	the	0.80
+the research shows	the	0.80
+the research suggests	the	0.80
+the research summarizes	the	0.80
+the same	time	0.76
+the schedule	can	0.76
+the schedule	has	0.76
+the schedule	should	0.76
+the schedule	will	0.76
+the schedule can	check	0.80
+the schedule can	review	0.80
+the schedule can	send	0.80
+the schedule can	update	0.80
+the schedule has	been	0.80
+the schedule should	check	0.80
+the schedule should	confirm	0.80
+the schedule should	review	0.80
+the schedule will	check	0.80
+the schedule will	confirm	0.80
+the schedule will	review	0.80
+the schedule will	send	0.80
+the schedule will	update	0.80
+the study	argues	0.76
+the study	compares	0.76
+the study	discusses	0.76
+the study	explains	0.76
+the study	reviews	0.76
+the study	shows	0.76
+the study	suggests	0.76
+the study	summarizes	0.76
+the study argues	the	0.80
+the study compares	the	0.80
+the study discusses	the	0.80
+the study explains	the	0.80
+the study reviews	the	0.80
+the study shows	the	0.80
+the study suggests	the	0.80
+the study summarizes	the	0.80
+the team	can	0.76
+the team	should	0.76
+the team	will	0.76
+the team can	check	0.80
+the team can	review	0.80
+the team can	send	0.80
+the team can	update	0.80
+the team should	check	0.80
+the team should	confirm	0.80
+the team should	review	0.80
+the team will	check	0.80
+the team will	confirm	0.80
+the team will	review	0.80
+the team will	send	0.80
+the team will	update	0.80
+the update	can	0.76
+the update	should	0.76
+the update	will	0.76
+the update can	check	0.80
+the update can	review	0.80
+the update can	send	0.80
+the update can	update	0.80
+the update should	check	0.80
+the update should	confirm	0.80
+the update should	review	0.80
+the update will	check	0.80
+the update will	confirm	0.80
+the update will	review	0.80
+the update will	send	0.80
+the update will	update	0.80
+therefore	the	0.72
+this	helps	0.72
+this	is	0.72
+this	later	0.72
+this	looks	0.72
+this	sounds	0.72
+this	week	0.72
+this is	helpful	0.76
+this looks	good	0.76
+this sounds	good	0.76
+to	be	0.72
+to	confirm	0.72
+to	follow	0.72
+to	hearing	0.72
+to	make	0.72
+to	me	0.72
+to	send	0.72
+to	this	0.72
+to	you	0.72
+to	your	0.72
+to be	clear	0.76
+to confirm	the	0.76
+to confirm the	details	0.80
+to follow	up	0.76
+to follow up	on	0.80
+to hearing	from	0.76
+to hearing from	you	0.80
+to make	sure	0.76
+to your	reply	0.76
+up	on	0.72
+up	soon	0.72
+up on	this	0.76
+update	after	0.72
+update	before	0.72
+update	can	0.72
+update	later	0.72
+update	next	0.72
+update	should	0.72
+update	the	0.72
+update	this	0.72
+update	today	0.72
+update	tomorrow	0.72
+update	when	0.72
+update	will	0.72
+update after	the	0.76
+update after the	meeting	0.80
+update before	the	0.76
+update before the	meeting	0.80
+update can	check	0.76
+update can	review	0.76
+update can	send	0.76
+update can	update	0.76
+update can check	before	0.80
+update can check	later	0.80
+update can check	next	0.80
+update can check	the	0.80
+update can check	this	0.80
+update can check	today	0.80
+update can check	tomorrow	0.80
+update can review	before	0.80
+update can review	later	0.80
+update can review	next	0.80
+update can review	the	0.80
+update can review	this	0.80
+update can review	today	0.80
+update can review	tomorrow	0.80
+update can send	before	0.80
+update can send	later	0.80
+update can send	next	0.80
+update can send	the	0.80
+update can send	this	0.80
+update can send	today	0.80
+update can send	tomorrow	0.80
+update can update	before	0.80
+update can update	later	0.80
+update can update	next	0.80
+update can update	the	0.80
+update can update	this	0.80
+update can update	today	0.80
+update can update	tomorrow	0.80
+update later	today	0.76
+update next	week	0.76
+update should	check	0.76
+update should	confirm	0.76
+update should	review	0.76
+update should check	before	0.80
+update should check	later	0.80
+update should check	next	0.80
+update should check	the	0.80
+update should check	this	0.80
+update should check	today	0.80
+update should check	tomorrow	0.80
+update should confirm	before	0.80
+update should confirm	later	0.80
+update should confirm	next	0.80
+update should confirm	the	0.80
+update should confirm	this	0.80
+update should confirm	today	0.80
+update should confirm	tomorrow	0.80
+update should review	before	0.80
+update should review	later	0.80
+update should review	next	0.80
+update should review	the	0.80
+update should review	this	0.80
+update should review	today	0.80
+update should review	tomorrow	0.80
+update the	details	0.76
+update the	document	0.76
+update the	draft	0.76
+update the	feedback	0.76
+update the	file	0.76
+update the	notes	0.76
+update the	plan	0.76
+update the	report	0.76
+update the	schedule	0.76
+update the	update	0.76
+update this	week	0.76
+update when	possible	0.76
+update when	you	0.76
+update when you	can	0.80
+update will	check	0.76
+update will	confirm	0.76
+update will	review	0.76
+update will	send	0.76
+update will	update	0.76
+update will check	before	0.80
+update will check	later	0.80
+update will check	next	0.80
+update will check	the	0.80
+update will check	this	0.80
+update will check	today	0.80
+update will check	tomorrow	0.80
+update will confirm	before	0.80
+update will confirm	later	0.80
+update will confirm	next	0.80
+update will confirm	the	0.80
+update will confirm	this	0.80
+update will confirm	today	0.80
+update will confirm	tomorrow	0.80
+update will review	before	0.80
+update will review	later	0.80
+update will review	next	0.80
+update will review	the	0.80
+update will review	this	0.80
+update will review	today	0.80
+update will review	tomorrow	0.80
+update will send	before	0.80
+update will send	later	0.80
+update will send	next	0.80
+update will send	the	0.80
+update will send	this	0.80
+update will send	today	0.80
+update will send	tomorrow	0.80
+update will update	before	0.80
+update will update	later	0.80
+update will update	next	0.80
+update will update	the	0.80
+update will update	this	0.80
+update will update	today	0.80
+update will update	tomorrow	0.80
+very	much	0.72
+we	can	0.72
+we	discussed	0.72
+we	should	0.72
+we	will	0.72
+we can	check	0.76
+we can	discuss	0.76
+we can	meet	0.76
+we can	review	0.76
+we can	send	0.76
+we can	talk	0.76
+we can	update	0.76
+we can check	before	0.80
+we can check	later	0.80
+we can check	next	0.80
+we can check	the	0.80
+we can check	this	0.80
+we can check	today	0.80
+we can check	tomorrow	0.80
+we can discuss	this	0.80
+we can review	before	0.80
+we can review	later	0.80
+we can review	next	0.80
+we can review	the	0.80
+we can review	this	0.80
+we can review	today	0.80
+we can review	tomorrow	0.80
+we can send	before	0.80
+we can send	later	0.80
+we can send	next	0.80
+we can send	the	0.80
+we can send	this	0.80
+we can send	today	0.80
+we can send	tomorrow	0.80
+we can update	before	0.80
+we can update	later	0.80
+we can update	next	0.80
+we can update	the	0.80
+we can update	this	0.80
+we can update	today	0.80
+we can update	tomorrow	0.80
+we should	check	0.76
+we should	confirm	0.76
+we should	follow	0.76
+we should	review	0.76
+we should check	before	0.80
+we should check	later	0.80
+we should check	next	0.80
+we should check	the	0.80
+we should check	this	0.80
+we should check	today	0.80
+we should check	tomorrow	0.80
+we should confirm	before	0.80
+we should confirm	later	0.80
+we should confirm	next	0.80
+we should confirm	the	0.80
+we should confirm	this	0.80
+we should confirm	today	0.80
+we should confirm	tomorrow	0.80
+we should follow	up	0.80
+we should review	before	0.80
+we should review	later	0.80
+we should review	next	0.80
+we should review	the	0.80
+we should review	this	0.80
+we should review	today	0.80
+we should review	tomorrow	0.80
+we will	check	0.76
+we will	confirm	0.76
+we will	review	0.76
+we will	send	0.76
+we will	update	0.76
+we will check	before	0.80
+we will check	later	0.80
+we will check	next	0.80
+we will check	the	0.80
+we will check	this	0.80
+we will check	today	0.80
+we will check	tomorrow	0.80
+we will confirm	before	0.80
+we will confirm	later	0.80
+we will confirm	next	0.80
+we will confirm	the	0.80
+we will confirm	this	0.80
+we will confirm	today	0.80
+we will confirm	tomorrow	0.80
+we will review	before	0.80
+we will review	later	0.80
+we will review	next	0.80
+we will review	the	0.80
+we will review	this	0.80
+we will review	today	0.80
+we will review	tomorrow	0.80
+we will send	before	0.80
+we will send	later	0.80
+we will send	next	0.80
+we will send	the	0.80
+we will send	this	0.80
+we will send	today	0.80
+we will send	tomorrow	0.80
+we will update	before	0.80
+we will update	later	0.80
+we will update	next	0.80
+we will update	the	0.80
+we will update	this	0.80
+we will update	today	0.80
+we will update	tomorrow	0.80
+what	you	0.72
+what you	think	0.76
+when	possible	0.72
+when	you	0.72
+when you	can	0.76
+will	check	0.72
+will	confirm	0.72
+will	get	0.72
+will	review	0.72
+will	send	0.72
+will	update	0.72
+will check	before	0.76
+will check	later	0.76
+will check	next	0.76
+will check	the	0.76
+will check	this	0.76
+will check	today	0.76
+will check	tomorrow	0.76
+will check before	the	0.80
+will check later	today	0.80
+will check next	week	0.80
+will check the	details	0.80
+will check the	document	0.80
+will check the	file	0.80
+will check the	notes	0.80
+will check the	plan	0.80
+will check the	report	0.80
+will check the	schedule	0.80
+will check the	update	0.80
+will check this	later	0.80
+will check this	week	0.80
+will confirm	before	0.76
+will confirm	later	0.76
+will confirm	next	0.76
+will confirm	the	0.76
+will confirm	this	0.76
+will confirm	today	0.76
+will confirm	tomorrow	0.76
+will confirm before	the	0.80
+will confirm later	today	0.80
+will confirm next	week	0.80
+will confirm the	details	0.80
+will confirm the	document	0.80
+will confirm the	file	0.80
+will confirm the	notes	0.80
+will confirm the	plan	0.80
+will confirm the	report	0.80
+will confirm the	schedule	0.80
+will confirm the	update	0.80
+will confirm this	week	0.80
+will get	back	0.76
+will get back	to	0.80
+will review	before	0.76
+will review	later	0.76
+will review	next	0.76
+will review	the	0.76
+will review	this	0.76
+will review	today	0.76
+will review	tomorrow	0.76
+will review before	the	0.80
+will review later	today	0.80
+will review next	week	0.80
+will review the	details	0.80
+will review the	document	0.80
+will review the	file	0.80
+will review the	notes	0.80
+will review the	plan	0.80
+will review the	report	0.80
+will review the	schedule	0.80
+will review the	update	0.80
+will review this	week	0.80
+will send	before	0.76
+will send	later	0.76
+will send	next	0.76
+will send	the	0.76
+will send	this	0.76
+will send	today	0.76
+will send	tomorrow	0.76
+will send before	the	0.80
+will send later	today	0.80
+will send next	week	0.80
+will send the	details	0.80
+will send the	document	0.80
+will send the	file	0.80
+will send the	notes	0.80
+will send the	plan	0.80
+will send the	report	0.80
+will send the	schedule	0.80
+will send the	update	0.80
+will send this	week	0.80
+will update	before	0.76
+will update	later	0.76
+will update	next	0.76
+will update	the	0.76
+will update	this	0.76
+will update	today	0.76
+will update	tomorrow	0.76
+will update before	the	0.80
+will update later	today	0.80
+will update next	week	0.80
+will update the	details	0.80
+will update the	document	0.80
+will update the	file	0.80
+will update the	notes	0.80
+will update the	plan	0.80
+will update the	report	0.80
+will update the	schedule	0.80
+will update the	update	0.80
+will update this	week	0.80
+would	you	0.72
+would you	mind	0.76
+would you mind	checking	0.80
+you	are	0.72
+you	can	0.72
+you	for	0.72
+you	mind	0.72
+you	please	0.72
+you	think	0.72
+you	very	0.72
+you are	well	0.76
+you for	the	0.76
+you for	your	0.76
+you for the	update	0.80
+you for your	help	0.80
+you for your	message	0.80
+you for your	time	0.80
+you mind	checking	0.76
+you please	attach	0.76
+you please	check	0.76
+you please	confirm	0.76
+you please	explain	0.76
+you please	review	0.76
+you please	send	0.76
+you please	share	0.76
+you please	update	0.76
+you please attach	after	0.80
+you please attach	before	0.80
+you please attach	the	0.80
+you please attach	today	0.80
+you please attach	tomorrow	0.80
+you please attach	when	0.80
+you please check	after	0.80
+you please check	before	0.80
+you please check	the	0.80
+you please check	today	0.80
+you please check	tomorrow	0.80
+you please check	when	0.80
+you please confirm	after	0.80
+you please confirm	before	0.80
+you please confirm	the	0.80
+you please confirm	today	0.80
+you please confirm	tomorrow	0.80
+you please confirm	when	0.80
+you please explain	after	0.80
+you please explain	before	0.80
+you please explain	the	0.80
+you please explain	today	0.80
+you please explain	tomorrow	0.80
+you please explain	when	0.80
+you please review	after	0.80
+you please review	before	0.80
+you please review	the	0.80
+you please review	today	0.80
+you please review	tomorrow	0.80
+you please review	when	0.80
+you please send	after	0.80
+you please send	before	0.80
+you please send	the	0.80
+you please send	today	0.80
+you please send	tomorrow	0.80
+you please send	when	0.80
+you please share	after	0.80
+you please share	before	0.80
+you please share	the	0.80
+you please share	today	0.80
+you please share	tomorrow	0.80
+you please share	when	0.80
+you please update	after	0.80
+you please update	before	0.80
+you please update	the	0.80
+you please update	today	0.80
+you please update	tomorrow	0.80
+you please update	when	0.80
+you very	much	0.76
+your	convenience	0.72
+your	help	0.72
+your	information	0.72
+your	message	0.72
+your	reference	0.72
+your	reply	0.72
+your	time	0.72
