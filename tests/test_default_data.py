@@ -58,6 +58,45 @@ class DefaultDataTests(unittest.TestCase):
         self.assertEqual(defaults.CONTRACTIONS["were"], "we're")
         self.assertEqual(defaults.CONTRACTION_CATEGORIES["were"], "suggest_only")
 
+    def test_contractions_cover_common_missing_apostrophes(self) -> None:
+        required = {
+            "dont": ("don't", "safe_auto"),
+            "cant": ("can't", "safe_auto"),
+            "wont": ("won't", "safe_auto"),
+            "wouldnt": ("wouldn't", "safe_auto"),
+            "couldnt": ("couldn't", "safe_auto"),
+            "shouldnt": ("shouldn't", "safe_auto"),
+            "doesnt": ("doesn't", "safe_auto"),
+            "didnt": ("didn't", "safe_auto"),
+            "isnt": ("isn't", "safe_auto"),
+            "arent": ("aren't", "safe_auto"),
+            "havent": ("haven't", "safe_auto"),
+            "hasnt": ("hasn't", "safe_auto"),
+            "im": ("I'm", "safe_auto"),
+            "ive": ("I've", "safe_auto"),
+            "id": ("I'd", "contextual"),
+            "youre": ("you're", "safe_auto"),
+            "youve": ("you've", "safe_auto"),
+            "youll": ("you'll", "safe_auto"),
+            "theyre": ("they're", "safe_auto"),
+            "theyve": ("they've", "safe_auto"),
+            "theyll": ("they'll", "safe_auto"),
+            "were": ("we're", "suggest_only"),
+            "well": ("we'll", "contextual"),
+            "ill": ("I'll", "contextual"),
+            "shell": ("she'll", "contextual"),
+            "hell": ("he'll", "contextual"),
+            "whove": ("who've", "safe_auto"),
+            "oclock": ("o'clock", "safe_auto"),
+            "maam": ("ma'am", "safe_auto"),
+            "aint": ("ain't", "suggest_only"),
+        }
+
+        for typed, (correction, category) in required.items():
+            with self.subTest(typed=typed):
+                self.assertEqual(defaults.CONTRACTIONS[typed], correction)
+                self.assertEqual(defaults.CONTRACTION_CATEGORIES[typed], category)
+
     def test_common_words_load_frequency_scores(self) -> None:
         self.assertGreaterEqual(len(defaults.COMMON_WORDS), 50000)
         self.assertIn("academic", defaults.COMMON_WORDS)

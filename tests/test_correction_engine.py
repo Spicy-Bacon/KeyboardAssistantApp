@@ -49,6 +49,13 @@ class CorrectionEngineTests(unittest.TestCase):
         self.assertEqual(suggestions[0].replacement, "don't")
         self.assertTrue(suggestions[0].auto_apply)
 
+    def test_additional_safe_contractions_auto_apply(self) -> None:
+        for typed, replacement in [("oclock", "o'clock"), ("maam", "ma'am"), ("whove", "who've")]:
+            with self.subTest(typed=typed):
+                suggestion = self.assistant.suggest(typed)[0]
+                self.assertEqual(suggestion.replacement, replacement)
+                self.assertTrue(suggestion.auto_apply)
+
     def test_contextual_contraction_is_not_auto_applied(self) -> None:
         suggestions = self.assistant.suggest("ill")
         self.assertEqual(suggestions[0].replacement, "I'll")
@@ -58,6 +65,10 @@ class CorrectionEngineTests(unittest.TestCase):
         suggestions = self.assistant.suggest("were")
         self.assertEqual(suggestions[0].replacement, "we're")
         self.assertFalse(suggestions[0].auto_apply)
+
+        suggestion = self.assistant.suggest("aint")[0]
+        self.assertEqual(suggestion.replacement, "ain't")
+        self.assertFalse(suggestion.auto_apply)
 
     def test_contextual_contractions_are_suggestions_only(self) -> None:
         for typed, replacement in [("hell", "he'll"), ("shell", "she'll"), ("well", "we'll")]:
