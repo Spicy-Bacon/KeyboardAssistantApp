@@ -1,6 +1,7 @@
 import json
 import tempfile
 import unittest
+from collections import defaultdict
 from pathlib import Path
 
 from keyboard_assistant.core.assistant import KeyboardAssistant
@@ -30,14 +31,20 @@ class FreshInstallBenchmarkTests(unittest.TestCase):
 
             failures: list[str] = []
             false_auto_count = 0
+            category_totals: dict[str, int] = defaultdict(int)
+            category_passes: dict[str, int] = defaultdict(int)
             for case in cases:
                 suggestions = assistant.suggest(case["input"])
                 expected = case["expected_suggestion"]
+                category = case.get("type", "uncategorized")
+                category_totals[category] += 1
                 if expected is None:
                     auto_suggestions = [suggestion for suggestion in suggestions if suggestion.auto_apply]
                     if auto_suggestions:
                         false_auto_count += 1
                         failures.append(f"{case['input']!r}: unexpected auto {auto_suggestions[0].replacement!r}")
+                    else:
+                        category_passes[category] += 1
                     continue
 
                 match = next((suggestion for suggestion in suggestions if suggestion.replacement == expected), None)
@@ -52,9 +59,18 @@ class FreshInstallBenchmarkTests(unittest.TestCase):
                     failures.append(f"{case['input']!r}: false auto {expected!r}")
                 elif case["should_auto_apply"] and not match.auto_apply:
                     failures.append(f"{case['input']!r}: expected auto {expected!r}")
+                else:
+                    category_passes[category] += 1
 
             pass_rate = (len(cases) - len(failures)) / len(cases)
             false_auto_rate = false_auto_count / len(cases)
+            report_lines = ["Fresh-install benchmark report:"]
+            for category in sorted(category_totals):
+                total = category_totals[category]
+                passed = category_passes[category]
+                report_lines.append(f"- {category}: {passed}/{total} ({passed / total:.1%})")
+            report_lines.append(f"- false_auto_corrections: {false_auto_count}")
+            print("\n" + "\n".join(report_lines))
             self.assertGreaterEqual(pass_rate, MIN_PASS_RATE, "\n".join(failures[:20]))
             self.assertLessEqual(false_auto_rate, MAX_FALSE_AUTO_RATE, "\n".join(failures[:20]))
 

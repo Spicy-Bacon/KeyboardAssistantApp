@@ -398,25 +398,25 @@
   {
     "input": "ill",
     "expected_suggestion": "I'll",
-    "type": "apostrophe",
+    "type": "negative_no_autocorrect",
     "should_auto_apply": false
   },
   {
     "input": "hell",
     "expected_suggestion": "he'll",
-    "type": "apostrophe",
+    "type": "negative_no_autocorrect",
     "should_auto_apply": false
   },
   {
     "input": "shell",
     "expected_suggestion": "she'll",
-    "type": "apostrophe",
+    "type": "negative_no_autocorrect",
     "should_auto_apply": false
   },
   {
     "input": "were",
     "expected_suggestion": "we're",
-    "type": "apostrophe",
+    "type": "negative_no_autocorrect",
     "should_auto_apply": false
   },
   {
@@ -674,31 +674,31 @@
   {
     "input": "form",
     "expected_suggestion": null,
-    "type": "no_suggestion",
+    "type": "negative_no_autocorrect",
     "should_auto_apply": false
   },
   {
     "input": "class",
     "expected_suggestion": null,
-    "type": "no_suggestion",
+    "type": "negative_no_autocorrect",
     "should_auto_apply": false
   },
   {
     "input": "function",
     "expected_suggestion": null,
-    "type": "no_suggestion",
+    "type": "negative_no_autocorrect",
     "should_auto_apply": false
   },
   {
     "input": "apple",
     "expected_suggestion": null,
-    "type": "no_suggestion",
+    "type": "negative_no_autocorrect",
     "should_auto_apply": false
   },
   {
     "input": "from",
     "expected_suggestion": null,
-    "type": "no_suggestion",
+    "type": "negative_no_autocorrect",
     "should_auto_apply": false
   },
   {
@@ -1395,6 +1395,36 @@
     "input": "every day tasks",
     "expected_suggestion": "everyday tasks",
     "type": "contextual",
+    "should_auto_apply": false
+  },
+  {
+    "input": "well",
+    "expected_suggestion": null,
+    "type": "negative_no_autocorrect",
+    "should_auto_apply": false
+  },
+  {
+    "input": "then",
+    "expected_suggestion": null,
+    "type": "negative_no_autocorrect",
+    "should_auto_apply": false
+  },
+  {
+    "input": "than",
+    "expected_suggestion": null,
+    "type": "negative_no_autocorrect",
+    "should_auto_apply": false
+  },
+  {
+    "input": "effect",
+    "expected_suggestion": null,
+    "type": "negative_no_autocorrect",
+    "should_auto_apply": false
+  },
+  {
+    "input": "affect",
+    "expected_suggestion": null,
+    "type": "negative_no_autocorrect",
     "should_auto_apply": false
   }
 ]
