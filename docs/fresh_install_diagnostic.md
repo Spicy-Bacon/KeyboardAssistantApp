@@ -4,6 +4,7 @@
 
 - The project has a clear local-first structure: core correction logic, local data, SQLite learning, optional local AI, Windows runtime/platform code, and deterministic tests.
 - The correction engine already handles exact typo replacements, missing apostrophes, repeated-character cleanup, fuzzy single-edit corrections, keyboard-neighbour slips, transpositions, spacing cleanup, and learned phrase predictions.
+- Current workspace already includes later-phase scaffolding (`CandidateGenerator`, `SuggestionRanker`, and TSV language data), so the next phases should audit and harden those pieces instead of duplicating them.
 - The assistant policy correctly suppresses suggestions when the global assistant is off, an app profile is off/limited, or a sensitive context is detected.
 - Local learning records accepted, ignored, reverted, word-frequency, and phrase-frequency data in SQLite.
 - Optional local AI is separated from the rule-based engine and is disabled by default.
@@ -18,6 +19,7 @@
 - Real-word confusion handling is too shallow for common cases like `your welcome`, `should of`, `then/than`, `its/it's`, and `loose/lose`.
 - Default phrase prediction exists, but learned phrase prediction and default phrase prediction are not yet ranked through a unified scoring layer.
 - Ranking uses simple confidence plus accept/ignore nudges; it does not yet account for edit closeness, word frequency, real-word risk, context match, reverted corrections, or app-specific learning.
+- Existing fresh-install modules need acceptance validation phase-by-phase: especially data packaging, conservative auto-apply behavior, sentence-start capitalisation, confusion-pair breadth, benchmark coverage, and non-Windows import safety.
 
 ## Files that need changes
 
