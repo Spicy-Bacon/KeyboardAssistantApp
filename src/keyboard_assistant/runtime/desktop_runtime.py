@@ -269,7 +269,7 @@ class DesktopAssistantRuntime:
         with self._lock:
             self._suggestions = choices
             self._selection_index = _default_selection_index(choices)
-        self.ai_worker.request(self.buffer.text, app_context)
+        self.ai_worker.request(self.buffer.text, app_context, rule_suggestions=choices)
         if not choices:
             self._hide()
             return

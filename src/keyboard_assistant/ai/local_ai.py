@@ -6,6 +6,7 @@ from typing import Protocol
 from urllib import error, request
 
 DEFAULT_LOCAL_AI_TIMEOUT_SECONDS = 30.0
+LIVE_LOCAL_AI_TIMEOUT_SECONDS = 2.0
 
 
 @dataclass(frozen=True)
@@ -70,21 +71,25 @@ class LocalAIService:
             return f"enabled: ollama model={self.model or '(not configured)'}"
         return f"unsupported provider: {self.provider_name}"
 
-    def test(self, prompt: str = "Suggest the next word after: I will") -> LocalAIResult:
+    def test(
+        self,
+        prompt: str = "Suggest the next word after: I will",
+        timeout_seconds: float = DEFAULT_LOCAL_AI_TIMEOUT_SECONDS,
+    ) -> LocalAIResult:
         if not self.enabled:
             return LocalAIResult(ok=False, text="", error="local AI is disabled")
         if self.provider_name != "ollama":
             return LocalAIResult(ok=False, text="", error=f"unsupported provider: {self.provider_name}")
-        return self.provider.generate(prompt, self.model)
+        return self.provider.generate(prompt, self.model, timeout_seconds=timeout_seconds)
 
-    def suggest_next(self, context: str) -> LocalAIResult:
+    def suggest_next(self, context: str, timeout_seconds: float = LIVE_LOCAL_AI_TIMEOUT_SECONDS) -> LocalAIResult:
         prompt = (
             "/no_think\n"
             "You are a desktop keyboard next-word predictor. "
             "Return only the next word or a short phrase. Do not explain. Do not include reasoning.\n\n"
             f"Context: {context[-240:]}"
         )
-        return self.test(prompt)
+        return self.test(prompt, timeout_seconds=timeout_seconds)
 
     @staticmethod
     def _provider_for(provider_name: str) -> LocalAIProvider:

@@ -10,6 +10,9 @@ from keyboard_assistant.storage.database import Database
 
 
 AI_CONFIDENCE = 0.64
+MIN_CONTEXT_CHARS = 12
+MIN_CONTEXT_WORDS = 2
+CONFIDENT_RULE_SUGGESTION = 0.76
 
 
 class LocalAISuggestionWorker:
@@ -30,7 +33,12 @@ class LocalAISuggestionWorker:
         self._sequence = 0
         self._timer: threading.Timer | None = None
 
-    def request(self, text: str, app_context: AppContext) -> None:
+    def request(
+        self,
+        text: str,
+        app_context: AppContext,
+        rule_suggestions: list[Suggestion] | None = None,
+    ) -> None:
         with self._lock:
             self._sequence += 1
             sequence = self._sequence
@@ -38,7 +46,7 @@ class LocalAISuggestionWorker:
                 self._timer.cancel()
                 self._timer = None
 
-            if not self._should_request(text):
+            if not self._should_request(text, rule_suggestions or []):
                 return
 
             timer = threading.Timer(self.delay_seconds, self._run, args=(sequence, text, app_context))
@@ -69,14 +77,18 @@ class LocalAISuggestionWorker:
                 return
         self.on_suggestions(text, suggestions)
 
-    def _should_request(self, text: str) -> bool:
+    def _should_request(self, text: str, rule_suggestions: list[Suggestion] | None = None) -> bool:
         settings = self.database.get_model_settings()
         if not settings["enabled"] or settings["provider"] == "none":
             return False
         stripped = text.rstrip()
-        if len(stripped) < 8:
+        if len(stripped) < MIN_CONTEXT_CHARS:
+            return False
+        if len(re.findall(r"[A-Za-z][A-Za-z']*", stripped)) < MIN_CONTEXT_WORDS:
             return False
         if not text[-1:].isspace() and text[-1:] not in ".!?":
+            return False
+        if _has_confident_rule_suggestion(rule_suggestions or []):
             return False
         return True
 
@@ -119,4 +131,12 @@ def _looks_like_meta_answer(text: str) -> bool:
             "okay",
             "the task",
         )
+    )
+
+
+def _has_confident_rule_suggestion(suggestions: list[Suggestion]) -> bool:
+    return any(
+        suggestion.kind not in {"typed", "local_ai"}
+        and suggestion.confidence >= CONFIDENT_RULE_SUGGESTION
+        for suggestion in suggestions
     )
