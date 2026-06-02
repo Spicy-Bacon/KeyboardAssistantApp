@@ -142,16 +142,20 @@ def _legacy_contextual_replacements(rules: tuple[ConfusionRule, ...]) -> dict[tu
 
 
 def _legacy_next_word_fallbacks(rules: tuple[PhraseRule, ...]) -> dict[tuple[str, ...], str]:
-    fallbacks: dict[tuple[str, ...], str] = {}
+    ranked: dict[tuple[str, ...], tuple[str, float]] = {}
     for rule in rules:
-        fallbacks.setdefault(tuple(rule.prefix.split()), rule.suggestion)
-    return fallbacks
+        prefix = tuple(rule.prefix.split())
+        existing = ranked.get(prefix)
+        if existing is None or rule.confidence > existing[1]:
+            ranked[prefix] = (rule.suggestion, rule.confidence)
+    return {prefix: suggestion for prefix, (suggestion, _) in ranked.items()}
 
 
 def _legacy_next_word_confidence(rules: tuple[PhraseRule, ...]) -> dict[tuple[str, ...], float]:
     confidence: dict[tuple[str, ...], float] = {}
     for rule in rules:
-        confidence.setdefault(tuple(rule.prefix.split()), rule.confidence)
+        prefix = tuple(rule.prefix.split())
+        confidence[prefix] = max(confidence.get(prefix, 0.0), rule.confidence)
     return confidence
 
 

@@ -1,4 +1,5 @@
 import unittest
+import time
 from importlib import resources
 
 from keyboard_assistant.data import defaults
@@ -127,7 +128,7 @@ class DefaultDataTests(unittest.TestCase):
             ("as soon", "as"),
         }
 
-        self.assertGreaterEqual(len(defaults.PHRASE_RULES), 1000)
+        self.assertGreaterEqual(len(defaults.PHRASE_RULES), 10000)
         self.assertEqual(len(defaults.PHRASE_RULES), len(phrase_pairs))
         self.assertTrue(required_pairs <= set(phrase_pairs))
 
@@ -136,6 +137,15 @@ class DefaultDataTests(unittest.TestCase):
                 self.assertGreaterEqual(rule.confidence, 0.0)
                 self.assertLessEqual(rule.confidence, 1.0)
                 self.assertLessEqual(len(rule.suggestion.split()), 3)
+
+    def test_common_phrase_lookup_uses_fast_fallback_map(self) -> None:
+        start = time.perf_counter()
+        for _ in range(1000):
+            self.assertEqual(defaults.NEXT_WORD_FALLBACKS.get(("thank",)), "you")
+            self.assertEqual(defaults.NEXT_WORD_FALLBACKS.get(("let", "me")), "know")
+        elapsed = time.perf_counter() - start
+
+        self.assertLess(elapsed, 0.20)
 
 
 if __name__ == "__main__":
