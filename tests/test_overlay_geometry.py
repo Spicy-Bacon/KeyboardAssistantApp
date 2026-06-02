@@ -1,8 +1,10 @@
 import unittest
+from unittest.mock import patch
 
 from keyboard_assistant.core.models import Suggestion
 from keyboard_assistant.ui.suggestion_overlay import calculate_overlay_position
 from keyboard_assistant.ui.suggestion_overlay import choice_index_at_x
+from keyboard_assistant.ui.suggestion_overlay import SuggestionOverlay
 from keyboard_assistant.ui.suggestion_overlay import _format_label
 
 
@@ -43,6 +45,11 @@ class OverlayGeometryTests(unittest.TestCase):
         self.assertEqual(choice_index_at_x(bounds, 359), 2)
         self.assertIsNone(choice_index_at_x(bounds, 9))
         self.assertIsNone(choice_index_at_x(bounds, 360))
+
+    def test_overlay_instantiation_requires_windows(self) -> None:
+        with patch("keyboard_assistant.ui.suggestion_overlay._is_windows_overlay_available", return_value=False):
+            with self.assertRaisesRegex(RuntimeError, "Windows-only"):
+                SuggestionOverlay()
 
 
 if __name__ == "__main__":

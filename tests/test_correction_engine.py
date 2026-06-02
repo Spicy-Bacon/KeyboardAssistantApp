@@ -86,6 +86,16 @@ class CorrectionEngineTests(unittest.TestCase):
         self.assertEqual(self.assistant.suggest("thanks! i")[0].replacement, "I")
         self.assertEqual(self.assistant.suggest("ok? let")[0].replacement, "Let")
 
+    def test_empty_buffer_words_are_not_auto_capitalized(self) -> None:
+        for word in ["form", "class", "function", "apple", "from"]:
+            with self.subTest(word=word):
+                suggestions = self.assistant.suggest(word)
+                self.assertFalse(
+                    any(suggestion.replacement == word.capitalize() for suggestion in suggestions),
+                    suggestions,
+                )
+                self.assertFalse(any(suggestion.auto_apply for suggestion in suggestions), suggestions)
+
     def test_known_mixed_case_words_are_preserved(self) -> None:
         self.assertEqual(self.assistant.suggest("iPhone"), [])
         suggestion = self.assistant.suggest("iphone")[0]

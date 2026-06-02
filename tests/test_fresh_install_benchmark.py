@@ -16,6 +16,10 @@ class FreshInstallBenchmarkTests(unittest.TestCase):
     def test_fresh_install_benchmark_passes_target(self) -> None:
         cases = json.loads(FIXTURE.read_text(encoding="utf-8"))
         self.assertGreaterEqual(len(cases), 100)
+        self.assertGreaterEqual(
+            sum(1 for case in cases if case["expected_suggestion"] is None),
+            20,
+        )
 
         with tempfile.TemporaryDirectory() as tempdir:
             database = Database(Path(tempdir) / "fresh-install.sqlite3")

@@ -50,6 +50,15 @@ class CandidateGeneratorTests(unittest.TestCase):
         self.assertEqual(candidate.metadata["rule"], "sentence_start")
         self.assertTrue(candidate.should_auto_apply)
 
+    def test_empty_buffer_words_are_not_sentence_capitalized(self) -> None:
+        for word in ["form", "class", "function", "apple", "from"]:
+            with self.subTest(word=word):
+                candidates = self.generator.generate(word)
+                self.assertFalse(
+                    any(candidate.suggestion_text == word.capitalize() for candidate in candidates),
+                    candidates,
+                )
+
     def test_proper_case_candidate_is_suggest_only(self) -> None:
         candidate = self.generator.generate("iphone")[0]
         self.assertEqual(candidate.suggestion_text, "iPhone")

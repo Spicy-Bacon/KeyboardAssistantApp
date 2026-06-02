@@ -67,7 +67,8 @@ class CandidateGenerator:
         candidates: list[Candidate] = []
 
         if word and not at_word_boundary:
-            candidates.extend(self._word_candidates(word, context.starts_new_sentence))
+            can_capitalize_sentence_start = context.starts_new_sentence and bool(context.previous_words)
+            candidates.extend(self._word_candidates(word, can_capitalize_sentence_start))
             candidates.extend(self._confusion_candidates((*context.previous_words, word)))
 
         if at_word_boundary:

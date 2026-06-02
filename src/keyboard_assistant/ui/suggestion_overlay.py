@@ -59,13 +59,17 @@ SIZE_CONFIG = {
 }
 
 
-WndProc = ctypes.WINFUNCTYPE(
-    wintypes.LPARAM,
-    wintypes.HWND,
-    wintypes.UINT,
-    wintypes.WPARAM,
-    wintypes.LPARAM,
-) if hasattr(ctypes, "WINFUNCTYPE") else None
+WndProc = (
+    ctypes.WINFUNCTYPE(
+        wintypes.LPARAM,
+        wintypes.HWND,
+        wintypes.UINT,
+        wintypes.WPARAM,
+        wintypes.LPARAM,
+    )
+    if hasattr(ctypes, "WINFUNCTYPE")
+    else None
+)
 
 HBRUSH = getattr(wintypes, "HBRUSH", wintypes.HANDLE)
 HCURSOR = getattr(wintypes, "HCURSOR", wintypes.HANDLE)
@@ -76,30 +80,34 @@ HFONT = getattr(wintypes, "HFONT", wintypes.HANDLE)
 HGDIOBJ = getattr(wintypes, "HGDIOBJ", wintypes.HANDLE)
 
 
-class WNDCLASS(ctypes.Structure):
-    _fields_ = [
-        ("style", wintypes.UINT),
-        ("lpfnWndProc", WndProc),
-        ("cbClsExtra", ctypes.c_int),
-        ("cbWndExtra", ctypes.c_int),
-        ("hInstance", HINSTANCE),
-        ("hIcon", HICON),
-        ("hCursor", HCURSOR),
-        ("hbrBackground", HBRUSH),
-        ("lpszMenuName", wintypes.LPCWSTR),
-        ("lpszClassName", wintypes.LPCWSTR),
-    ]
+if WndProc is not None:
+    class WNDCLASS(ctypes.Structure):
+        _fields_ = [
+            ("style", wintypes.UINT),
+            ("lpfnWndProc", WndProc),
+            ("cbClsExtra", ctypes.c_int),
+            ("cbWndExtra", ctypes.c_int),
+            ("hInstance", HINSTANCE),
+            ("hIcon", HICON),
+            ("hCursor", HCURSOR),
+            ("hbrBackground", HBRUSH),
+            ("lpszMenuName", wintypes.LPCWSTR),
+            ("lpszClassName", wintypes.LPCWSTR),
+        ]
 
 
-class PAINTSTRUCT(ctypes.Structure):
-    _fields_ = [
-        ("hdc", wintypes.HDC),
-        ("fErase", wintypes.BOOL),
-        ("rcPaint", wintypes.RECT),
-        ("fRestore", wintypes.BOOL),
-        ("fIncUpdate", wintypes.BOOL),
-        ("rgbReserved", ctypes.c_byte * 32),
-    ]
+    class PAINTSTRUCT(ctypes.Structure):
+        _fields_ = [
+            ("hdc", wintypes.HDC),
+            ("fErase", wintypes.BOOL),
+            ("rcPaint", wintypes.RECT),
+            ("fRestore", wintypes.BOOL),
+            ("fIncUpdate", wintypes.BOOL),
+            ("rgbReserved", ctypes.c_byte * 32),
+        ]
+else:
+    WNDCLASS = None
+    PAINTSTRUCT = None
 
 
 class SuggestionOverlay:
@@ -110,7 +118,7 @@ class SuggestionOverlay:
         on_close: Callable[[], None] | None = None,
         on_select: Callable[[int], None] | None = None,
     ) -> None:
-        if not hasattr(ctypes, "windll") or WndProc is None:
+        if not _is_windows_overlay_available():
             raise RuntimeError("Suggestion overlay is currently Windows-only.")
 
         self.user32 = ctypes.windll.user32
@@ -185,6 +193,8 @@ class SuggestionOverlay:
     def _register_class(self) -> None:
         if self._class_registered:
             return
+        if WNDCLASS is None:
+            raise RuntimeError("Suggestion overlay is currently Windows-only.")
 
         instance = self.kernel32.GetModuleHandleW(None)
         wndclass = WNDCLASS()
@@ -304,6 +314,8 @@ class SuggestionOverlay:
             callback()
 
     def _paint(self, hwnd: int) -> None:
+        if PAINTSTRUCT is None:
+            raise RuntimeError("Suggestion overlay is currently Windows-only.")
         paint = PAINTSTRUCT()
         hdc = self.user32.BeginPaint(hwnd, ctypes.byref(paint))
         try:
@@ -411,3 +423,7 @@ def _theme(appearance: AppearanceSettings) -> dict[str, int]:
 
 def _size_config(appearance: AppearanceSettings) -> dict[str, int]:
     return SIZE_CONFIG.get(appearance.suggestion_size, SIZE_CONFIG["medium"])
+
+
+def _is_windows_overlay_available() -> bool:
+    return hasattr(ctypes, "windll") and WndProc is not None
