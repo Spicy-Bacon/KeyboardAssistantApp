@@ -9,7 +9,7 @@ from keyboard_assistant.data.defaults import (
     COMMON_WORD_FREQUENCIES,
     COMMON_WORDS,
     COMMON_WORDS_BY_LENGTH,
-    CONFUSION_RULES,
+    CONFUSION_RULES_BY_FIRST_WORD,
     CONTRACTION_CATEGORIES,
     CONTRACTION_CONFIDENCE,
     CONTRACTIONS,
@@ -157,12 +157,12 @@ class CandidateGenerator:
             return []
         lowered = tuple(word.lower() for word in words)
         candidates: list[Candidate] = []
-        for rule in CONFUSION_RULES:
-            wrong_words = tuple(rule.wrong.split())
-            if len(wrong_words) > len(lowered):
-                continue
-            for start in range(0, len(lowered) - len(wrong_words) + 1):
+        for start, first_word in enumerate(lowered):
+            for rule in CONFUSION_RULES_BY_FIRST_WORD.get(first_word, ()):
+                wrong_words = tuple(rule.wrong.split())
                 end = start + len(wrong_words)
+                if end > len(lowered):
+                    continue
                 if lowered[start:end] != wrong_words:
                     continue
                 if len(wrong_words) == 1 and not _context_hint_matches(

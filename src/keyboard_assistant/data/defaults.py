@@ -120,6 +120,14 @@ def _load_confusion_rules() -> tuple[ConfusionRule, ...]:
     )
 
 
+def _index_confusion_rules_by_first_word(rules: tuple[ConfusionRule, ...]) -> dict[str, tuple[ConfusionRule, ...]]:
+    by_first_word: dict[str, list[ConfusionRule]] = {}
+    for rule in rules:
+        first_word = rule.wrong.split()[0]
+        by_first_word.setdefault(first_word, []).append(rule)
+    return {first_word: tuple(first_rules) for first_word, first_rules in by_first_word.items()}
+
+
 def _load_phrase_rules() -> tuple[PhraseRule, ...]:
     return tuple(
         PhraseRule(prefix.lower(), suggestion, _float(confidence, "common_phrases.tsv", prefix))
@@ -173,6 +181,7 @@ COMMON_WORDS = set(COMMON_WORD_FREQUENCIES)
 COMMON_WORDS_BY_LENGTH = _index_words_by_length(COMMON_WORDS)
 
 CONFUSION_RULES = _load_confusion_rules()
+CONFUSION_RULES_BY_FIRST_WORD = _index_confusion_rules_by_first_word(CONFUSION_RULES)
 CONTEXTUAL_REPLACEMENTS = _legacy_contextual_replacements(CONFUSION_RULES)
 
 PHRASE_RULES = _load_phrase_rules()

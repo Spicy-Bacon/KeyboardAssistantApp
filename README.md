@@ -21,6 +21,7 @@ The correction engine is layered and local-first:
 - `SuggestionRanker` scores candidates with base confidence, word frequency, edit closeness, context match, accepted/ignored/reverted history, app-specific word frequency, and real-word risk penalties.
 - Auto-apply is conservative. Obvious typos and safe contractions can auto-apply; ambiguous real-word corrections usually stay as visible suggestions.
 - Local learning can improve rankings, but the app is useful with an empty database and local AI disabled.
+- Local AI is optional and disabled by default. It is only used as a delayed enhancement when explicitly configured, and the built-in correction engine does not need internet access.
 
 ## Run the Demo
 
@@ -96,11 +97,12 @@ Current limitations:
 ```powershell
 $env:PYTHONPATH="src"
 python -m unittest discover -s tests
-python -m unittest tests.test_fresh_install_benchmark
 python scripts\validate_language_data.py
+python -m unittest tests.test_fresh_install_benchmark -v
 ```
 
 The fresh-install benchmark uses `tests/fixtures/fresh_install_cases.json`, disables learning and local AI, and enforces an 85% minimum deterministic pass rate.
+The verbose benchmark output reports pass rates by category and the false auto-correction count.
 
 ## Language Data
 
@@ -118,7 +120,15 @@ Current TSV formats:
 - `confusion_sets.tsv`: `wrong_phrase_or_word<TAB>suggestion<TAB>context_hint<TAB>confidence`
 - `contractions.tsv`: `input<TAB>correction<TAB>category<TAB>confidence`
 
-Long-term dataset targets are `5,000+` typos, `50,000+` common words, `10,000+` phrase patterns, `500+` confusion rules, and complete common contraction coverage.
+Current bundled dataset sizes:
+
+- `15,357` common typo rules
+- `50,502` common word frequency entries
+- `18,811` phrase prediction rules
+- `576` confusion rules
+- `82` contraction rules
+
+The data loader parses these files once through `importlib.resources`, so the same path works from source checkouts and the packaged zipapp. Runtime lookup structures are precomputed as dictionaries, sets, word-length buckets, phrase prefix maps, and confusion-rule first-word indexes.
 
 ## Build a Packaged Artifact
 

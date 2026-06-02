@@ -167,6 +167,20 @@ class DefaultDataTests(unittest.TestCase):
                 self.assertGreaterEqual(rule.confidence, 0.0)
                 self.assertLessEqual(rule.confidence, 1.0)
 
+    def test_confusion_rules_are_indexed_by_first_word(self) -> None:
+        indexed_rules = {
+            rule
+            for rules in defaults.CONFUSION_RULES_BY_FIRST_WORD.values()
+            for rule in rules
+        }
+
+        self.assertEqual(indexed_rules, set(defaults.CONFUSION_RULES))
+        self.assertIn("your", defaults.CONFUSION_RULES_BY_FIRST_WORD)
+        self.assertLess(
+            len(defaults.CONFUSION_RULES_BY_FIRST_WORD["your"]),
+            len(defaults.CONFUSION_RULES),
+        )
+
     def test_common_phrases_load_next_word_fallbacks(self) -> None:
         self.assertEqual(defaults.NEXT_WORD_FALLBACKS[("thank",)], "you")
         self.assertEqual(defaults.NEXT_WORD_FALLBACKS[("let", "me")], "know")
