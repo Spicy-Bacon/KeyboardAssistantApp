@@ -120,7 +120,7 @@ def _word_frequency_bonus(text: str) -> float:
     if not words:
         return 0.0
     best = max(COMMON_WORD_FREQUENCIES.get(word, 0) for word in words)
-    return min(best / 10000 * 0.04, 0.04)
+    return min(best / 8.0 * 0.04, 0.04)
 
 
 def _source_bonus(candidate: Candidate) -> float:

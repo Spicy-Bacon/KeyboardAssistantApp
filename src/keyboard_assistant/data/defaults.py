@@ -93,14 +93,14 @@ def _load_contraction_rules() -> tuple[ContractionRule, ...]:
     return tuple(rules)
 
 
-def _load_common_word_frequencies() -> dict[str, int]:
-    frequencies: dict[str, int] = {}
+def _load_common_word_frequencies() -> dict[str, float]:
+    frequencies: dict[str, float] = {}
     for word, frequency in _read_tsv("common_words.tsv", 2):
         try:
-            parsed = int(frequency)
+            parsed = float(frequency)
         except ValueError as exc:
-            raise ValueError(f"common_words.tsv:{word} frequency_score must be an integer") from exc
-        if parsed < 1:
+            raise ValueError(f"common_words.tsv:{word} frequency_score must be numeric") from exc
+        if parsed <= 0:
             raise ValueError(f"common_words.tsv:{word} frequency_score must be positive")
         frequencies[word.lower()] = parsed
     return frequencies

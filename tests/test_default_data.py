@@ -58,10 +58,32 @@ class DefaultDataTests(unittest.TestCase):
         self.assertEqual(defaults.CONTRACTION_CATEGORIES["were"], "suggest_only")
 
     def test_common_words_load_frequency_scores(self) -> None:
-        self.assertGreater(len(defaults.COMMON_WORDS), 200)
+        self.assertGreaterEqual(len(defaults.COMMON_WORDS), 10000)
         self.assertIn("academic", defaults.COMMON_WORDS)
         self.assertIn("email", defaults.COMMON_WORDS)
         self.assertGreater(defaults.COMMON_WORD_FREQUENCIES["the"], defaults.COMMON_WORD_FREQUENCIES["email"])
+
+    def test_common_words_meet_expanded_quality_floor(self) -> None:
+        required_words = {
+            "the",
+            "be",
+            "and",
+            "you",
+            "because",
+            "receive",
+            "definitely",
+            "government",
+            "university",
+            "message",
+            "keyboard",
+        }
+        self.assertTrue(required_words <= defaults.COMMON_WORDS)
+        self.assertEqual(len(defaults.COMMON_WORD_FREQUENCIES), len(defaults.COMMON_WORDS))
+
+        for word, score in defaults.COMMON_WORD_FREQUENCIES.items():
+            with self.subTest(word=word):
+                self.assertIsInstance(score, float)
+                self.assertGreater(score, 0.0)
 
     def test_confusion_sets_load_context_rules(self) -> None:
         rules = {(rule.wrong, rule.suggestion): rule for rule in defaults.CONFUSION_RULES}

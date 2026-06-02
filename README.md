@@ -113,7 +113,7 @@ python scripts\validate_language_data.py
 Current TSV formats:
 
 - `common_typos.tsv`: `typo<TAB>correction<TAB>confidence`
-- `common_words.tsv`: `word<TAB>frequency_score`
+- `common_words.tsv`: `word<TAB>frequency_score` using numeric Zipf-style scores where higher means more common
 - `common_phrases.tsv`: `prefix<TAB>suggestion<TAB>confidence`
 - `confusion_sets.tsv`: `wrong_phrase_or_word<TAB>suggestion<TAB>context_hint<TAB>confidence`
 - `contractions.tsv`: `input<TAB>correction<TAB>category<TAB>confidence`
