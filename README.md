@@ -4,12 +4,23 @@ Local-first desktop typing assistant prototype based on the PRD in this repo.
 
 This first build focuses on the foundation:
 
-- Rule-based typo, apostrophe, capitalization, spacing, and repeated-character suggestions.
+- Fresh-install typo, apostrophe, capitalization, spacing, repeated-character, confusion-pair, and phrase suggestions.
 - Conservative fuzzy suggestions for common keyboard-neighbor, transposed-letter, and missing-character typos.
+- Structured local language data loaded from bundled TSV files; no internet or AI required.
 - Typed-buffer context tracking for apps where full text context is unavailable.
 - Local SQLite schema for settings, app profiles, dictionary, corrections, and learning events.
 - App/sensitive-context policy stubs for Windows-focused desktop behavior.
 - CLI demo and unit tests using only the Python standard library.
+
+## Fresh-Install Intelligence
+
+The correction engine is layered and local-first:
+
+- Built-in TSV data covers common typos, contractions, common words, confusion pairs, and phrase predictions.
+- `CandidateGenerator` creates deterministic candidates from exact typo data, contractions, capitalization rules, repeated letters, keyboard-neighbor slips, transpositions, edit-distance fixes, confusion pairs, default phrases, and local phrase history.
+- `SuggestionRanker` scores candidates with base confidence, word frequency, edit closeness, context match, accepted/ignored/reverted history, app-specific word frequency, and real-word risk penalties.
+- Auto-apply is conservative. Obvious typos and safe contractions can auto-apply; ambiguous real-word corrections usually stay as visible suggestions.
+- Local learning can improve rankings, but the app is useful with an empty database and local AI disabled.
 
 ## Run the Demo
 
@@ -85,7 +96,10 @@ Current limitations:
 ```powershell
 $env:PYTHONPATH="src"
 python -m unittest discover -s tests
+python -m unittest tests.test_fresh_install_benchmark
 ```
+
+The fresh-install benchmark uses `tests/fixtures/fresh_install_cases.json`, disables learning and local AI, and enforces an 85% minimum deterministic pass rate.
 
 ## Build a Packaged Artifact
 
@@ -157,8 +171,8 @@ Correction strength behavior:
 - `balanced`: auto-corrects obvious high-confidence fixes.
 - `aggressive`: allows more proactive auto-correction.
 
-Local AI is optional and disabled by default. The core correction engine works without it. The current provider layer supports Ollama over `127.0.0.1` when explicitly enabled.
-When enabled, local AI is used only after short pauses at word boundaries. Requests are debounced, stale responses are discarded, and typing never waits for the model.
+Local AI is optional and disabled by default. The core correction engine works without it and never needs internet access. The current provider layer supports Ollama over `127.0.0.1` when explicitly enabled.
+When enabled, local AI is used only after short pauses at word boundaries, enough context exists, and the rule engine does not already have a confident suggestion. Requests are debounced, stale responses are discarded, live requests use a short timeout, and typing never waits for the model.
 
 Repeated personal-looking words, such as names or model/product terms with capital letters or digits, are learned into the local personal dictionary after repeated use when learning is enabled.
 
