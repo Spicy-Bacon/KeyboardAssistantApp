@@ -97,6 +97,20 @@ class SuggestionRankerTests(unittest.TestCase):
         boosted = self.ranker.rank([candidate], AppContext(app_identifier="notepad.exe"))[0]
         self.assertGreater(boosted.confidence, original.confidence)
 
+    def test_edit_closeness_boosts_close_candidates(self) -> None:
+        close = self.ranker.rank([self.candidate("abot", "about", "edit_distance", 0.84, "common_words", False)])[0]
+        far = self.ranker.rank([self.candidate("abcd", "about", "edit_distance", 0.84, "common_words", False)])[0]
+        self.assertGreater(close.confidence, far.confidence)
+
+    def test_keyboard_slip_bonus_can_break_tie(self) -> None:
+        suggestions = self.ranker.rank(
+            [
+                self.candidate("tge", "tie", "edit_distance", 0.84, "common_words", False),
+                self.candidate("tge", "the", "keyboard_slip", 0.84, "common_words", False),
+            ]
+        )
+        self.assertEqual(suggestions[0].replacement, "the")
+
     def candidate(
         self,
         original: str,
