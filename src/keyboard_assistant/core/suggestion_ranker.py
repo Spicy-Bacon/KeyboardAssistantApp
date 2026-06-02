@@ -33,7 +33,7 @@ SOURCE_BONUSES = {
     "confusion_sets_phrase": 0.03,
     "confusion_sets_context": 0.04,
     "common_phrases": 0.01,
-    "user_phrase_history": 0.04,
+    "user_phrase_history": 0.12,
 }
 
 TYPE_BONUSES = {

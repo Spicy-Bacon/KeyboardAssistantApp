@@ -186,6 +186,22 @@ class CorrectionEngineTests(unittest.TestCase):
         self.assertEqual(suggestions[0].replacement, "meet")
         self.assertEqual(suggestions[0].kind, "next_word")
 
+    def test_fresh_install_default_phrase_prediction(self) -> None:
+        suggestions = self.assistant.suggest("thank ")
+        self.assertEqual(suggestions[0].replacement, "you")
+        self.assertEqual(suggestions[0].kind, "next_word")
+        self.assertFalse(suggestions[0].auto_apply)
+
+    def test_user_phrase_prediction_ranks_above_default_phrase(self) -> None:
+        self.db.increment_phrase_frequency("thank everyone", app_identifier="notepad.exe")
+        suggestions = self.assistant.suggest("thank ", AppContext(app_identifier="notepad.exe"))
+        self.assertEqual(suggestions[0].replacement, "everyone")
+        self.assertEqual(suggestions[0].kind, "next_word")
+        self.assertFalse(suggestions[0].auto_apply)
+
+    def test_unknown_word_boundary_does_not_force_phrase_prediction(self) -> None:
+        self.assertEqual(self.assistant.suggest("xylophone "), [])
+
     def test_accept_records_correction_history(self) -> None:
         suggestion = self.assistant.suggest("teh")[0]
         self.assistant.accept(suggestion)
