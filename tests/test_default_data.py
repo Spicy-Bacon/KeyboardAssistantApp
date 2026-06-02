@@ -77,8 +77,10 @@ class DefaultDataTests(unittest.TestCase):
             "university",
             "message",
             "keyboard",
+            "for",
         }
         self.assertTrue(required_words <= defaults.COMMON_WORDS)
+        self.assertNotIn("fro", defaults.COMMON_WORDS)
         self.assertEqual(len(defaults.COMMON_WORD_FREQUENCIES), len(defaults.COMMON_WORDS))
 
         for word, score in defaults.COMMON_WORD_FREQUENCIES.items():
@@ -110,7 +112,21 @@ class DefaultDataTests(unittest.TestCase):
         rules = {(rule.wrong, rule.suggestion): rule for rule in defaults.CONFUSION_RULES}
         self.assertIn(("your welcome", "you're welcome"), rules)
         self.assertIn(("should of", "should have"), rules)
+        self.assertIn(("alot of", "a lot of"), rules)
+        self.assertIn(("looking forward for", "looking forward to"), rules)
         self.assertEqual(defaults.CONTEXTUAL_REPLACEMENTS[("will", "meat")], "meet")
+
+    def test_confusion_sets_meet_expanded_quality_floor(self) -> None:
+        rule_pairs = {(rule.wrong, rule.suggestion) for rule in defaults.CONFUSION_RULES}
+
+        self.assertGreaterEqual(len(defaults.CONFUSION_RULES), 200)
+        self.assertEqual(len(defaults.CONFUSION_RULES), len(rule_pairs))
+
+        for rule in defaults.CONFUSION_RULES:
+            with self.subTest(wrong=rule.wrong, suggestion=rule.suggestion):
+                self.assertNotEqual(rule.wrong, rule.suggestion.lower())
+                self.assertGreaterEqual(rule.confidence, 0.0)
+                self.assertLessEqual(rule.confidence, 1.0)
 
     def test_common_phrases_load_next_word_fallbacks(self) -> None:
         self.assertEqual(defaults.NEXT_WORD_FALLBACKS[("thank",)], "you")

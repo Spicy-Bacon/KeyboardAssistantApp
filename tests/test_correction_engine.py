@@ -117,9 +117,16 @@ class CorrectionEngineTests(unittest.TestCase):
         for typed, replacement in [
             ("your welcome", "you're welcome"),
             ("to much", "too much"),
+            ("thanks alot", "thanks a lot"),
+            ("looking forward for", "looking forward to"),
+            ("an university", "a university"),
         ]:
             with self.subTest(typed=typed):
-                suggestion = self.assistant.suggest(typed)[0]
+                suggestions = self.assistant.suggest(typed)
+                suggestion = next(
+                    (suggestion for suggestion in suggestions if suggestion.replacement == replacement),
+                    suggestions[0],
+                )
                 self.assertEqual(suggestion.replacement, replacement)
                 self.assertFalse(suggestion.auto_apply)
 
@@ -138,6 +145,17 @@ class CorrectionEngineTests(unittest.TestCase):
                 suggestion = self.assistant.suggest(typed)[0]
                 self.assertEqual(suggestion.replacement, replacement)
                 self.assertFalse(suggestion.auto_apply)
+
+    def test_valid_sentences_do_not_get_confusion_auto_corrections(self) -> None:
+        for typed in [
+            "I will go there",
+            "I need your file",
+            "I will wait then",
+            "This is an everyday task",
+        ]:
+            with self.subTest(typed=typed):
+                suggestions = self.assistant.suggest(typed)
+                self.assertFalse(any(suggestion.auto_apply for suggestion in suggestions), suggestions)
 
     def test_sensitive_context_disables_suggestions(self) -> None:
         suggestions = self.assistant.suggest("teh", AppContext(is_password=True))

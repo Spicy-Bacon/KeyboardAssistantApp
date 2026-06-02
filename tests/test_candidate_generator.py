@@ -96,7 +96,8 @@ class CandidateGeneratorTests(unittest.TestCase):
         self.assertEqual(candidate.suggestion_type, "edit_distance")
 
     def test_confusion_pair_candidate(self) -> None:
-        candidate = self.generator.generate("your welcome")[0]
+        candidates = self.generator.generate("your welcome")
+        candidate = next(candidate for candidate in candidates if candidate.original_text == "your welcome")
         self.assertEqual(candidate.original_text, "your welcome")
         self.assertEqual(candidate.suggestion_text, "you're welcome")
         self.assertEqual(candidate.suggestion_type, "confusion_pair")

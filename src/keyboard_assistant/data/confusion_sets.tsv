@@ -1,62 +1,253 @@
-will meat	will meet	will|you|we|they	0.84
-to much	too much	amount|many|much|expensive|late	0.84
-too go	to go	go|come|leave|send|check	0.84
-your welcome	you're welcome	welcome|thanks|thank	0.88
-youre welcome	you're welcome	welcome|thanks|thank	0.90
-should of	should have	should|could|would|might|must	0.90
-could of	could have	should|could|would|might|must	0.90
-would of	would have	should|could|would|might|must	0.90
-might of	might have	should|could|would|might|must	0.86
-must of	must have	should|could|would|might|must	0.86
-kind of	kind of	type|sort|somewhat	0.75
-then	than	more|less|rather|better|worse|older|younger	0.78
-than	then	next|after|before|and|since	0.72
-there	their	people|team|company|family|students	0.72
-their	there	is|are|was|were|will|should|over|here	0.72
-theyre	they're	are|coming|going|working|available	0.88
-their there	they're there	are|arrived|waiting	0.78
-your	you're	are|going|welcome|right|wrong|available	0.76
-youre	you're	are|going|welcome|right|wrong|available	0.88
-you're	your	name|email|address|phone|file|work	0.72
-its	it's	is|been|going|working|ready|done	0.76
-it's	its	name|value|own|place|file|setting	0.72
-affect	effect	result|impact|cause|change	0.70
-effect	affect	will|can|could|may|might	0.70
+a answer	an answer	article	0.78
+a apple	an apple	article	0.78
+a email	an email	article	0.78
+a example	an example	article	0.78
+a honest answer	an honest answer	article	0.78
+a hour	an hour	article	0.78
+a idea	an idea	article	0.78
+a issue	an issue	article	0.78
+a lots of	a lot of	phrase	0.82
+a option	an option	article	0.78
+a outline	an outline	article	0.78
+a update	an update	article	0.78
 accept	except	other than|but|exclude|excluding	0.72
-except	accept	offer|invite|proposal|change	0.72
 advice	advise	please|can|could|would|should	0.70
 advise	advice	need|some|good|better|your	0.70
+affect	effect	result|impact|cause|change	0.70
+allowed	aloud	read|say|spoken|voice	0.66
+alot of	a lot of	phrase	0.88
+aloud	allowed	permission|permit|can|may	0.66
+an european example	a european example	article	0.78
+an one page	a one page	article	0.78
+an one time	a one time	article	0.78
+an unique idea	a unique idea	article	0.78
+an unit	a unit	article	0.78
+an university	a university	article	0.78
+an useful note	a useful note	article	0.78
+an user	a user	article	0.78
+bare	bear	carry|animal|market|with me	0.66
+bare with me	bear with me	phrase	0.84
+based off	based on	phrase	0.78
+based off of	based on	phrase	0.80
+bear	bare	empty|plain|minimum	0.66
+beckon call	beck and call	phrase	0.78
+better then	better than	phrase	0.78
+brake	break	pause|damage|rest|split	0.68
+break	brake	car|bike|pedal|stop	0.68
+buy	by	near|with|from|deadline	0.66
+by	buy	purchase|pay|shop|order	0.66
+by enlarge	by and large	phrase	0.78
+case and point	case in point	phrase	0.80
+cite	site	website|location|place	0.68
+coarse	course	class|module|study|training	0.68
+complement	compliment	praise|nice|kind|said	0.70
+compliment	complement	add|complete|match|pair	0.70
+continue on	continue	phrase	0.72
+cope up with	cope with	phrase	0.78
+could had	could have	phrase	0.82
+could have went	could have gone	phrase	0.82
+could of	could have	should|could|would|might|must	0.90
+course	coarse	rough|texture|grain	0.62
+deep seeded	deep seated	phrase	0.76
+desert	dessert	cake|sweet|after dinner	0.68
+dessert	desert	sand|dry|hot	0.62
+different then	different than	phrase	0.76
+discuss about	discuss	phrase	0.78
+discuss about the	discuss the	phrase	0.80
+discuss about this	discuss this	phrase	0.80
+dual	duel	fight|contest	0.60
+duel	dual	two|double|purpose	0.62
+effect	affect	will|can|could|may|might	0.70
+ensure	insure	policy|insurance|cover	0.62
+enter in	enter	phrase	0.72
+every day tasks	everyday tasks	phrase	0.78
+every day use	everyday use	phrase	0.78
+every day work	everyday work	phrase	0.76
+everyday at	every day at	phrase	0.78
+everyday i	every day i	phrase	0.80
+everyday we	every day we	phrase	0.78
+except	accept	offer|invite|proposal|change	0.72
+explain me	explain to me	phrase	0.80
+farther	further	discussion|details|more	0.66
+first come first serve	first come first served	phrase	0.82
+for all intensive purposes	for all intents and purposes	phrase	0.82
+formally	formerly	previously|used to|before	0.68
+formerly	formally	officially|formal|properly	0.66
+forth	fourth	number|place|rank|quarter	0.66
+fourth	forth	back and forth|bring forth	0.66
+further	farther	distance|away|miles	0.64
+he are	he is	agreement	0.78
+he have	he has	agreement	0.74
+he were	he was	agreement	0.74
+hear	here	place|location|there|now	0.72
+here	hear	sound|listen|heard|from you	0.72
+i could of been	i could have been	verb_form	0.78
+i done	i did	verb_form	0.78
+i have did	i have done	verb_form	0.78
+i have saw	i have seen	verb_form	0.78
+i seen	i saw	verb_form	0.78
+i should of been	i should have been	verb_form	0.78
+i would of been	i would have been	verb_form	0.78
+in to my	into my	phrase	0.80
+in to the	into the	phrase	0.82
+in to your	into your	phrase	0.80
+insure	ensure	make sure|confirm|protect	0.68
+intensive purposes	intents and purposes	phrase	0.80
+it are	it is	agreement	0.78
+it have	it has	agreement	0.74
+it were	it was	agreement	0.74
+it's	its	name|value|own|place|file|setting	0.72
+its	it's	is|been|going|working|ready|done	0.76
+kindly advice	kindly advise	phrase	0.80
+know	no	not|none|answer|problem	0.68
+lead	led	past|yesterday|last	0.66
+led	lead	guide|manage|team	0.64
+less then	less than	phrase	0.78
+lessen	lesson	class|learn|course	0.66
+lesson	lessen	reduce|decrease|lower	0.66
+log in to	log into	phrase	0.78
+look forward for	look forward to	phrase	0.84
+looking forward for	looking forward to	phrase	0.86
 loose	lose	win|lost|losing|weight|track	0.76
 lose	loose	not tight|free|loosen	0.68
-principal	principle	rule|idea|belief|concept	0.70
-principle	principal	school|main|amount|investigator	0.70
-stationary	stationery	paper|pen|office|supplies	0.72
-stationery	stationary	still|not moving|fixed	0.72
-compliment	complement	add|complete|match|pair	0.70
-complement	compliment	praise|nice|kind|said	0.70
+mail	male	female|gender|person	0.62
+male	mail	email|post|send|letter	0.62
+meet up with	meet with	phrase	0.76
+might had	might have	phrase	0.78
+might of	might have	should|could|would|might|must	0.86
+more then	more than	phrase	0.78
+morning	mourning	grief|loss|funeral	0.60
+mourning	morning	today|tomorrow|early	0.66
+must had	must have	phrase	0.78
+must of	must have	should|could|would|might|must	0.86
+no	know	understand|learn|remember|tell	0.68
+older then	older than	phrase	0.76
+other then	other than	phrase	0.78
 passed	past	ago|history|previous|beyond	0.70
 past	passed	test|exam|went|walked|moved	0.70
 peace	piece	part|slice|bit|section	0.72
+personal	personnel	staff|employees|team	0.64
+personnel	personal	private|own|individual	0.66
 piece	peace	quiet|calm|war|mind	0.72
-weather	whether	or not|if|decide|choice	0.74
-whether	weather	rain|sunny|cold|forecast	0.74
-hear	here	place|location|there|now	0.72
-here	hear	sound|listen|heard|from you	0.72
-write	right	correct|side|now|away	0.70
+please advice	please advise	phrase	0.84
+please bare with me	please bear with me	phrase	0.86
+precede	proceed	continue|go|move	0.66
+principal	principle	rule|idea|belief|concept	0.70
+principle	principal	school|main|amount|investigator	0.70
+proceed	precede	before|comes before	0.62
+quiet	quite	very|really|rather	0.68
+quite	quiet	silent|noise|calm	0.66
+rather then	rather than	phrase	0.80
+repeat again	repeat	phrase	0.72
+reply back	reply	phrase	0.74
+reply me	reply to me	phrase	0.78
+request for	request	phrase	0.72
+return back	return	phrase	0.74
+revert back	revert	phrase	0.72
 right	write	email|message|letter|essay	0.70
-no	know	understand|learn|remember|tell	0.68
-know	no	not|none|answer|problem	0.68
-buy	by	near|with|from|deadline	0.66
-by	buy	purchase|pay|shop|order	0.66
-bare	bear	carry|animal|market|with me	0.66
-bear	bare	empty|plain|minimum	0.66
-break	brake	car|bike|pedal|stop	0.68
-brake	break	pause|damage|rest|split	0.68
-mail	male	female|gender|person	0.62
-male	mail	email|post|send|letter	0.62
-forth	fourth	number|place|rank|quarter	0.66
-fourth	forth	back and forth|bring forth	0.66
-site	sight	see|view|vision	0.68
+role	roll	bread|list|turn	0.62
+roll	role	job|part|position	0.66
+she are	she is	agreement	0.78
+she have	she has	agreement	0.74
+she were	she was	agreement	0.74
+should had	should have	phrase	0.82
+should have went	should have gone	phrase	0.82
+should of	should have	should|could|would|might|must	0.90
 sight	site	website|location|construction	0.68
-cite	site	website|location|place	0.68
 site	cite	reference|source|quote|paper	0.68
+site	sight	see|view|vision	0.68
+stationary	stationery	paper|pen|office|supplies	0.72
+stationery	stationary	still|not moving|fixed	0.72
+than	then	next|after|before|and|since	0.72
+thank you alot	thank you a lot	phrase	0.84
+thanks alot	thanks a lot	phrase	0.86
+the document are	the document is	agreement	0.78
+the document have	the document has	agreement	0.74
+the document were	the document was	agreement	0.74
+the documents has	the documents have	agreement	0.74
+the documents is	the documents are	agreement	0.78
+the documents was	the documents were	agreement	0.74
+the file are	the file is	agreement	0.78
+the file have	the file has	agreement	0.74
+the file were	the file was	agreement	0.74
+the files has	the files have	agreement	0.74
+the files is	the files are	agreement	0.78
+the files was	the files were	agreement	0.74
+the meeting are	the meeting is	agreement	0.78
+the meeting have	the meeting has	agreement	0.74
+the meeting were	the meeting was	agreement	0.74
+the meetings has	the meetings have	agreement	0.74
+the meetings is	the meetings are	agreement	0.78
+the meetings was	the meetings were	agreement	0.74
+the report are	the report is	agreement	0.78
+the report have	the report has	agreement	0.74
+the report were	the report was	agreement	0.74
+the reports has	the reports have	agreement	0.74
+the reports is	the reports are	agreement	0.78
+the reports was	the reports were	agreement	0.74
+the students has	the students have	agreement	0.74
+the students is	the students are	agreement	0.78
+the students was	the students were	agreement	0.74
+the update are	the update is	agreement	0.78
+the update have	the update has	agreement	0.74
+the update were	the update was	agreement	0.74
+the updates has	the updates have	agreement	0.74
+the updates is	the updates are	agreement	0.78
+the updates was	the updates were	agreement	0.74
+their	there	is|are|was|were|will|should|over|here	0.72
+their there	they're there	are|arrived|waiting	0.78
+then	than	more|less|rather|better|worse|older|younger	0.78
+there	their	people|team|company|family|students	0.72
+there are a	there is a	agreement	0.74
+there are an	there is an	agreement	0.74
+there are one	there is one	agreement	0.74
+there is documents	there are documents	agreement	0.78
+there is many	there are many	agreement	0.78
+there is people	there are people	agreement	0.78
+there is several	there are several	agreement	0.78
+there is three	there are three	agreement	0.78
+there is two	there are two	agreement	0.78
+they done	they did	verb_form	0.78
+they has	they have	agreement	0.74
+they have did	they have done	verb_form	0.78
+they have saw	they have seen	verb_form	0.78
+they is	they are	agreement	0.78
+they seen	they saw	verb_form	0.78
+they should of been	they should have been	verb_form	0.78
+they was	they were	agreement	0.74
+theyre	they're	are|coming|going|working|available	0.88
+threw	through	via|across|process	0.66
+through	threw	tossed|ball|past	0.60
+to much	too much	amount|many|much|expensive|late	0.84
+too go	to go	go|come|leave|send|check	0.84
+waist	waste	time|money|resources	0.66
+waste	waist	body|belt|size	0.60
+we could of been	we could have been	verb_form	0.78
+we done	we did	verb_form	0.78
+we has	we have	agreement	0.74
+we have did	we have done	verb_form	0.78
+we have saw	we have seen	verb_form	0.78
+we is	we are	agreement	0.78
+we seen	we saw	verb_form	0.78
+we should of been	we should have been	verb_form	0.78
+we was	we were	agreement	0.74
+we would of been	we would have been	verb_form	0.78
+weak	week	monday|friday|next|last	0.66
+weather	whether	or not|if|decide|choice	0.74
+week	weak	strong|strength|signal	0.60
+whether	weather	rain|sunny|cold|forecast	0.74
+will meat	will meet	will|you|we|they	0.84
+worse then	worse than	phrase	0.78
+would had	would have	phrase	0.82
+would have went	would have gone	phrase	0.82
+would of	would have	should|could|would|might|must	0.90
+write	right	correct|side|now|away	0.70
+you done	you did	verb_form	0.78
+you seen	you saw	verb_form	0.78
+you should of been	you should have been	verb_form	0.78
+you're	your	name|email|address|phone|file|work	0.72
+younger then	younger than	phrase	0.76
+your	you're	are|going|welcome|right|wrong|available	0.76
+your welcome	you're welcome	welcome|thanks|thank	0.88
+youre	you're	are|going|welcome|right|wrong|available	0.88
+youre welcome	you're welcome	welcome|thanks|thank	0.90
