@@ -92,6 +92,43 @@ class CorrectionEngineTests(unittest.TestCase):
         self.assertEqual(suggestion.replacement, "iPhone")
         self.assertFalse(suggestion.auto_apply)
 
+    def test_safe_confusion_phrase_can_auto_apply(self) -> None:
+        for typed, replacement in [
+            ("should of", "should have"),
+            ("could of", "could have"),
+            ("would of", "would have"),
+        ]:
+            with self.subTest(typed=typed):
+                suggestion = self.assistant.suggest(typed)[0]
+                self.assertEqual(suggestion.replacement, replacement)
+                self.assertTrue(suggestion.auto_apply)
+
+    def test_confusion_phrases_are_suggested(self) -> None:
+        for typed, replacement in [
+            ("your welcome", "you're welcome"),
+            ("to much", "too much"),
+        ]:
+            with self.subTest(typed=typed):
+                suggestion = self.assistant.suggest(typed)[0]
+                self.assertEqual(suggestion.replacement, replacement)
+                self.assertFalse(suggestion.auto_apply)
+
+    def test_real_word_confusions_are_not_auto_applied(self) -> None:
+        cases = [
+            ("I will meat you later", "meet"),
+            ("I am better then", "than"),
+            ("I will loose weight", "lose"),
+            ("this will effect the result", "affect"),
+            ("its ready", "it's"),
+            ("their is a problem", "there"),
+            ("your going now", "you're"),
+        ]
+        for typed, replacement in cases:
+            with self.subTest(typed=typed):
+                suggestion = self.assistant.suggest(typed)[0]
+                self.assertEqual(suggestion.replacement, replacement)
+                self.assertFalse(suggestion.auto_apply)
+
     def test_sensitive_context_disables_suggestions(self) -> None:
         suggestions = self.assistant.suggest("teh", AppContext(is_password=True))
         self.assertEqual(suggestions, [])

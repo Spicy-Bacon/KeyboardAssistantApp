@@ -31,7 +31,7 @@ SOURCE_BONUSES = {
     "common_typos": 0.02,
     "contractions": 0.01,
     "confusion_sets_phrase": 0.03,
-    "confusion_sets_context": 0.01,
+    "confusion_sets_context": 0.04,
     "common_phrases": 0.01,
     "user_phrase_history": 0.04,
 }
@@ -165,6 +165,8 @@ def _candidate_min_confidence(candidate: Candidate, default_minimum: float) -> f
         "suggest_only",
     }:
         return min(default_minimum, 0.62)
+    if candidate.suggestion_type == "confusion_pair":
+        return min(default_minimum, 0.62)
     return default_minimum
 
 
@@ -176,6 +178,8 @@ def _real_word_risk_penalty(candidate: Candidate) -> float:
 
 def _has_real_word_risk(candidate: Candidate) -> bool:
     if candidate.suggestion_type == "capitalization":
+        return False
+    if candidate.suggestion_type == "confusion_pair" and candidate.metadata.get("safe_phrase"):
         return False
     original_words = {word.lower() for word in candidate.original_text.split()}
     suggestion_words = {word.lower().strip("'") for word in candidate.suggestion_text.split()}

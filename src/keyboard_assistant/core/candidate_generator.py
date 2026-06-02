@@ -39,6 +39,7 @@ PROPER_CASE_WORDS = {
     "iphone": "iPhone",
     "macos": "macOS",
 }
+SAFE_AUTO_CONFUSION_PHRASES = {"should of", "could of", "would of"}
 
 
 @dataclass(frozen=True)
@@ -155,25 +156,39 @@ class CandidateGenerator:
         candidates: list[Candidate] = []
         for rule in CONFUSION_RULES:
             wrong_words = tuple(rule.wrong.split())
-            if len(wrong_words) > len(lowered) or lowered[-len(wrong_words) :] != wrong_words:
+            if len(wrong_words) > len(lowered):
                 continue
-            if len(wrong_words) == 1 and not _context_hint_matches(rule.context_hint, lowered):
-                continue
-            original_text = " ".join(words[-len(wrong_words) :])
-            suggestion_text = rule.suggestion
-            if len(wrong_words) == 1:
-                suggestion_text = _match_case(words[-1], suggestion_text)
-            candidates.append(
-                Candidate(
-                    original_text=original_text,
-                    suggestion_text=suggestion_text,
-                    suggestion_type="confusion_pair",
-                    base_confidence=rule.confidence,
-                    source="confusion_sets",
-                    should_auto_apply=False,
-                    metadata={"context_hint": rule.context_hint},
+            for start in range(0, len(lowered) - len(wrong_words) + 1):
+                end = start + len(wrong_words)
+                if lowered[start:end] != wrong_words:
+                    continue
+                if len(wrong_words) == 1 and not _context_hint_matches(
+                    rule.context_hint,
+                    tuple((*lowered[:start], *lowered[end:])),
+                ):
+                    continue
+                is_suffix = end == len(lowered)
+                original_text, suggestion_text = _confusion_replacement_texts(
+                    words[start:end],
+                    tuple(rule.suggestion.split()),
+                    suffix_match=is_suffix,
                 )
-            )
+                safe_phrase = is_suffix and rule.wrong in SAFE_AUTO_CONFUSION_PHRASES
+                candidates.append(
+                    Candidate(
+                        original_text=original_text,
+                        suggestion_text=suggestion_text,
+                        suggestion_type="confusion_pair",
+                        base_confidence=rule.confidence,
+                        source="confusion_sets",
+                        should_auto_apply=safe_phrase,
+                        metadata={
+                            "context_hint": rule.context_hint,
+                            "safe_phrase": safe_phrase,
+                            "suffix_match": is_suffix,
+                        },
+                    )
+                )
         return candidates
 
     def _phrase_candidates(self, words: tuple[str, ...], app_context: AppContext) -> list[Candidate]:
@@ -359,5 +374,24 @@ def _context_hint_matches(context_hint: str, words: tuple[str, ...]) -> bool:
     hints = {part.strip().lower() for chunk in context_hint.split("|") for part in chunk.split(",") if part.strip()}
     if not hints:
         return False
-    context_words = set(words[:-1])
+    context_words = set(words)
     return bool(hints & context_words)
+
+
+def _confusion_replacement_texts(
+    original_words: tuple[str, ...],
+    suggestion_words: tuple[str, ...],
+    suffix_match: bool,
+) -> tuple[str, str]:
+    if suffix_match or len(original_words) != len(suggestion_words):
+        return " ".join(original_words), " ".join(suggestion_words)
+
+    changed_indexes = [
+        index
+        for index, (original, suggestion) in enumerate(zip(original_words, suggestion_words))
+        if original.lower() != suggestion.lower()
+    ]
+    if len(changed_indexes) != 1:
+        return " ".join(original_words), " ".join(suggestion_words)
+    changed_index = changed_indexes[0]
+    return original_words[changed_index], _match_case(original_words[changed_index], suggestion_words[changed_index])
