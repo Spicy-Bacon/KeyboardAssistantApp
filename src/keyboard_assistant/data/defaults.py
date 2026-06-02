@@ -1,10 +1,18 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from importlib import resources
 from pathlib import Path
 
 
 DATA_DIR = Path(__file__).resolve().parent
+DATA_FILENAMES = (
+    "common_typos.tsv",
+    "contractions.tsv",
+    "common_words.tsv",
+    "confusion_sets.tsv",
+    "common_phrases.tsv",
+)
 
 
 @dataclass(frozen=True)
@@ -38,9 +46,9 @@ class PhraseRule:
 
 
 def _read_tsv(filename: str, expected_columns: int) -> list[tuple[str, ...]]:
-    path = DATA_DIR / filename
     rows: list[tuple[str, ...]] = []
-    for line_number, raw_line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+    raw_text = resources.files(__package__).joinpath(filename).read_text(encoding="utf-8")
+    for line_number, raw_line in enumerate(raw_text.splitlines(), start=1):
         line = raw_line.strip().lstrip("\ufeff")
         if not line or line.startswith("#"):
             continue

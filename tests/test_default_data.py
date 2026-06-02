@@ -1,9 +1,18 @@
 import unittest
+from importlib import resources
 
 from keyboard_assistant.data import defaults
 
 
 class DefaultDataTests(unittest.TestCase):
+    def test_required_data_files_are_packaged_resources(self) -> None:
+        data_root = resources.files("keyboard_assistant.data")
+        for filename in defaults.DATA_FILENAMES:
+            with self.subTest(filename=filename):
+                resource = data_root.joinpath(filename)
+                self.assertTrue(resource.is_file())
+                self.assertGreater(len(resource.read_text(encoding="utf-8").splitlines()), 0)
+
     def test_common_typos_load_from_local_tsv(self) -> None:
         self.assertGreaterEqual(len(defaults.TYPO_RULES), 300)
         self.assertEqual(defaults.TYPO_MAP["teh"], "the")
