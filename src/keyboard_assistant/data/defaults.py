@@ -106,6 +106,13 @@ def _load_common_word_frequencies() -> dict[str, float]:
     return frequencies
 
 
+def _index_words_by_length(words: set[str]) -> dict[int, tuple[str, ...]]:
+    by_length: dict[int, list[str]] = {}
+    for word in words:
+        by_length.setdefault(len(word), []).append(word)
+    return {length: tuple(sorted(length_words)) for length, length_words in by_length.items()}
+
+
 def _load_confusion_rules() -> tuple[ConfusionRule, ...]:
     return tuple(
         ConfusionRule(wrong.lower(), suggestion, context_hint.lower(), _float(confidence, "confusion_sets.tsv", wrong))
@@ -159,6 +166,7 @@ CONTRACTION_CONFIDENCE = {rule.input_text: rule.confidence for rule in CONTRACTI
 
 COMMON_WORD_FREQUENCIES = _load_common_word_frequencies()
 COMMON_WORDS = set(COMMON_WORD_FREQUENCIES)
+COMMON_WORDS_BY_LENGTH = _index_words_by_length(COMMON_WORDS)
 
 CONFUSION_RULES = _load_confusion_rules()
 CONTEXTUAL_REPLACEMENTS = _legacy_contextual_replacements(CONFUSION_RULES)

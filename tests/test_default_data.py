@@ -58,7 +58,7 @@ class DefaultDataTests(unittest.TestCase):
         self.assertEqual(defaults.CONTRACTION_CATEGORIES["were"], "suggest_only")
 
     def test_common_words_load_frequency_scores(self) -> None:
-        self.assertGreaterEqual(len(defaults.COMMON_WORDS), 10000)
+        self.assertGreaterEqual(len(defaults.COMMON_WORDS), 50000)
         self.assertIn("academic", defaults.COMMON_WORDS)
         self.assertIn("email", defaults.COMMON_WORDS)
         self.assertGreater(defaults.COMMON_WORD_FREQUENCIES["the"], defaults.COMMON_WORD_FREQUENCIES["email"])
@@ -84,6 +84,26 @@ class DefaultDataTests(unittest.TestCase):
             with self.subTest(word=word):
                 self.assertIsInstance(score, float)
                 self.assertGreater(score, 0.0)
+
+    def test_common_words_are_indexed_by_length_for_lookup(self) -> None:
+        indexed_words = {
+            word
+            for words in defaults.COMMON_WORDS_BY_LENGTH.values()
+            for word in words
+        }
+
+        self.assertEqual(indexed_words, defaults.COMMON_WORDS)
+        self.assertIn("about", defaults.COMMON_WORDS_BY_LENGTH[len("about")])
+        self.assertLess(
+            len(defaults.COMMON_WORDS_BY_LENGTH[len("about")]),
+            len(defaults.COMMON_WORDS),
+        )
+
+    def test_common_words_do_not_include_direct_typo_keys(self) -> None:
+        allowed_real_words = {"form", "from", "were", "well", "than", "then"}
+        typo_keys = set(defaults.TYPO_MAP) - allowed_real_words
+
+        self.assertFalse(typo_keys & defaults.COMMON_WORDS)
 
     def test_confusion_sets_load_context_rules(self) -> None:
         rules = {(rule.wrong, rule.suggestion): rule for rule in defaults.CONFUSION_RULES}

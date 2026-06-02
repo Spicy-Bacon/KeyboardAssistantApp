@@ -8,6 +8,7 @@ from keyboard_assistant.core.models import AppContext
 from keyboard_assistant.data.defaults import (
     COMMON_WORD_FREQUENCIES,
     COMMON_WORDS,
+    COMMON_WORDS_BY_LENGTH,
     CONFUSION_RULES,
     CONTRACTION_CATEGORIES,
     CONTRACTION_CONFIDENCE,
@@ -321,16 +322,16 @@ def _capitalization_candidates(word: str, starts_new_sentence: bool) -> list[Can
 
 def _best_fuzzy_word(word: str) -> tuple[str, float, str] | None:
     candidates: list[tuple[str, float, str]] = []
-    for known_word in COMMON_WORDS:
-        if abs(len(known_word) - len(word)) > 1:
-            continue
-        if len(known_word) == len(word):
-            if _is_transposition(word, known_word):
-                candidates.append((known_word, 0.87, "transposition"))
-            elif _is_keyboard_neighbor_substitution(word, known_word):
-                candidates.append((known_word, 0.86, "keyboard_slip"))
-        elif _is_single_insert_or_delete(word, known_word):
-            candidates.append((known_word, 0.84, "edit_distance"))
+    candidate_lengths = range(max(1, len(word) - 1), len(word) + 2)
+    for length in candidate_lengths:
+        for known_word in COMMON_WORDS_BY_LENGTH.get(length, ()):
+            if len(known_word) == len(word):
+                if _is_transposition(word, known_word):
+                    candidates.append((known_word, 0.87, "transposition"))
+                elif _is_keyboard_neighbor_substitution(word, known_word):
+                    candidates.append((known_word, 0.86, "keyboard_slip"))
+            elif _is_single_insert_or_delete(word, known_word):
+                candidates.append((known_word, 0.84, "edit_distance"))
 
     if not candidates:
         return None
