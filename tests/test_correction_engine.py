@@ -47,11 +47,30 @@ class CorrectionEngineTests(unittest.TestCase):
     def test_apostrophe_suggestion(self) -> None:
         suggestions = self.assistant.suggest("dont")
         self.assertEqual(suggestions[0].replacement, "don't")
+        self.assertTrue(suggestions[0].auto_apply)
 
     def test_contextual_contraction_is_not_auto_applied(self) -> None:
         suggestions = self.assistant.suggest("ill")
         self.assertEqual(suggestions[0].replacement, "I'll")
         self.assertFalse(suggestions[0].auto_apply)
+
+    def test_suggest_only_contraction_is_not_auto_applied(self) -> None:
+        suggestions = self.assistant.suggest("were")
+        self.assertEqual(suggestions[0].replacement, "we're")
+        self.assertFalse(suggestions[0].auto_apply)
+
+    def test_contextual_contractions_are_suggestions_only(self) -> None:
+        for typed, replacement in [("hell", "he'll"), ("shell", "she'll"), ("well", "we'll")]:
+            with self.subTest(typed=typed):
+                suggestion = self.assistant.suggest(typed)[0]
+                self.assertEqual(suggestion.replacement, replacement)
+                self.assertFalse(suggestion.auto_apply)
+
+    def test_ignored_contextual_contractions_rank_lower(self) -> None:
+        suggestion = self.assistant.suggest("ill")[0]
+        self.assistant.ignore(suggestion)
+        reduced = self.assistant.suggest("ill")[0]
+        self.assertLess(reduced.confidence, suggestion.confidence)
 
     def test_capitalizes_i(self) -> None:
         suggestions = self.assistant.suggest("i")

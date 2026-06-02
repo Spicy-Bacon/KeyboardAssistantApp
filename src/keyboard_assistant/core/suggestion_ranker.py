@@ -64,7 +64,7 @@ class SuggestionRanker:
         ranked: list[tuple[float, Candidate]] = []
         for candidate in candidates:
             score = self._score(candidate, app_context)
-            if score < min_confidence:
+            if score < _candidate_min_confidence(candidate, min_confidence):
                 continue
             ranked.append((score, candidate))
 
@@ -95,8 +95,7 @@ class SuggestionRanker:
         score -= min(self.database.ignored_score(candidate.original_text, candidate.suggestion_text), 0.20)
         score -= min(self.database.reverted_score(candidate.original_text, candidate.suggestion_text), 0.20)
 
-        if _has_real_word_risk(candidate):
-            score -= 0.08
+        score -= _real_word_risk_penalty(candidate)
 
         return max(0.0, min(score, 1.0))
 
@@ -158,6 +157,21 @@ def _app_word_frequency_bonus(database: Database, text: str, app_identifier: str
         return 0.0
     best = max(database.word_frequency(word, app_identifier) for word in words)
     return min(best * 0.01, 0.03)
+
+
+def _candidate_min_confidence(candidate: Candidate, default_minimum: float) -> float:
+    if candidate.suggestion_type == "contraction" and candidate.metadata.get("category") in {
+        "contextual",
+        "suggest_only",
+    }:
+        return min(default_minimum, 0.62)
+    return default_minimum
+
+
+def _real_word_risk_penalty(candidate: Candidate) -> float:
+    if candidate.suggestion_type == "contraction":
+        return 0.0
+    return 0.08 if _has_real_word_risk(candidate) else 0.0
 
 
 def _has_real_word_risk(candidate: Candidate) -> bool:
