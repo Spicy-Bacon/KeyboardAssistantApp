@@ -55,11 +55,12 @@ class INPUT(ctypes.Structure):
 
 class WindowsTextInjector:
     def __init__(self) -> None:
-        if hasattr(ctypes, "windll"):
-            self._configure_win32_api()
+        if not _is_windows_available():
+            raise RuntimeError("Text injection is only available on Windows.")
+        self._configure_win32_api()
 
     def replace_previous_text(self, original_length: int, replacement: str) -> None:
-        if not hasattr(ctypes, "windll"):
+        if not _is_windows_available():
             raise RuntimeError("Text injection is only available on Windows.")
         for _ in range(original_length):
             self._tap_virtual_key(VK_BACK)
@@ -95,3 +96,7 @@ def _keyboard_input(vk_code: int, scan_code: int, flags: int) -> INPUT:
     event.type = INPUT_KEYBOARD
     event.union.ki = KEYBDINPUT(vk_code, scan_code, flags, 0, 0)
     return event
+
+
+def _is_windows_available() -> bool:
+    return hasattr(ctypes, "windll")

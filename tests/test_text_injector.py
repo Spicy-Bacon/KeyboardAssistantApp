@@ -1,7 +1,8 @@
 import ctypes
 import unittest
+from unittest.mock import patch
 
-from keyboard_assistant.platform.text_injector import INPUT, KEYBDINPUT, KEYEVENTF_UNICODE, _keyboard_input
+from keyboard_assistant.platform.text_injector import INPUT, KEYBDINPUT, KEYEVENTF_UNICODE, WindowsTextInjector, _keyboard_input
 
 
 class TextInjectorTests(unittest.TestCase):
@@ -13,6 +14,11 @@ class TextInjectorTests(unittest.TestCase):
         self.assertEqual(event.type, 1)
         self.assertEqual(event.union.ki.wScan, ord("A"))
         self.assertEqual(event.union.ki.dwFlags, KEYEVENTF_UNICODE)
+
+    def test_text_injector_requires_windows_at_instantiation(self) -> None:
+        with patch("keyboard_assistant.platform.text_injector._is_windows_available", return_value=False):
+            with self.assertRaisesRegex(RuntimeError, "only available on Windows"):
+                WindowsTextInjector()
 
 
 if __name__ == "__main__":
