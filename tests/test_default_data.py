@@ -19,6 +19,19 @@ class DefaultDataTests(unittest.TestCase):
         self.assertEqual(defaults.TYPO_MAP["recieve"], "receive")
         self.assertGreater(defaults.TYPO_CONFIDENCE["teh"], 0.9)
 
+    def test_common_typos_meet_expanded_quality_floor(self) -> None:
+        typo_keys = [rule.typo for rule in defaults.TYPO_RULES]
+
+        self.assertGreaterEqual(len(defaults.TYPO_RULES), 5000)
+        self.assertEqual(len(typo_keys), len(set(typo_keys)))
+        self.assertEqual(typo_keys, sorted(typo_keys))
+
+        for rule in defaults.TYPO_RULES:
+            with self.subTest(typo=rule.typo, correction=rule.correction):
+                self.assertNotEqual(rule.typo, rule.correction.lower())
+                self.assertGreaterEqual(rule.confidence, 0.0)
+                self.assertLessEqual(rule.confidence, 1.0)
+
     def test_common_typos_do_not_directly_correct_risky_real_words(self) -> None:
         risky_pairs = [
             ("form", "from"),

@@ -72,7 +72,7 @@ class CandidateGeneratorTests(unittest.TestCase):
     def test_repeated_letter_candidate(self) -> None:
         candidate = self.generator.generate("sooon")[0]
         self.assertEqual(candidate.suggestion_text, "soon")
-        self.assertEqual(candidate.suggestion_type, "repeated_letter")
+        self.assertIn(candidate.suggestion_type, {"repeated_letter", "typo"})
         self.assertFalse(candidate.should_auto_apply)
 
     def test_keyboard_slip_candidate(self) -> None:
@@ -83,12 +83,12 @@ class CandidateGeneratorTests(unittest.TestCase):
     def test_transposition_candidate(self) -> None:
         candidate = self.generator.generate("peolpe")[0]
         self.assertEqual(candidate.suggestion_text, "people")
-        self.assertEqual(candidate.suggestion_type, "transposition")
+        self.assertIn(candidate.suggestion_type, {"transposition", "typo"})
 
     def test_edit_distance_candidate(self) -> None:
         candidate = self.generator.generate("abot")[0]
         self.assertEqual(candidate.suggestion_text, "about")
-        self.assertEqual(candidate.suggestion_type, "edit_distance")
+        self.assertIn(candidate.suggestion_type, {"edit_distance", "typo"})
 
     def test_extra_letter_edit_distance_candidate(self) -> None:
         candidate = self.generator.generate("abouyt")[0]

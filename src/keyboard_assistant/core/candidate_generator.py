@@ -86,14 +86,15 @@ class CandidateGenerator:
             return []
 
         if lower in TYPO_MAP:
+            confidence = TYPO_CONFIDENCE.get(lower, 0.96)
             candidates.append(
                 Candidate(
                     original_text=word,
                     suggestion_text=_match_case(word, TYPO_MAP[lower]),
                     suggestion_type="typo",
-                    base_confidence=TYPO_CONFIDENCE.get(lower, 0.96),
+                    base_confidence=confidence,
                     source="common_typos",
-                    should_auto_apply=True,
+                    should_auto_apply=confidence >= 0.90,
                     metadata={"match": "exact"},
                 )
             )
