@@ -43,6 +43,23 @@ class CandidateGeneratorTests(unittest.TestCase):
         self.assertEqual(candidate.suggestion_text, "I")
         self.assertEqual(candidate.suggestion_type, "capitalization")
 
+    def test_sentence_start_capitalization_candidate(self) -> None:
+        candidate = self.generator.generate("hello. how")[0]
+        self.assertEqual(candidate.original_text, "how")
+        self.assertEqual(candidate.suggestion_text, "How")
+        self.assertEqual(candidate.metadata["rule"], "sentence_start")
+        self.assertTrue(candidate.should_auto_apply)
+
+    def test_proper_case_candidate_is_suggest_only(self) -> None:
+        candidate = self.generator.generate("iphone")[0]
+        self.assertEqual(candidate.suggestion_text, "iPhone")
+        self.assertEqual(candidate.metadata["rule"], "proper_case")
+        self.assertFalse(candidate.should_auto_apply)
+
+    def test_mixed_case_words_are_not_broken(self) -> None:
+        candidates = self.generator.generate("iPhone")
+        self.assertEqual(candidates, [])
+
     def test_repeated_letter_candidate(self) -> None:
         candidate = self.generator.generate("sooon")[0]
         self.assertEqual(candidate.suggestion_text, "soon")

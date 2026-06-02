@@ -32,6 +32,14 @@ KEYBOARD_NEIGHBORS = {
     for col_index, key in enumerate(row)
 }
 
+PROPER_CASE_WORDS = {
+    "chatgpt": "ChatGPT",
+    "ebay": "eBay",
+    "exeter": "Exeter",
+    "iphone": "iPhone",
+    "macos": "macOS",
+}
+
 
 @dataclass(frozen=True)
 class Candidate:
@@ -102,19 +110,6 @@ class CandidateGenerator:
                 )
             )
 
-        if lower == "i":
-            candidates.append(
-                Candidate(
-                    original_text=word,
-                    suggestion_text="I",
-                    suggestion_type="capitalization",
-                    base_confidence=0.98,
-                    source="capitalization_rule",
-                    should_auto_apply=True,
-                    metadata={"rule": "standalone_i"},
-                )
-            )
-
         repeated = _collapse_repeated_letters(lower)
         if repeated != lower and repeated in COMMON_WORDS:
             candidates.append(
@@ -129,7 +124,10 @@ class CandidateGenerator:
                 )
             )
 
-        if not candidates and _looks_like_correctable_word(lower):
+        if not candidates:
+            candidates.extend(_capitalization_candidates(word, starts_new_sentence=False))
+
+        if not candidates and word.islower() and _looks_like_correctable_word(lower):
             fuzzy = _best_fuzzy_word(lower)
             if fuzzy:
                 replacement, confidence, suggestion_type = fuzzy
@@ -144,6 +142,9 @@ class CandidateGenerator:
                         metadata={"frequency": COMMON_WORD_FREQUENCIES.get(replacement, 0)},
                     )
                 )
+
+        if not candidates:
+            candidates.extend(_capitalization_candidates(word, starts_new_sentence))
 
         return candidates
 
@@ -251,6 +252,54 @@ def _collapse_repeated_letters(word: str) -> str:
 
 def _looks_like_correctable_word(word: str) -> bool:
     return 3 <= len(word) <= 18 and word.isalpha() and word not in COMMON_WORDS
+
+
+def _is_plain_lowercase_word(word: str) -> bool:
+    return len(word) > 1 and word.isalpha() and word.islower()
+
+
+def _capitalization_candidates(word: str, starts_new_sentence: bool) -> list[Candidate]:
+    lower = word.lower()
+    if lower == "i":
+        return [
+            Candidate(
+                original_text=word,
+                suggestion_text="I",
+                suggestion_type="capitalization",
+                base_confidence=0.98,
+                source="capitalization_rule",
+                should_auto_apply=True,
+                metadata={"rule": "standalone_i"},
+            )
+        ]
+    if not _is_plain_lowercase_word(word):
+        return []
+    proper_case = PROPER_CASE_WORDS.get(lower)
+    if proper_case and proper_case != word:
+        return [
+            Candidate(
+                original_text=word,
+                suggestion_text=proper_case,
+                suggestion_type="capitalization",
+                base_confidence=0.90,
+                source="capitalization_rule",
+                should_auto_apply=False,
+                metadata={"rule": "proper_case"},
+            )
+        ]
+    if starts_new_sentence:
+        return [
+            Candidate(
+                original_text=word,
+                suggestion_text=word[:1].upper() + word[1:],
+                suggestion_type="capitalization",
+                base_confidence=0.93,
+                source="capitalization_rule",
+                should_auto_apply=True,
+                metadata={"rule": "sentence_start"},
+            )
+        ]
+    return []
 
 
 def _best_fuzzy_word(word: str) -> tuple[str, float, str] | None:

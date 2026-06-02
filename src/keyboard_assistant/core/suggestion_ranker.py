@@ -161,6 +161,8 @@ def _app_word_frequency_bonus(database: Database, text: str, app_identifier: str
 
 
 def _has_real_word_risk(candidate: Candidate) -> bool:
+    if candidate.suggestion_type == "capitalization":
+        return False
     original_words = {word.lower() for word in candidate.original_text.split()}
     suggestion_words = {word.lower().strip("'") for word in candidate.suggestion_text.split()}
     if candidate.suggestion_type == "confusion_pair":

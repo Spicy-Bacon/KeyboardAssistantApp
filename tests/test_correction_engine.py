@@ -59,7 +59,19 @@ class CorrectionEngineTests(unittest.TestCase):
 
     def test_sentence_start_capitalization(self) -> None:
         suggestions = self.assistant.suggest("hello. how")
-        self.assertEqual(suggestions, [])
+        self.assertEqual(suggestions[0].replacement, "How")
+        self.assertEqual(suggestions[0].kind, "capitalization")
+        self.assertTrue(suggestions[0].auto_apply)
+
+    def test_sentence_start_after_exclamation_and_question(self) -> None:
+        self.assertEqual(self.assistant.suggest("thanks! i")[0].replacement, "I")
+        self.assertEqual(self.assistant.suggest("ok? let")[0].replacement, "Let")
+
+    def test_known_mixed_case_words_are_preserved(self) -> None:
+        self.assertEqual(self.assistant.suggest("iPhone"), [])
+        suggestion = self.assistant.suggest("iphone")[0]
+        self.assertEqual(suggestion.replacement, "iPhone")
+        self.assertFalse(suggestion.auto_apply)
 
     def test_sensitive_context_disables_suggestions(self) -> None:
         suggestions = self.assistant.suggest("teh", AppContext(is_password=True))
