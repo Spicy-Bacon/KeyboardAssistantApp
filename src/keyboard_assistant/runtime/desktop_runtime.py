@@ -18,6 +18,7 @@ from keyboard_assistant.platform.app_detector import AppDetector
 from keyboard_assistant.platform.cursor import CursorLocator
 from keyboard_assistant.platform.keyboard_listener import KeyboardEvent, WindowsKeyboardListener
 from keyboard_assistant.platform.text_injector import WindowsTextInjector
+from keyboard_assistant.runtime.health import RuntimeHealth
 from keyboard_assistant.storage.database import Database
 from keyboard_assistant.ui.suggestion_overlay import SuggestionOverlay
 from keyboard_assistant.ui.tray_icon import TrayIcon
@@ -60,14 +61,30 @@ class DesktopAssistantRuntime:
         self.database = database
         self.diagnostics = diagnostics or DiagnosticsLogger(default_log_path(database.path))
         self.verbose = verbose
+        self.health = RuntimeHealth(database_opened=True, language_data_loaded=True)
         self.assistant = KeyboardAssistant(database)
-        self.ai_worker = LocalAISuggestionWorker(database, self._handle_ai_suggestions)
+        model_settings = database.get_model_settings()
+        self.health.local_ai_enabled = bool(model_settings["enabled"])
+        self.health.assistant_status = "on" if database.get_settings().assistant_enabled else "off"
+        self.ai_worker = LocalAISuggestionWorker(
+            database,
+            self._handle_ai_suggestions,
+            on_error=self._handle_ai_error,
+        )
         self.buffer = TypedBuffer()
         self.app_detector = AppDetector()
         self.cursor_locator = CursorLocator()
         self.injector = WindowsTextInjector()
         self._paused = False
-        self.overlay = SuggestionOverlay(on_close=self.stop, on_select=self._accept_selected_from_overlay)
+        try:
+            self.overlay = SuggestionOverlay(on_close=self.stop, on_select=self._accept_selected_from_overlay)
+            self.health.overlay_started = True
+            self.health.mark("overlay_started")
+        except Exception as exc:
+            self.health.overlay_failed = True
+            self.health.record_exception("overlay", exc)
+            self.diagnostics.exception("overlay_start_failed", exc)
+            raise RuntimeError("Suggestion overlay failed to start.") from exc
         try:
             self.tray = TrayIcon(
                 on_toggle_pause=self.toggle_pause,
@@ -75,9 +92,17 @@ class DesktopAssistantRuntime:
                 on_exit=self.stop,
                 is_paused=self.is_paused,
             )
-        except OSError:
+            self.health.tray_icon_started = True
+            self.health.mark("tray_icon_started")
+        except Exception as exc:
+            self.health.tray_icon_failed = True
+            self.health.record_exception("tray_icon", exc)
+            self.diagnostics.exception("tray_icon_start_failed", exc)
             self.tray = NullTrayIcon()
-        self.listener = WindowsKeyboardListener(self._handle_keyboard_event)
+        self.listener = WindowsKeyboardListener(
+            self._handle_keyboard_event,
+            on_error=self._handle_keyboard_listener_error,
+        )
         self._lock = threading.Lock()
         self._suggestions: list[Suggestion] = []
         self._selection_index = 0
@@ -87,14 +112,23 @@ class DesktopAssistantRuntime:
         self._event_worker: threading.Thread | None = None
         self._last_app_signature: tuple[str, str, str, str] | None = None
         self.stats = RuntimeStats()
-        self.diagnostics.info("runtime_initialized")
+        self.diagnostics.info("runtime_initialized", health=self.health.snapshot())
         self._print("Keyboard Assistant initialized.")
 
     def run(self) -> None:
         self.diagnostics.info("runtime_starting")
         self._print("Installing keyboard hook...")
         self._start_event_worker()
-        self.listener.start()
+        try:
+            self.listener.start()
+        except Exception as exc:
+            self.health.keyboard_hook_failed = True
+            self.health.record_exception("keyboard_hook", exc)
+            self.diagnostics.exception("keyboard_hook_start_failed", exc)
+            self._stop_event_worker()
+            raise
+        self.health.keyboard_hook_started = True
+        self.health.mark("keyboard_hook_started")
         self.diagnostics.info("keyboard_hook_started")
         self._print("Keyboard Assistant is running. Try Notepad with 'recieve', 'tge', or 'peolpe'.")
         self._print("Controls: Arrow keys choose, Space accepts, Esc declines, or click a choice.")
@@ -112,7 +146,7 @@ class DesktopAssistantRuntime:
         self.ai_worker.cancel()
         self.tray.close()
         self.overlay.close()
-        self.diagnostics.info("runtime_stopped", **self._stats_metadata())
+        self.diagnostics.info("runtime_stopped", health=self.health.snapshot(), **self._stats_metadata())
         self._print("Keyboard Assistant stopped.")
         self._print(f"Session stats: {self._stats_metadata()}")
 
@@ -246,6 +280,7 @@ class DesktopAssistantRuntime:
 
     def _prepare_app_context(self) -> AppContext:
         app_context = self.app_detector.current_app()
+        self.health.current_app = app_context.app_identifier
         signature = _app_signature(app_context)
         if self._last_app_signature is not None and signature != self._last_app_signature:
             self.buffer.clear()
@@ -305,6 +340,15 @@ class DesktopAssistantRuntime:
             )
             self.stats.overlays_shown += 1
             self.diagnostics.info("local_ai_suggestions_received", count=len(ai_suggestions))
+
+    def _handle_ai_error(self, exc: BaseException) -> None:
+        self.health.local_ai_unavailable = True
+        self.health.record_exception("local_ai", exc)
+        self.diagnostics.exception("local_ai_worker_failed", exc)
+
+    def _handle_keyboard_listener_error(self, exc: BaseException) -> None:
+        self.health.record_exception("keyboard_callback", exc)
+        self.diagnostics.exception("keyboard_callback_failed", exc)
 
     def _has_visible_suggestions(self) -> bool:
         with self._lock:

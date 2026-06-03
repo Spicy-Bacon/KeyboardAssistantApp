@@ -30,6 +30,11 @@ class OverlayGeometryTests(unittest.TestCase):
         self.assertEqual(x, 10)
         self.assertEqual(y, 8)
 
+    def test_clamps_invalid_negative_anchor(self) -> None:
+        x, y = calculate_overlay_position(-500, -300, 200, 34, 1920, 1080)
+        self.assertEqual(x, 8)
+        self.assertEqual(y, 8)
+
     def test_middle_choice_labels(self) -> None:
         typed = Suggestion("recieve", "recieve", "typed", 1.0)
         correction = Suggestion("recieve", "receive", "typo", 0.96)

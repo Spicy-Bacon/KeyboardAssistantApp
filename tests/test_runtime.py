@@ -26,9 +26,30 @@ class DesktopAssistantRuntimeTests(unittest.TestCase):
             with redirect_stdout(io.StringIO()):
                 runtime = DesktopAssistantRuntime(self.db)
                 self.assertIsInstance(runtime.tray, NullTrayIcon)
+                self.assertTrue(runtime.health.overlay_started)
+                self.assertTrue(runtime.health.tray_icon_failed)
                 self.assertFalse(runtime.is_paused())
                 self.assertTrue(runtime.toggle_pause())
                 self.assertFalse(runtime.toggle_pause())
+                runtime.stop()
+
+    def test_tray_runtime_error_falls_back_to_null_tray(self) -> None:
+        with patch("keyboard_assistant.runtime.desktop_runtime.TrayIcon", side_effect=RuntimeError("tray unavailable")):
+            with redirect_stdout(io.StringIO()):
+                runtime = DesktopAssistantRuntime(self.db)
+                self.assertIsInstance(runtime.tray, NullTrayIcon)
+                self.assertTrue(runtime.health.tray_icon_failed)
+                self.assertIn("tray_icon", runtime.health.last_exception)
+                runtime.stop()
+
+    def test_runtime_health_snapshot_is_diagnostics_safe(self) -> None:
+        with patch("keyboard_assistant.runtime.desktop_runtime.TrayIcon", side_effect=OSError):
+            with redirect_stdout(io.StringIO()):
+                runtime = DesktopAssistantRuntime(self.db)
+                snapshot = runtime.health.snapshot()
+                self.assertTrue(snapshot["database_opened"])
+                self.assertTrue(snapshot["language_data_loaded"])
+                self.assertIn("overlay_started", snapshot["events"])
                 runtime.stop()
 
     def test_keyboard_events_are_processed_from_queue(self) -> None:

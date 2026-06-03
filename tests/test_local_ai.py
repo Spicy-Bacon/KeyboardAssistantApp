@@ -192,6 +192,32 @@ class LocalAISuggestionWorkerTests(unittest.TestCase):
         self.assertEqual(_clean_ai_text('We are given the text: "I will"'), "")
         self.assertEqual(_clean_ai_text("finish the work"), "finish the work")
 
+    def test_worker_reports_provider_exception_without_callback(self) -> None:
+        self.db.set_model_settings(provider="ollama", model="fake", enabled=True)
+        called = threading.Event()
+        error_seen = threading.Event()
+        errors: list[BaseException] = []
+
+        class FailingAIService:
+            def __init__(self, provider_name: str, model: str, enabled: bool) -> None:
+                pass
+
+            def suggest_next(self, context: str) -> LocalAIResult:
+                raise TimeoutError("model timed out")
+
+        worker = LocalAISuggestionWorker(
+            self.db,
+            lambda _text, _suggestions: called.set(),
+            on_error=lambda exc: (errors.append(exc), error_seen.set()),
+            delay_seconds=0.01,
+            service_factory=FailingAIService,
+        )
+        worker.request("I will now continue ", AppContext())
+
+        self.assertTrue(error_seen.wait(0.2))
+        self.assertFalse(called.is_set())
+        self.assertIsInstance(errors[0], TimeoutError)
+
 
 if __name__ == "__main__":
     unittest.main()

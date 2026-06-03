@@ -89,10 +89,16 @@ class WindowsKeyboardListener:
     The callback may return True to suppress the original key event.
     """
 
-    def __init__(self, on_event: Callable[[KeyboardEvent], bool | None]) -> None:
+    def __init__(
+        self,
+        on_event: Callable[[KeyboardEvent], bool | None],
+        on_error: Callable[[BaseException], None] | None = None,
+    ) -> None:
         if not hasattr(ctypes, "windll") or LowLevelKeyboardProc is None:
             raise RuntimeError("Windows keyboard hooks are only available on Windows.")
         self.on_event = on_event
+        self.on_error = on_error
+        self.callback_error_count = 0
         self._hook: int | None = None
         self._thread: threading.Thread | None = None
         self._thread_id: int | None = None
@@ -195,10 +201,21 @@ class WindowsKeyboardListener:
             return user32.CallNextHookEx(self._hook, n_code, w_param, l_param)
 
         event = self._to_event(info.vkCode, info.scanCode)
-        suppress = bool(event and self.on_event(event))
+        suppress = bool(event and self._dispatch_event_safely(event))
         if suppress:
             return 1
         return user32.CallNextHookEx(self._hook, n_code, w_param, l_param)
+
+    def _dispatch_event_safely(self, event: KeyboardEvent | None) -> bool:
+        if event is None:
+            return False
+        try:
+            return bool(self.on_event(event))
+        except Exception as exc:
+            self.callback_error_count += 1
+            if self.on_error:
+                self.on_error(exc)
+            return False
 
     def _to_event(self, vk_code: int, scan_code: int) -> KeyboardEvent | None:
         alt = _is_key_down(VK_MENU)

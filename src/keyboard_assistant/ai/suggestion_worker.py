@@ -22,11 +22,13 @@ class LocalAISuggestionWorker:
         self,
         database: Database,
         on_suggestions: Callable[[str, list[Suggestion]], None],
+        on_error: Callable[[BaseException], None] | None = None,
         delay_seconds: float = 0.45,
         service_factory: type[LocalAIService] = LocalAIService,
     ) -> None:
         self.database = database
         self.on_suggestions = on_suggestions
+        self.on_error = on_error
         self.delay_seconds = delay_seconds
         self.service_factory = service_factory
         self._lock = threading.Lock()
@@ -62,14 +64,19 @@ class LocalAISuggestionWorker:
                 self._timer = None
 
     def _run(self, sequence: int, text: str, app_context: AppContext) -> None:
-        settings = self.database.get_model_settings()
-        service = self.service_factory(
-            provider_name=str(settings["provider"]),
-            model=str(settings["model"]),
-            enabled=bool(settings["enabled"]),
-        )
-        result = service.suggest_next(text)
-        suggestions = self._suggestions_from_result(result)
+        try:
+            settings = self.database.get_model_settings()
+            service = self.service_factory(
+                provider_name=str(settings["provider"]),
+                model=str(settings["model"]),
+                enabled=bool(settings["enabled"]),
+            )
+            result = service.suggest_next(text)
+            suggestions = self._suggestions_from_result(result)
+        except Exception as exc:
+            if self.on_error:
+                self.on_error(exc)
+            return
         if not suggestions:
             return
         with self._lock:
