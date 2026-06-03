@@ -28,6 +28,8 @@ The correction engine is layered and local-first:
 ```powershell
 python -m keyboard_assistant.cli "teh quick brown fox"
 python -m keyboard_assistant.cli "dont forget"
+python -m keyboard_assistant.cli suggest "thank "
+python -m keyboard_assistant.cli suggest "let me "
 python -m keyboard_assistant.cli --interactive
 ```
 

@@ -873,6 +873,7 @@ at	all	0.78
 at	the	0.78
 at	your	0.78
 at the	same	0.81
+at the	moment	0.86
 at the same	time	0.82
 at your	convenience	0.81
 attach	after	0.69
@@ -1047,6 +1048,7 @@ best regards	and	0.81
 best regards and	thank	0.82
 by	the	0.78
 by the	end	0.81
+by the	way	0.86
 by the end	of	0.82
 can	check	0.70
 can	complete	0.70
@@ -6185,7 +6187,7 @@ in summary	the	0.78
 in the	afternoon	0.81
 in the	evening	0.81
 in the	meantime	0.81
-in the	morning	0.81
+in the	morning	0.86
 in the afternoon	we	0.82
 in the evening	i	0.82
 in the meantime	please	0.82
@@ -14944,7 +14946,7 @@ thank	you	0.86
 thank you	for	0.84
 thank you	very	0.81
 thank you for	the	0.82
-thank you for	your	0.82
+thank you for	your	0.86
 thank you very	much	0.82
 thanks	for	0.78
 thanks	so	0.78

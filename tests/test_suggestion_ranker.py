@@ -97,6 +97,21 @@ class SuggestionRankerTests(unittest.TestCase):
         boosted = self.ranker.rank([candidate], AppContext(app_identifier="notepad.exe"))[0]
         self.assertGreater(boosted.confidence, original.confidence)
 
+    def test_phrase_predictions_never_auto_apply(self) -> None:
+        suggestions = self.ranker.rank(
+            [self.candidate("", "you", "phrase_prediction", 0.95, "common_phrases", True)]
+        )
+
+        self.assertEqual(suggestions[0].replacement, "you")
+        self.assertFalse(suggestions[0].auto_apply)
+
+    def test_low_confidence_phrase_predictions_are_hidden(self) -> None:
+        suggestions = self.ranker.rank(
+            [self.candidate("", "the", "phrase_prediction", 0.40, "common_phrases", False)]
+        )
+
+        self.assertEqual(suggestions, [])
+
     def test_edit_closeness_boosts_close_candidates(self) -> None:
         close = self.ranker.rank([self.candidate("abot", "about", "edit_distance", 0.84, "common_words", False)])[0]
         far = self.ranker.rank([self.candidate("abcd", "about", "edit_distance", 0.84, "common_words", False)])[0]

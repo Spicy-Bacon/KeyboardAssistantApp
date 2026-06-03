@@ -110,6 +110,27 @@ class CandidateGeneratorTests(unittest.TestCase):
         self.assertEqual(candidate.suggestion_type, "phrase_prediction")
         self.assertEqual(candidate.source, "common_phrases")
 
+    def test_incomplete_word_does_not_trigger_phrase_prediction(self) -> None:
+        candidates = self.generator.generate("thank")
+
+        self.assertFalse(any(candidate.suggestion_type == "phrase_prediction" for candidate in candidates))
+
+    def test_phrase_prediction_supports_one_two_and_three_word_prefixes(self) -> None:
+        cases = {
+            "thank ": "you",
+            "thank you ": "for",
+            "thank you for ": "your",
+        }
+        for text, expected in cases.items():
+            with self.subTest(text=text):
+                candidate = next(
+                    candidate
+                    for candidate in self.generator.generate(text)
+                    if candidate.suggestion_type == "phrase_prediction"
+                )
+                self.assertEqual(candidate.suggestion_text, expected)
+                self.assertFalse(candidate.should_auto_apply)
+
     def test_user_phrase_prediction_candidate(self) -> None:
         self.db.increment_phrase_frequency("thank everyone", app_identifier="notepad.exe")
         candidate = self.generator.generate("thank ", AppContext(app_identifier="notepad.exe"))[0]

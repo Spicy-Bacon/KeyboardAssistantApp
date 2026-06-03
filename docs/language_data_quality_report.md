@@ -6,7 +6,7 @@ Generated during the quality, safety, and runtime stability upgrade.
 
 - `common_typos.tsv`: 15,356 rows
 - `common_words.tsv`: 50,502 rows
-- `common_phrases.tsv`: 18,811 rows
+- `common_phrases.tsv`: 18,813 rows
 - `confusion_sets.tsv`: 576 rows
 - `contractions.tsv`: 82 rows
 
