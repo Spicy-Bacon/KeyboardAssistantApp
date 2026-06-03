@@ -7,6 +7,7 @@ This first build focuses on the foundation:
 - Fresh-install typo, apostrophe, capitalization, spacing, repeated-character, confusion-pair, and phrase suggestions.
 - Conservative fuzzy suggestions for common keyboard-neighbor, transposed-letter, and missing-character typos.
 - Structured local language data loaded from bundled TSV files; no internet or AI required.
+- No LangChain, no cloud APIs, and no runtime internet dependency in the core correction engine.
 - Typed-buffer context tracking for apps where full text context is unavailable.
 - Local SQLite schema for settings, app profiles, dictionary, corrections, and learning events.
 - App/sensitive-context policy stubs for Windows-focused desktop behavior.
@@ -22,6 +23,7 @@ The correction engine is layered and local-first:
 - Auto-apply is conservative. Obvious typos and safe contractions can auto-apply; ambiguous real-word corrections usually stay as visible suggestions.
 - Local learning can improve rankings, but the app is useful with an empty database and local AI disabled.
 - Local AI is optional and disabled by default. It is only used as a delayed enhancement when explicitly configured, and the built-in correction engine does not need internet access.
+- Safety policy prefers a missed suggestion over a wrong auto-correction. Code-like text, paths, URLs, command-line input, local AI suggestions, phrase predictions, and ambiguous real-word corrections are protected from auto-apply.
 
 ## Run the Demo
 
