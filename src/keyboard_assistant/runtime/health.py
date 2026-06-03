@@ -12,6 +12,8 @@ class RuntimeHealth:
     overlay_failed: bool = False
     tray_icon_started: bool = False
     tray_icon_failed: bool = False
+    text_injector_started: bool = False
+    text_injector_failed: bool = False
     database_opened: bool = False
     language_data_loaded: bool = False
     local_ai_enabled: bool = False
@@ -39,6 +41,8 @@ class RuntimeHealth:
             "overlay_failed": self.overlay_failed,
             "tray_icon_started": self.tray_icon_started,
             "tray_icon_failed": self.tray_icon_failed,
+            "text_injector_started": self.text_injector_started,
+            "text_injector_failed": self.text_injector_failed,
             "database_opened": self.database_opened,
             "language_data_loaded": self.language_data_loaded,
             "local_ai_enabled": self.local_ai_enabled,

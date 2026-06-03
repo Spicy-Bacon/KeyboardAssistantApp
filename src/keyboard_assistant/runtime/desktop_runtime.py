@@ -17,7 +17,7 @@ from keyboard_assistant.diagnostics.logger import DiagnosticsLogger, default_log
 from keyboard_assistant.platform.app_detector import AppDetector
 from keyboard_assistant.platform.cursor import CursorLocator
 from keyboard_assistant.platform.keyboard_listener import KeyboardEvent, WindowsKeyboardListener
-from keyboard_assistant.platform.text_injector import WindowsTextInjector
+from keyboard_assistant.platform.text_injector import NullTextInjector, WindowsTextInjector
 from keyboard_assistant.runtime.health import RuntimeHealth
 from keyboard_assistant.storage.database import Database
 from keyboard_assistant.ui.suggestion_overlay import SuggestionOverlay
@@ -51,12 +51,48 @@ class NullTrayIcon:
         pass
 
 
+class NullOverlay:
+    def run(self) -> None:
+        pass
+
+    def close(self) -> None:
+        pass
+
+    def call_soon(self, callback) -> None:
+        callback()
+
+    def apply_appearance(self, _appearance) -> None:
+        pass
+
+    def show_suggestions(self, _suggestions, _x: int, _y: int, focus_index: int = 0) -> None:
+        pass
+
+    def hide(self) -> None:
+        pass
+
+
+class NullKeyboardListener:
+    def start(self) -> None:
+        pass
+
+    def stop(self) -> None:
+        pass
+
+
 class DesktopAssistantRuntime:
     def __init__(
         self,
         database: Database,
         diagnostics: DiagnosticsLogger | None = None,
         verbose: bool = False,
+        injector=None,
+        overlay=None,
+        tray=None,
+        listener=None,
+        app_detector=None,
+        cursor_locator=None,
+        ai_worker=None,
+        allow_null_injector: bool = False,
     ) -> None:
         self.database = database
         self.diagnostics = diagnostics or DiagnosticsLogger(default_log_path(database.path))
@@ -66,43 +102,34 @@ class DesktopAssistantRuntime:
         model_settings = database.get_model_settings()
         self.health.local_ai_enabled = bool(model_settings["enabled"])
         self.health.assistant_status = "on" if database.get_settings().assistant_enabled else "off"
-        self.ai_worker = LocalAISuggestionWorker(
+        self.ai_worker = ai_worker or LocalAISuggestionWorker(
             database,
             self._handle_ai_suggestions,
             on_error=self._handle_ai_error,
         )
         self.buffer = TypedBuffer()
-        self.app_detector = AppDetector()
-        self.cursor_locator = CursorLocator()
-        self.injector = WindowsTextInjector()
+        self.app_detector = app_detector or AppDetector()
+        self.cursor_locator = cursor_locator or CursorLocator()
+        if injector is not None:
+            self.injector = injector
+            self.health.text_injector_started = True
+            self.health.mark("text_injector_injected")
+        else:
+            self.injector = self._create_text_injector(allow_null_injector=allow_null_injector)
         self._paused = False
-        try:
-            self.overlay = SuggestionOverlay(on_close=self.stop, on_select=self._accept_selected_from_overlay)
+        if overlay is not None:
+            self.overlay = overlay
             self.health.overlay_started = True
-            self.health.mark("overlay_started")
-        except Exception as exc:
-            self.health.overlay_failed = True
-            self.health.record_exception("overlay", exc)
-            self.diagnostics.exception("overlay_start_failed", exc)
-            raise RuntimeError("Suggestion overlay failed to start.") from exc
-        try:
-            self.tray = TrayIcon(
-                on_toggle_pause=self.toggle_pause,
-                on_open_settings=self.open_settings,
-                on_exit=self.stop,
-                is_paused=self.is_paused,
-            )
+            self.health.mark("overlay_injected")
+        else:
+            self.overlay = self._create_overlay()
+        if tray is not None:
+            self.tray = tray
             self.health.tray_icon_started = True
-            self.health.mark("tray_icon_started")
-        except Exception as exc:
-            self.health.tray_icon_failed = True
-            self.health.record_exception("tray_icon", exc)
-            self.diagnostics.exception("tray_icon_start_failed", exc)
-            self.tray = NullTrayIcon()
-        self.listener = WindowsKeyboardListener(
-            self._handle_keyboard_event,
-            on_error=self._handle_keyboard_listener_error,
-        )
+            self.health.mark("tray_icon_injected")
+        else:
+            self.tray = self._create_tray()
+        self.listener = listener if listener is not None else self._create_listener()
         self._lock = threading.Lock()
         self._suggestions: list[Suggestion] = []
         self._selection_index = 0
@@ -114,6 +141,56 @@ class DesktopAssistantRuntime:
         self.stats = RuntimeStats()
         self.diagnostics.info("runtime_initialized", health=self.health.snapshot())
         self._print("Keyboard Assistant initialized.")
+
+    def _create_text_injector(self, allow_null_injector: bool) -> WindowsTextInjector | NullTextInjector:
+        try:
+            injector = WindowsTextInjector()
+            self.health.text_injector_started = True
+            self.health.mark("text_injector_started")
+            return injector
+        except Exception as exc:
+            self.health.text_injector_failed = True
+            self.health.record_exception("text_injector", exc)
+            self.diagnostics.exception("text_injector_start_failed", exc)
+            if allow_null_injector:
+                self.health.mark("text_injector_fallback")
+                return NullTextInjector()
+            raise RuntimeError("Text injector failed to start.") from exc
+
+    def _create_overlay(self):
+        try:
+            overlay = SuggestionOverlay(on_close=self.stop, on_select=self._accept_selected_from_overlay)
+            self.health.overlay_started = True
+            self.health.mark("overlay_started")
+            return overlay
+        except Exception as exc:
+            self.health.overlay_failed = True
+            self.health.record_exception("overlay", exc)
+            self.diagnostics.exception("overlay_start_failed", exc)
+            raise RuntimeError("Suggestion overlay failed to start.") from exc
+
+    def _create_tray(self):
+        try:
+            tray = TrayIcon(
+                on_toggle_pause=self.toggle_pause,
+                on_open_settings=self.open_settings,
+                on_exit=self.stop,
+                is_paused=self.is_paused,
+            )
+            self.health.tray_icon_started = True
+            self.health.mark("tray_icon_started")
+            return tray
+        except Exception as exc:
+            self.health.tray_icon_failed = True
+            self.health.record_exception("tray_icon", exc)
+            self.diagnostics.exception("tray_icon_start_failed", exc)
+            return NullTrayIcon()
+
+    def _create_listener(self):
+        return WindowsKeyboardListener(
+            self._handle_keyboard_event,
+            on_error=self._handle_keyboard_listener_error,
+        )
 
     def run(self) -> None:
         self.diagnostics.info("runtime_starting")

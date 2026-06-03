@@ -91,6 +91,20 @@ class WindowsTextInjector:
         ctypes.windll.user32.SendInput.restype = wintypes.UINT
 
 
+class NullTextInjector:
+    """No-op injector used by tests and explicit safe-mode fallback."""
+
+    def __init__(self) -> None:
+        self.replacements: list[tuple[int, str]] = []
+        self.typed_text: list[str] = []
+
+    def replace_previous_text(self, original_length: int, replacement: str) -> None:
+        self.replacements.append((original_length, replacement))
+
+    def type_text(self, text: str) -> None:
+        self.typed_text.append(text)
+
+
 def _keyboard_input(vk_code: int, scan_code: int, flags: int) -> INPUT:
     event = INPUT()
     event.type = INPUT_KEYBOARD
