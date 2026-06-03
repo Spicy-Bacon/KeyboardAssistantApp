@@ -27,13 +27,17 @@ ID_TRAY_PAUSE = 401
 ID_TRAY_SETTINGS = 402
 ID_TRAY_EXIT = 403
 
-WndProc = ctypes.WINFUNCTYPE(
-    wintypes.LPARAM,
-    wintypes.HWND,
-    wintypes.UINT,
-    wintypes.WPARAM,
-    wintypes.LPARAM,
-) if hasattr(ctypes, "WINFUNCTYPE") else None
+WndProc = (
+    ctypes.WINFUNCTYPE(
+        wintypes.LPARAM,
+        wintypes.HWND,
+        wintypes.UINT,
+        wintypes.WPARAM,
+        wintypes.LPARAM,
+    )
+    if hasattr(ctypes, "WINFUNCTYPE")
+    else None
+)
 
 HBRUSH = getattr(wintypes, "HBRUSH", wintypes.HANDLE)
 HCURSOR = getattr(wintypes, "HCURSOR", wintypes.HANDLE)
@@ -43,31 +47,35 @@ HMENU = getattr(wintypes, "HMENU", wintypes.HANDLE)
 UINT_PTR = getattr(wintypes, "UINT_PTR", ctypes.c_size_t)
 
 
-class WNDCLASS(ctypes.Structure):
-    _fields_ = [
-        ("style", wintypes.UINT),
-        ("lpfnWndProc", WndProc),
-        ("cbClsExtra", ctypes.c_int),
-        ("cbWndExtra", ctypes.c_int),
-        ("hInstance", HINSTANCE),
-        ("hIcon", HICON),
-        ("hCursor", HCURSOR),
-        ("hbrBackground", HBRUSH),
-        ("lpszMenuName", wintypes.LPCWSTR),
-        ("lpszClassName", wintypes.LPCWSTR),
-    ]
+if WndProc is not None:
+    class WNDCLASS(ctypes.Structure):
+        _fields_ = [
+            ("style", wintypes.UINT),
+            ("lpfnWndProc", WndProc),
+            ("cbClsExtra", ctypes.c_int),
+            ("cbWndExtra", ctypes.c_int),
+            ("hInstance", HINSTANCE),
+            ("hIcon", HICON),
+            ("hCursor", HCURSOR),
+            ("hbrBackground", HBRUSH),
+            ("lpszMenuName", wintypes.LPCWSTR),
+            ("lpszClassName", wintypes.LPCWSTR),
+        ]
 
 
-class NOTIFYICONDATA(ctypes.Structure):
-    _fields_ = [
-        ("cbSize", wintypes.DWORD),
-        ("hWnd", wintypes.HWND),
-        ("uID", wintypes.UINT),
-        ("uFlags", wintypes.UINT),
-        ("uCallbackMessage", wintypes.UINT),
-        ("hIcon", HICON),
-        ("szTip", wintypes.WCHAR * 128),
-    ]
+    class NOTIFYICONDATA(ctypes.Structure):
+        _fields_ = [
+            ("cbSize", wintypes.DWORD),
+            ("hWnd", wintypes.HWND),
+            ("uID", wintypes.UINT),
+            ("uFlags", wintypes.UINT),
+            ("uCallbackMessage", wintypes.UINT),
+            ("hIcon", HICON),
+            ("szTip", wintypes.WCHAR * 128),
+        ]
+else:
+    WNDCLASS = None
+    NOTIFYICONDATA = None
 
 
 class TrayIcon:
@@ -78,7 +86,7 @@ class TrayIcon:
         on_exit: Callable[[], None],
         is_paused: Callable[[], bool],
     ) -> None:
-        if not hasattr(ctypes, "windll") or WndProc is None:
+        if not _is_windows_tray_available():
             raise RuntimeError("Tray icon is currently Windows-only.")
         self.user32 = ctypes.windll.user32
         self.shell32 = ctypes.windll.shell32
@@ -116,6 +124,8 @@ class TrayIcon:
             self.shell32.Shell_NotifyIconW(NIM_MODIFY, ctypes.byref(data))
 
     def _register_class(self) -> None:
+        if WNDCLASS is None:
+            raise RuntimeError("Tray icon is currently Windows-only.")
         instance = self.kernel32.GetModuleHandleW(None)
         wndclass = WNDCLASS()
         wndclass.lpfnWndProc = self._wnd_proc_ref
@@ -151,6 +161,8 @@ class TrayIcon:
             raise ctypes.WinError()
 
     def _notify_data(self) -> NOTIFYICONDATA:
+        if NOTIFYICONDATA is None:
+            raise RuntimeError("Tray icon is currently Windows-only.")
         data = NOTIFYICONDATA()
         data.cbSize = ctypes.sizeof(NOTIFYICONDATA)
         data.hWnd = self.hwnd
@@ -209,6 +221,8 @@ class TrayIcon:
             self.on_exit()
 
     def _configure_win32_api(self) -> None:
+        if WNDCLASS is None or NOTIFYICONDATA is None:
+            raise RuntimeError("Tray icon is currently Windows-only.")
         self.user32.DefWindowProcW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
         self.user32.DefWindowProcW.restype = wintypes.LPARAM
         self.user32.CreateWindowExW.argtypes = [
@@ -244,3 +258,7 @@ class TrayIcon:
         self.user32.DestroyMenu.argtypes = [HMENU]
         self.shell32.Shell_NotifyIconW.argtypes = [wintypes.DWORD, ctypes.POINTER(NOTIFYICONDATA)]
         self.shell32.Shell_NotifyIconW.restype = wintypes.BOOL
+
+
+def _is_windows_tray_available() -> bool:
+    return hasattr(ctypes, "windll") and WndProc is not None and WNDCLASS is not None and NOTIFYICONDATA is not None
