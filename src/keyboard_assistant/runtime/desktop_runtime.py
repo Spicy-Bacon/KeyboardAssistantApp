@@ -18,6 +18,18 @@ from keyboard_assistant.platform.app_detector import AppDetector
 from keyboard_assistant.platform.cursor import CursorLocator
 from keyboard_assistant.platform.keyboard_listener import KeyboardEvent, WindowsKeyboardListener
 from keyboard_assistant.platform.text_injector import NullTextInjector, WindowsTextInjector
+from keyboard_assistant.runtime.components import (
+    AppDetectorProtocol,
+    CursorLocatorProtocol,
+    KeyboardListener,
+    LocalAIWorkerProtocol,
+    NullKeyboardListener,
+    NullOverlay,
+    NullTrayIcon,
+    Overlay,
+    TextInjector,
+    Tray,
+)
 from keyboard_assistant.runtime.health import RuntimeHealth
 from keyboard_assistant.storage.database import Database
 from keyboard_assistant.ui.suggestion_overlay import SuggestionOverlay
@@ -43,55 +55,19 @@ class RuntimeStats:
     app_context_changes: int = 0
 
 
-class NullTrayIcon:
-    def close(self) -> None:
-        pass
-
-    def update_tooltip(self) -> None:
-        pass
-
-
-class NullOverlay:
-    def run(self) -> None:
-        pass
-
-    def close(self) -> None:
-        pass
-
-    def call_soon(self, callback) -> None:
-        callback()
-
-    def apply_appearance(self, _appearance) -> None:
-        pass
-
-    def show_suggestions(self, _suggestions, _x: int, _y: int, focus_index: int = 0) -> None:
-        pass
-
-    def hide(self) -> None:
-        pass
-
-
-class NullKeyboardListener:
-    def start(self) -> None:
-        pass
-
-    def stop(self) -> None:
-        pass
-
-
 class DesktopAssistantRuntime:
     def __init__(
         self,
         database: Database,
         diagnostics: DiagnosticsLogger | None = None,
         verbose: bool = False,
-        injector=None,
-        overlay=None,
-        tray=None,
-        listener=None,
-        app_detector=None,
-        cursor_locator=None,
-        ai_worker=None,
+        injector: TextInjector | None = None,
+        overlay: Overlay | None = None,
+        tray: Tray | None = None,
+        listener: KeyboardListener | None = None,
+        app_detector: AppDetectorProtocol | None = None,
+        cursor_locator: CursorLocatorProtocol | None = None,
+        ai_worker: LocalAIWorkerProtocol | None = None,
         allow_null_injector: bool = False,
     ) -> None:
         self.database = database
@@ -157,7 +133,7 @@ class DesktopAssistantRuntime:
                 return NullTextInjector()
             raise RuntimeError("Text injector failed to start.") from exc
 
-    def _create_overlay(self):
+    def _create_overlay(self) -> Overlay:
         try:
             overlay = SuggestionOverlay(on_close=self.stop, on_select=self._accept_selected_from_overlay)
             self.health.overlay_started = True
@@ -169,7 +145,7 @@ class DesktopAssistantRuntime:
             self.diagnostics.exception("overlay_start_failed", exc)
             raise RuntimeError("Suggestion overlay failed to start.") from exc
 
-    def _create_tray(self):
+    def _create_tray(self) -> Tray:
         try:
             tray = TrayIcon(
                 on_toggle_pause=self.toggle_pause,
@@ -186,7 +162,7 @@ class DesktopAssistantRuntime:
             self.diagnostics.exception("tray_icon_start_failed", exc)
             return NullTrayIcon()
 
-    def _create_listener(self):
+    def _create_listener(self) -> KeyboardListener:
         return WindowsKeyboardListener(
             self._handle_keyboard_event,
             on_error=self._handle_keyboard_listener_error,
@@ -218,14 +194,22 @@ class DesktopAssistantRuntime:
         if self._stopped:
             return
         self._stopped = True
-        self.listener.stop()
+        self._safe_cleanup("keyboard_listener", self.listener.stop)
         self._stop_event_worker()
-        self.ai_worker.cancel()
-        self.tray.close()
-        self.overlay.close()
+        self._safe_cleanup("local_ai_worker", self.ai_worker.cancel)
+        self._safe_cleanup("tray_icon", self.tray.close)
+        self._safe_cleanup("overlay", self.overlay.close)
         self.diagnostics.info("runtime_stopped", health=self.health.snapshot(), **self._stats_metadata())
         self._print("Keyboard Assistant stopped.")
         self._print(f"Session stats: {self._stats_metadata()}")
+
+    def _safe_cleanup(self, component: str, cleanup) -> None:
+        try:
+            cleanup()
+        except Exception as exc:
+            self.health.record_exception(component, exc)
+            self.diagnostics.exception(f"{component}_cleanup_failed", exc)
+            self._print(f"{component} cleanup failed: {type(exc).__name__}: {exc}", debug_only=True)
 
     def is_paused(self) -> bool:
         return self._paused
@@ -374,7 +358,7 @@ class DesktopAssistantRuntime:
         choices = self._display_choices(suggestions, app_context)
         self.stats.suggestions_generated += len(choices)
         self._print(
-            f"buffer={self.buffer.text[-40:]!r} app={app_context.app_identifier!r} "
+            f"buffer={_buffer_metadata(self.buffer.text)} app={app_context.app_identifier!r} "
             f"policy={policy.reason} strength={policy.correction_strength} suggestions={len(choices)}",
             debug_only=True,
         )
@@ -626,3 +610,11 @@ def _fallback_next_words(words: tuple[str, ...]) -> list[str]:
 
 def _default_selection_index(choices: list[Suggestion]) -> int:
     return 1 if len(choices) > 1 else 0
+
+
+def _buffer_metadata(text: str) -> str:
+    context = extract_text_context(text)
+    return (
+        f"len={len(text)} current_word_len={len(context.current_word)} "
+        f"previous_words={len(context.previous_words)}"
+    )

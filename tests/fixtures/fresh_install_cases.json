@@ -2074,5 +2074,125 @@
         "expected_suggestion":  null,
         "type":  "negative_no_autocorrect",
         "should_auto_apply":  false
+    },
+    {
+        "input":  "write a function",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "create a class",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "send the form",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "from the office",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "apple watch",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "return the book",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "import the file",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "public meeting",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "static image",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "string theory",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "loose change",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "lose focus",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "then continue",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "than expected",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "were ready",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "well done",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "shell command",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "ill today",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "normal text",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "daily use",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
     }
 ]

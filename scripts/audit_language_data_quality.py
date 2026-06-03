@@ -151,17 +151,18 @@ def _audit_common_words(path: Path, summary: AuditSummary) -> None:
 
 
 def _audit_phrases(path: Path, summary: AuditSummary) -> None:
-    seen_prefixes: dict[str, int] = {}
+    seen_rules: set[tuple[str, str]] = set()
     for line_number, parts in _iter_tsv(path, 3, summary):
         prefix, suggestion, confidence = parts
         if len(prefix.split()) > 4 or len(suggestion.split()) > 3:
             summary.add(path.name, line_number, "phrase_too_long", f"{prefix} -> {suggestion}")
         if suggestion.lower() in {"a", "an", "it", "the"} and len(prefix.split()) < 2:
             summary.add(path.name, line_number, "generic_low_value_phrase", f"{prefix} -> {suggestion}")
-        if prefix in seen_prefixes:
-            summary.add(path.name, line_number, "duplicate_prefix_variant", prefix)
+        rule_key = (prefix.lower(), suggestion.lower())
+        if rule_key in seen_rules:
+            summary.add(path.name, line_number, "duplicate_phrase_rule", f"{prefix} -> {suggestion}")
         else:
-            seen_prefixes[prefix] = line_number
+            seen_rules.add(rule_key)
         if _has_blocked_hint(prefix) or _has_blocked_hint(suggestion):
             summary.add(path.name, line_number, "blocked_content_hint", f"{prefix} -> {suggestion}")
         _flag_bad_confidence(path.name, line_number, confidence, summary)

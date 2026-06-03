@@ -11,6 +11,9 @@ from keyboard_assistant.platform.keyboard_listener import KeyboardEvent
 from keyboard_assistant.platform.text_injector import NullTextInjector
 from keyboard_assistant.runtime.desktop_runtime import (
     DesktopAssistantRuntime,
+    _buffer_metadata,
+)
+from keyboard_assistant.runtime.components import (
     NullKeyboardListener,
     NullOverlay,
     NullTrayIcon,
@@ -278,6 +281,30 @@ class DesktopAssistantRuntimeTests(unittest.TestCase):
         ai_worker.cancel.assert_called_once()
         tray.close.assert_called_once()
         overlay.close.assert_called_once()
+
+    def test_stop_continues_cleanup_when_component_raises(self) -> None:
+        listener = Mock()
+        listener.stop.side_effect = RuntimeError("listener stuck")
+        tray = Mock()
+        overlay = Mock()
+        ai_worker = Mock()
+        runtime = self.make_runtime(listener=listener, tray=tray, overlay=overlay, ai_worker=ai_worker)
+
+        runtime.stop()
+
+        listener.stop.assert_called_once()
+        ai_worker.cancel.assert_called_once()
+        tray.close.assert_called_once()
+        overlay.close.assert_called_once()
+        self.assertIn("keyboard_listener", runtime.health.last_exception)
+
+    def test_buffer_metadata_does_not_expose_typed_text(self) -> None:
+        metadata = _buffer_metadata("secret typed content")
+
+        self.assertIn("len=", metadata)
+        self.assertNotIn("secret", metadata)
+        self.assertNotIn("typed", metadata)
+        self.assertNotIn("content", metadata)
 
     def assistant_suggestion(self) -> Suggestion:
         return Suggestion("teh", "the", "typo", 0.96, auto_apply=True)

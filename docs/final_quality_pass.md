@@ -8,24 +8,28 @@ Completed during the quality, safety, and runtime stability upgrade.
 - Auto-apply decisions now pass through `AutoApplySafetyGate`.
 - Code-like text, paths, URLs, command-line input, local AI suggestions, phrase predictions, and ambiguous real-word corrections are protected from auto-apply.
 - Fresh-install negative no-autocorrect benchmark coverage was expanded.
-- Dataset validation remains structural, while `scripts/audit_language_data_quality.py` now reports quality risks separately.
+- Dataset validation remains structural, while `scripts/audit_language_data_quality.py` now reports quality risks separately and no longer treats expected phrase variants as duplicate findings.
 - Phrase prediction now handles benchmarked 1-word, 2-word, and 3-word trailing-space prefixes correctly.
-- Desktop runtime now tracks `RuntimeHealth`, falls back when tray startup fails, logs keyboard callback exceptions, and isolates local AI worker exceptions.
+- Desktop runtime now tracks `RuntimeHealth`, supports injected desktop components for tests, falls back when tray startup fails, logs keyboard callback exceptions, and isolates local AI worker exceptions.
 - Startup/data profiling is available through `scripts/profile_startup.py`.
 
 ## Current Benchmark
 
 Latest full-suite benchmark output:
 
-- Total pass rate: `346/346` (`100.0%`)
+- Total pass rate: `366/366` (`100.0%`)
 - Typo: `60/60` (`100.0%`)
 - Apostrophe/contraction: `6/6` (`100.0%`)
 - Capitalization: `8/8` (`100.0%`)
 - Contextual/confusion: `112/112` (`100.0%`)
 - Next word: `10/10` (`100.0%`)
-- Negative no-autocorrect: `122/122` (`100.0%`)
+- Negative no-autocorrect: `142/142` (`100.0%`)
 - False auto-corrections: `0`
 - False auto-correction rate: `0.0%`
+
+Latest full test discovery:
+
+- Unit tests: `207/207` passing
 
 ## Safety Protections Added
 
@@ -37,6 +41,7 @@ Latest full-suite benchmark output:
 - Local AI suggestions never auto-apply.
 - Real-word ambiguous corrections remain suggest-only unless explicitly safe.
 - Reverted or ignored suggestions are blocked from future auto-apply.
+- Runtime debug output reports buffer length metadata instead of raw typed text.
 
 ## Runtime Stability Improvements
 
@@ -44,7 +49,8 @@ Latest full-suite benchmark output:
 - Keyboard callback exceptions are reported through diagnostics and do not suppress the original key.
 - Local AI worker provider exceptions are reported and do not crash typing flow.
 - Tray icon startup failure falls back to a null tray and records diagnostics.
-- Runtime shutdown still closes listener, worker, tray, and overlay resources.
+- Runtime component protocols and null implementations are isolated in `runtime/components.py`.
+- Runtime shutdown attempts listener, worker, tray, and overlay cleanup independently, and records cleanup failures without skipping later resources.
 
 ## Dataset Quality
 
@@ -75,7 +81,7 @@ Latest full-suite benchmark output:
 - The desktop app is still a Windows-focused prototype, not a finished background product.
 - Context comes from the typed-buffer fallback, not full target-app document extraction.
 - Tray behavior still needs validation in a normal long-running desktop session.
-- Phrase data remains large and has many prefix variants; the audit reports this for future cleanup.
+- Phrase data remains large and has many prefix variants; the audit now reports exact duplicate phrase rules rather than normal ranked variants.
 - Local AI remains optional and depends on the user's local Ollama setup when enabled.
 
 ## Next Recommended Work

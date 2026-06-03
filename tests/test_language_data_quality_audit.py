@@ -66,6 +66,30 @@ class LanguageDataQualityAuditTests(unittest.TestCase):
 
         self.assertEqual(too_long, [])
 
+    def test_phrase_variants_are_not_reported_as_duplicates(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            data_dir = Path(tempdir)
+            files = dict(VALID_FILES)
+            files["common_phrases.tsv"] = "thank\tyou\t0.95\nthank\tfully\t0.70\n"
+            _write_files(data_dir, files)
+
+            summary = audit_language_data(data_dir)
+            duplicates = [finding for finding in summary.findings if finding.category == "duplicate_phrase_rule"]
+
+            self.assertEqual(duplicates, [])
+
+    def test_exact_duplicate_phrase_rules_are_reported(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            data_dir = Path(tempdir)
+            files = dict(VALID_FILES)
+            files["common_phrases.tsv"] = "thank\tyou\t0.95\nthank\tyou\t0.90\n"
+            _write_files(data_dir, files)
+
+            summary = audit_language_data(data_dir)
+            duplicates = [finding for finding in summary.findings if finding.category == "duplicate_phrase_rule"]
+
+            self.assertEqual(len(duplicates), 1)
+
 
 def _write_files(data_dir: Path, files: dict[str, str]) -> None:
     data_dir.mkdir(parents=True, exist_ok=True)
