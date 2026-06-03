@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from importlib import resources
 import os
 from pathlib import Path
 import shutil
@@ -12,6 +13,7 @@ from keyboard_assistant.platform.startup import WindowsStartupManager
 
 APP_DIR_NAME = "KeyboardAssistant"
 PYZ_NAME = "keyboard-assistant.pyz"
+ICON_NAME = "app_icon.ico"
 DESKTOP_LAUNCHER = "Keyboard Assistant.cmd"
 SETTINGS_LAUNCHER = "Keyboard Assistant Settings.cmd"
 
@@ -20,6 +22,7 @@ SETTINGS_LAUNCHER = "Keyboard Assistant Settings.cmd"
 class InstallResult:
     install_root: Path
     installed_pyz: Path
+    installed_icon: Path
     desktop_launcher: Path
     settings_launcher: Path
     startup_enabled: bool
@@ -60,7 +63,9 @@ def install_zipapp(
     menu_dir.mkdir(parents=True, exist_ok=True)
 
     installed_pyz = root / PYZ_NAME
+    installed_icon = root / ICON_NAME
     shutil.copy2(source, installed_pyz)
+    _copy_app_icon(installed_icon)
 
     desktop_launcher = menu_dir / DESKTOP_LAUNCHER
     settings_launcher = menu_dir / SETTINGS_LAUNCHER
@@ -76,6 +81,7 @@ def install_zipapp(
     return InstallResult(
         install_root=root,
         installed_pyz=installed_pyz,
+        installed_icon=installed_icon,
         desktop_launcher=desktop_launcher,
         settings_launcher=settings_launcher,
         startup_enabled=startup_enabled,
@@ -98,11 +104,18 @@ def uninstall_zipapp(
     _remove_empty_dir(menu_dir)
 
     _unlink_if_exists(root / PYZ_NAME)
+    _unlink_if_exists(root / ICON_NAME)
     _remove_empty_dir(root)
 
 
 def _write_cmd_launcher(path: Path, command: str) -> None:
     path.write_text(f"@echo off\r\nstart \"\" {command}\r\n", encoding="utf-8")
+
+
+def _copy_app_icon(target: Path) -> None:
+    icon_resource = resources.files("keyboard_assistant.assets").joinpath(ICON_NAME)
+    with resources.as_file(icon_resource) as icon_path:
+        shutil.copy2(icon_path, target)
 
 
 def _unlink_if_exists(path: Path) -> None:

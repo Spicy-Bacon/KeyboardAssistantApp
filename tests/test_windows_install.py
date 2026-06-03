@@ -4,6 +4,7 @@ import unittest
 
 from keyboard_assistant.platform.windows_install import (
     DESKTOP_LAUNCHER,
+    ICON_NAME,
     PYZ_NAME,
     SETTINGS_LAUNCHER,
     build_pyz_command,
@@ -55,7 +56,9 @@ class WindowsInstallTests(unittest.TestCase):
         )
 
         self.assertEqual(result.installed_pyz, self.install_root / PYZ_NAME)
+        self.assertEqual(result.installed_icon, self.install_root / ICON_NAME)
         self.assertTrue(result.installed_pyz.exists())
+        self.assertTrue(result.installed_icon.exists())
         self.assertTrue((self.menu_dir / DESKTOP_LAUNCHER).exists())
         self.assertTrue((self.menu_dir / SETTINGS_LAUNCHER).exists())
         self.assertIn("desktop", (self.menu_dir / DESKTOP_LAUNCHER).read_text(encoding="utf-8"))
@@ -79,6 +82,7 @@ class WindowsInstallTests(unittest.TestCase):
         )
 
         self.assertFalse((self.install_root / PYZ_NAME).exists())
+        self.assertFalse((self.install_root / ICON_NAME).exists())
         self.assertFalse((self.menu_dir / DESKTOP_LAUNCHER).exists())
         self.assertFalse((self.menu_dir / SETTINGS_LAUNCHER).exists())
         self.assertEqual(startup.disable_calls, 1)

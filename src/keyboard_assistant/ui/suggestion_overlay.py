@@ -34,10 +34,10 @@ FW_NORMAL = 400
 FONT_FACE = "Segoe UI"
 THEMES = {
     "dark": {
-        "text_primary": 0x00FBFAF9,
-        "text_secondary": 0x00DBD5D1,
-        "background": 0x00211F1D,
-        "highlight_background": 0x00322F2B,
+        "text_primary": 0x00F2F2F2,
+        "text_secondary": 0x00B8B8B8,
+        "background": 0x00242424,
+        "highlight_background": 0x003A3A3A,
     },
     "light": {
         "text_primary": 0x001F2937,
@@ -46,12 +46,13 @@ THEMES = {
         "highlight_background": 0x00E5E7EB,
     },
     "system": {
-        "text_primary": 0x00FBFAF9,
-        "text_secondary": 0x00DBD5D1,
-        "background": 0x0037291F,
-        "highlight_background": 0x005A3F2C,
+        "text_primary": 0x00F2F2F2,
+        "text_secondary": 0x00B8B8B8,
+        "background": 0x00242424,
+        "highlight_background": 0x003A3A3A,
     },
 }
+OVERLAY_RADIUS_MM = 2.0
 SIZE_CONFIG = {
     "small": {"height": 30, "font_height": -13, "char_width": 7, "padding": 22, "min_choice_width": 96},
     "medium": {"height": 36, "font_height": -15, "char_width": 8, "padding": 26, "min_choice_width": 128},
@@ -78,6 +79,7 @@ HINSTANCE = getattr(wintypes, "HINSTANCE", wintypes.HANDLE)
 HMENU = getattr(wintypes, "HMENU", wintypes.HANDLE)
 HFONT = getattr(wintypes, "HFONT", wintypes.HANDLE)
 HGDIOBJ = getattr(wintypes, "HGDIOBJ", wintypes.HANDLE)
+HRGN = getattr(wintypes, "HRGN", wintypes.HANDLE)
 
 
 if WndProc is not None:
@@ -176,6 +178,7 @@ class SuggestionOverlay:
         screen_height = self.user32.GetSystemMetrics(1)
         pos_x, pos_y = calculate_overlay_position(x, y, width, height, screen_width, screen_height)
         self.user32.MoveWindow(self.hwnd, pos_x, pos_y, width, height, True)
+        self._round_window(width, height)
         self.user32.ShowWindow(self.hwnd, SW_SHOWNOACTIVATE)
         self.user32.InvalidateRect(self.hwnd, None, True)
 
@@ -237,6 +240,11 @@ class SuggestionOverlay:
         self.user32.RegisterClassW.restype = wintypes.ATOM
         self.user32.PostMessageW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
         self.user32.PostMessageW.restype = wintypes.BOOL
+        self.user32.SetWindowRgn.argtypes = [wintypes.HWND, HRGN, wintypes.BOOL]
+        self.user32.SetWindowRgn.restype = ctypes.c_int
+        if hasattr(self.user32, "GetDpiForWindow"):
+            self.user32.GetDpiForWindow.argtypes = [wintypes.HWND]
+            self.user32.GetDpiForWindow.restype = wintypes.UINT
         self.user32.UnregisterClassW.argtypes = [wintypes.LPCWSTR, HINSTANCE]
         self.user32.UnregisterClassW.restype = wintypes.BOOL
         self.gdi32.CreateFontW.argtypes = [
@@ -256,6 +264,15 @@ class SuggestionOverlay:
             wintypes.LPCWSTR,
         ]
         self.gdi32.CreateFontW.restype = HFONT
+        self.gdi32.CreateRoundRectRgn.argtypes = [
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+        ]
+        self.gdi32.CreateRoundRectRgn.restype = HRGN
         self.gdi32.SelectObject.argtypes = [wintypes.HDC, HGDIOBJ]
         self.gdi32.SelectObject.restype = HGDIOBJ
         self.gdi32.DeleteObject.argtypes = [HGDIOBJ]
@@ -364,6 +381,20 @@ class SuggestionOverlay:
             DEFAULT_PITCH,
             FONT_FACE,
         )
+
+    def _round_window(self, width: int, height: int) -> None:
+        radius = self._mm_to_pixels(OVERLAY_RADIUS_MM)
+        region = self.gdi32.CreateRoundRectRgn(0, 0, width + 1, height + 1, radius * 2, radius * 2)
+        self.user32.SetWindowRgn(self.hwnd, region, True)
+
+    def _mm_to_pixels(self, value: float) -> int:
+        dpi = 96
+        if hasattr(self.user32, "GetDpiForWindow"):
+            try:
+                dpi = int(self.user32.GetDpiForWindow(self.hwnd))
+            except OSError:
+                dpi = 96
+        return max(1, round(value * dpi / 25.4))
 
 
 def _format_label(index: int, suggestion: Suggestion, focus_index: int = 0) -> str:

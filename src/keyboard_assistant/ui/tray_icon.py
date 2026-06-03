@@ -4,6 +4,8 @@ from collections.abc import Callable
 import ctypes
 from ctypes import wintypes
 
+from keyboard_assistant.ui.app_icon import destroy_app_icon, load_app_icon
+
 
 WM_DESTROY = 0x0002
 WM_COMMAND = 0x0111
@@ -17,7 +19,6 @@ NIM_DELETE = 0x00000002
 NIF_MESSAGE = 0x00000001
 NIF_ICON = 0x00000002
 NIF_TIP = 0x00000004
-IDI_APPLICATION = 32512
 TPM_RETURNCMD = 0x0100
 TPM_RIGHTBUTTON = 0x0002
 MF_STRING = 0x00000000
@@ -102,7 +103,7 @@ class TrayIcon:
         self._closed = False
         self._register_class()
         self.hwnd = self._create_window()
-        self.icon = self.user32.LoadIconW(None, IDI_APPLICATION)
+        self.icon, self._owns_icon = load_app_icon(self.user32, 16, 16)
         self._add_icon()
 
     def close(self) -> None:
@@ -117,6 +118,9 @@ class TrayIcon:
         if self._class_registered:
             self.user32.UnregisterClassW(self._class_name, self.kernel32.GetModuleHandleW(None))
             self._class_registered = False
+        destroy_app_icon(self.user32, getattr(self, "icon", 0), getattr(self, "_owns_icon", False))
+        self.icon = 0
+        self._owns_icon = False
 
     def update_tooltip(self) -> None:
         if getattr(self, "hwnd", None):
