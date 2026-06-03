@@ -77,6 +77,23 @@ python -m keyboard_assistant.settings_app
 
 The native settings window uses a dark sidebar/card layout and supports assistant on/off, correction strength, learning on/off, local data counts, clearing learning data, app behavior rules, personal dictionary management, overlay appearance, and local AI settings.
 
+The new experimental frontend is a separate Tauri + React settings app:
+
+```powershell
+cd frontend
+npm install
+npm run tauri dev
+```
+
+For a browser-only UI preview:
+
+```powershell
+cd frontend
+npm run dev
+```
+
+The Tauri UI calls the Python backend through allowlisted subprocess commands such as `python -m keyboard_assistant.cli settings show --json`. It does not edit SQLite directly. The PySide settings app remains the fallback while the Tauri frontend stabilizes.
+
 Current live controls:
 
 - The left choice is the word you typed.
@@ -184,6 +201,7 @@ The same CLI can manage the local settings database:
 $env:PYTHONPATH="src"
 
 python -m keyboard_assistant.cli settings show
+python -m keyboard_assistant.cli settings show --json
 python -m keyboard_assistant.cli settings set assistant off
 python -m keyboard_assistant.cli settings set assistant on
 python -m keyboard_assistant.cli settings set strength light
@@ -192,23 +210,29 @@ python -m keyboard_assistant.cli settings set learning off
 python -m keyboard_assistant.cli apps set code.exe --status off --name "Visual Studio Code"
 python -m keyboard_assistant.cli apps set notepad.exe --status limited --strength light
 python -m keyboard_assistant.cli apps list
+python -m keyboard_assistant.cli apps list --json
+python -m keyboard_assistant.cli apps remove code.exe
 
 python -m keyboard_assistant.cli dictionary add Qwen --never-correct
 python -m keyboard_assistant.cli dictionary list
+python -m keyboard_assistant.cli dictionary list --json
 python -m keyboard_assistant.cli dictionary export dictionary.json
 python -m keyboard_assistant.cli dictionary import dictionary.json
 python -m keyboard_assistant.cli dictionary remove Qwen
 
 python -m keyboard_assistant.cli privacy summary
+python -m keyboard_assistant.cli privacy summary --json
 python -m keyboard_assistant.cli privacy clear-learning
 
 python -m keyboard_assistant.cli diagnostics show
 python -m keyboard_assistant.cli diagnostics clear
 
 python -m keyboard_assistant.cli appearance show
+python -m keyboard_assistant.cli appearance show --json
 python -m keyboard_assistant.cli appearance set --theme light --size small --opacity 85 --animations off
 
 python -m keyboard_assistant.cli local-ai status
+python -m keyboard_assistant.cli local-ai status --json
 python -m keyboard_assistant.cli local-ai set --enabled on --provider ollama --model qwen2.5:3b --endpoint http://127.0.0.1:11434 --timeout 2
 python -m keyboard_assistant.cli local-ai test
 
@@ -233,11 +257,16 @@ Diagnostics are local JSON-lines logs next to the SQLite database. They record l
 ## Production-Readiness Docs
 
 - [Architecture](docs/architecture.md)
+- [Frontend Migration Plan](docs/frontend_migration_plan.md)
 - [Privacy Design](docs/privacy_design.md)
 - [Manual Desktop Test Plan](docs/manual_desktop_test_plan.md)
 - [Windows Install Test Plan](docs/windows_install_test_plan.md)
 - [Language Data Quality Report](docs/language_data_quality_report.md)
 - [Final Quality Pass](docs/final_quality_pass.md)
+
+## Future macOS Direction
+
+The Tauri settings UI is the cross-platform frontend direction. The backend remains local and Python-owned. Future macOS work should add a macOS runtime factory with event tap, accessibility permission, app detection, and text insertion implementations kept separate from Windows hook logic. Local AI remains optional, and no cloud APIs or LangChain are required.
 
 ## Current Scope
 

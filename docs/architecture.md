@@ -129,6 +129,27 @@ The CLI exposes local controls for suggestions, settings, app profiles, dictiona
 
 The settings app is a desktop GUI for the same database-backed settings.
 
+The new experimental frontend lives in `frontend/` as a Tauri + React + TypeScript app. It is separate from Python packaging and talks to the backend through allowlisted Tauri commands that call the existing Python CLI with `--json` output. The frontend does not write SQLite directly; the Python backend remains the source of truth for settings, app rules, dictionary entries, privacy summaries, local AI configuration, and doctor checks.
+
+```text
+Tauri React UI
+  -> Rust command bridge
+  -> python -m keyboard_assistant.cli ... --json
+  -> Database / backend services
+```
+
+The PySide settings app remains available during the migration:
+
+```powershell
+python -m keyboard_assistant.settings_app
+```
+
+## Future macOS Expansion
+
+The Tauri settings UI is intended to be shared across Windows and macOS. Runtime-specific behavior should stay behind platform factories. Windows hook, caret, app detection, and text injection logic should remain isolated from future macOS event tap, accessibility permission, and text insertion implementations.
+
+The backend stays local-first on every platform. macOS support should add a macOS runtime factory and permission flow without changing the correction engine, language data, safety gate, or local-only storage model.
+
 ## Safety-First Correction Flow
 
 The app prefers missed suggestions over false auto-corrections. Auto-apply is reserved for narrow, high-confidence cases such as exact non-word typos, safe contractions, standalone `i -> I`, and clear sentence-start capitalization. Real-word ambiguity usually remains suggest-only.
