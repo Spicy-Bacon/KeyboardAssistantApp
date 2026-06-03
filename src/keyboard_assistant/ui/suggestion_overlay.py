@@ -13,6 +13,9 @@ WM_DESTROY = 0x0002
 WM_CLOSE = 0x0010
 WM_PAINT = 0x000F
 WM_LBUTTONDOWN = 0x0201
+WM_MOUSEMOVE = 0x0200
+WM_SETCURSOR = 0x0020
+WM_NCLBUTTONDOWN = 0x00A1
 WM_APP_DRAIN_QUEUE = 0x8001
 WS_POPUP = 0x80000000
 WS_EX_LAYERED = 0x00080000
@@ -27,6 +30,9 @@ DT_CENTER = 0x00000001
 DT_VCENTER = 0x00000004
 DT_SINGLELINE = 0x00000020
 NULL_PEN = 8
+HTCAPTION = 2
+IDC_HAND = 32649
+IDC_SIZEALL = 32646
 DEFAULT_CHARSET = 1
 OUT_DEFAULT_PRECIS = 0
 CLIP_DEFAULT_PRECIS = 0
@@ -56,6 +62,9 @@ THEMES = {
 }
 OVERLAY_RADIUS_MM = 1.5
 CHIP_RADIUS_MM = 1.5
+DRAG_HANDLE_WIDTH = 24
+DOT_SIZE = 3
+DOT_GAP = 4
 OVERLAY_PADDING_X = 8
 CHIP_VERTICAL_MARGIN = 4
 CHIP_GAP = 6
@@ -133,6 +142,8 @@ class SuggestionOverlay:
         self.gdi32 = ctypes.windll.gdi32
         self.kernel32 = ctypes.windll.kernel32
         self._configure_win32_api()
+        self._cursor_drag = self.user32.LoadCursorW(None, ctypes.c_void_p(IDC_SIZEALL))
+        self._cursor_hand = self.user32.LoadCursorW(None, ctypes.c_void_p(IDC_HAND))
         self.on_close = on_close
         self.on_select = on_select
         self._queue: queue.Queue[Callable[[], None]] = queue.Queue()
@@ -252,6 +263,14 @@ class SuggestionOverlay:
         self.user32.RegisterClassW.restype = wintypes.ATOM
         self.user32.PostMessageW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
         self.user32.PostMessageW.restype = wintypes.BOOL
+        self.user32.SendMessageW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
+        self.user32.SendMessageW.restype = wintypes.LPARAM
+        self.user32.ReleaseCapture.argtypes = []
+        self.user32.ReleaseCapture.restype = wintypes.BOOL
+        self.user32.LoadCursorW.argtypes = [wintypes.HINSTANCE, ctypes.c_void_p]
+        self.user32.LoadCursorW.restype = HCURSOR
+        self.user32.SetCursor.argtypes = [HCURSOR]
+        self.user32.SetCursor.restype = HCURSOR
         self.user32.SetWindowRgn.argtypes = [wintypes.HWND, HRGN, wintypes.BOOL]
         self.user32.SetWindowRgn.restype = ctypes.c_int
         if hasattr(self.user32, "GetDpiForWindow"):
@@ -329,8 +348,19 @@ class SuggestionOverlay:
         if message == WM_PAINT:
             self._paint(hwnd)
             return 0
+        if message == WM_MOUSEMOVE:
+            self._set_overlay_cursor(l_param & 0xFFFF)
+            return 0
+        if message == WM_SETCURSOR:
+            self._set_overlay_cursor(0)
+            return 1
         if message == WM_LBUTTONDOWN:
-            index = choice_index_at_x(self._choice_bounds, l_param & 0xFFFF)
+            x = l_param & 0xFFFF
+            if is_drag_handle_x(x):
+                self.user32.ReleaseCapture()
+                self.user32.SendMessageW(hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0)
+                return 0
+            index = choice_index_at_x(self._choice_bounds, x)
             if index is not None and self.on_select:
                 self.on_select(index)
             return 0
@@ -367,6 +397,7 @@ class SuggestionOverlay:
             brush = self.gdi32.CreateSolidBrush(theme["background"])
             self.user32.FillRect(hdc, ctypes.byref(rect), brush)
             self.gdi32.DeleteObject(brush)
+            self._paint_drag_handle(hdc, theme, config)
             self.gdi32.SetBkMode(hdc, 1)
             font = self._create_text_font(config)
             previous_font = self.gdi32.SelectObject(hdc, font) if font else None
@@ -432,6 +463,25 @@ class SuggestionOverlay:
             FONT_FACE,
         )
 
+    def _paint_drag_handle(self, hdc: int, theme: dict[str, int], config: dict[str, int]) -> None:
+        brush = self.gdi32.CreateSolidBrush(theme["text_secondary"])
+        start_x = 8
+        start_y = max(6, (config["height"] - (3 * DOT_SIZE + 2 * DOT_GAP)) // 2)
+        try:
+            for row in range(3):
+                for column in range(2):
+                    left = start_x + column * (DOT_SIZE + DOT_GAP)
+                    top = start_y + row * (DOT_SIZE + DOT_GAP)
+                    dot = wintypes.RECT(left, top, left + DOT_SIZE, top + DOT_SIZE)
+                    self.user32.FillRect(hdc, ctypes.byref(dot), brush)
+        finally:
+            self.gdi32.DeleteObject(brush)
+
+    def _set_overlay_cursor(self, x: int) -> None:
+        cursor = self._cursor_drag if is_drag_handle_x(x) else self._cursor_hand
+        if cursor:
+            self.user32.SetCursor(cursor)
+
     def _round_window(self, width: int, height: int) -> None:
         radius = self._mm_to_pixels(OVERLAY_RADIUS_MM)
         region = self.gdi32.CreateRoundRectRgn(0, 0, width + 1, height + 1, radius * 2, radius * 2)
@@ -470,7 +520,7 @@ def chip_rects(labels: list[str], appearance: AppearanceSettings) -> list[tuple[
     top = CHIP_VERTICAL_MARGIN
     bottom = config["height"] - CHIP_VERTICAL_MARGIN
     rects: list[tuple[int, int, int, int]] = []
-    x = OVERLAY_PADDING_X
+    x = OVERLAY_PADDING_X + DRAG_HANDLE_WIDTH
     for label in labels:
         rects.append((x, top, x + slot_width, bottom))
         x += slot_width + CHIP_GAP
@@ -482,6 +532,10 @@ def choice_index_at_x(bounds: list[tuple[int, int]], x: int) -> int | None:
         if left <= x < right:
             return index
     return None
+
+
+def is_drag_handle_x(x: int) -> bool:
+    return 0 <= x < DRAG_HANDLE_WIDTH
 
 
 def _label_width(label: str, config: dict[str, int]) -> int:

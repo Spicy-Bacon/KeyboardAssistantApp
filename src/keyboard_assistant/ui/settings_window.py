@@ -16,6 +16,7 @@ WM_CTLCOLORBTN = 0x0135
 WM_CTLCOLOREDIT = 0x0133
 WM_CTLCOLORLISTBOX = 0x0134
 WM_CTLCOLORSTATIC = 0x0138
+WM_LBUTTONDOWN = 0x0201
 WS_OVERLAPPEDWINDOW = 0x00CF0000
 WS_VISIBLE = 0x10000000
 WS_CHILD = 0x40000000
@@ -24,6 +25,9 @@ WS_TABSTOP = 0x00010000
 BS_PUSHBUTTON = 0x00000000
 BS_FLAT = 0x00008000
 SS_LEFT = 0x00000000
+SS_CENTER = 0x00000001
+SS_CENTERIMAGE = 0x00000200
+SS_NOTIFY = 0x00000100
 ES_AUTOHSCROLL = 0x0080
 LBS_NOTIFY = 0x0001
 WS_VSCROLL = 0x00200000
@@ -34,7 +38,13 @@ CB_SETCURSEL = 0x014E
 LB_ADDSTRING = 0x0180
 LB_RESETCONTENT = 0x0184
 CW_USEDEFAULT = -2147483648
+SW_HIDE = 0
 SW_SHOW = 5
+HWND_TOP = 0
+SWP_NOSIZE = 0x0001
+SWP_NOMOVE = 0x0002
+SWP_NOACTIVATE = 0x0010
+SWP_SHOWWINDOW = 0x0040
 TRANSPARENT = 1
 DWMWA_USE_IMMERSIVE_DARK_MODE = 20
 DWMWA_USE_IMMERSIVE_DARK_MODE_OLD = 19
@@ -58,7 +68,7 @@ SIDEBAR_X = 16
 SIDEBAR_Y = 18
 SIDEBAR_WIDTH = 170
 MAIN_X = 214
-MAIN_WIDTH = 640
+MAIN_WIDTH = 720
 
 ID_CLEAR_LEARNING = 104
 ID_CLOSE = 105
@@ -79,6 +89,11 @@ ID_ASSISTANT_COMBO = 601
 ID_STRENGTH_COMBO = 602
 ID_LEARNING_COMBO = 603
 ID_THEME_COMBO = 604
+ID_NAV_GENERAL = 701
+ID_NAV_APPS = 702
+ID_NAV_DICTIONARY = 703
+ID_NAV_APPEARANCE = 704
+ID_NAV_AI = 705
 
 WndProc = ctypes.WINFUNCTYPE(
     wintypes.LPARAM,
@@ -141,6 +156,12 @@ class SettingsWindow:
         self._initializing = True
         self._controls: dict[str, int] = {}
         self._control_roles: dict[int, str] = {}
+        self._pages: dict[str, list[int]] = {"general": [], "apps": [], "dictionary": [], "appearance": [], "ai": []}
+        self._active_page = "general"
+        self._nav_pages: dict[int, str] = {}
+        self._dropdowns: dict[str, dict[str, object]] = {}
+        self._dropdown_option_actions: dict[int, tuple[str, int]] = {}
+        self._next_dropdown_option_id = 900
         self._icon_big = 0
         self._icon_small = 0
         self._owns_icon_big = False
@@ -259,14 +280,11 @@ class SettingsWindow:
         self._controls["sidebar_panel"] = self._create_panel(SIDEBAR_X, SIDEBAR_Y, SIDEBAR_WIDTH, 744, "sidebar")
         self._controls["brand"] = self._create_static("Keyboard", 36, 36, 120, 26, title=True, role="sidebar")
         self._controls["brand_sub"] = self._create_static("Assistant", 38, 66, 118, 22, role="sidebar")
-        self._create_sidebar_item("nav_general", "General", 36, 116, active=True)
-        self._create_sidebar_item("nav_assistant", "Assistant", 36, 156)
-        self._create_sidebar_item("nav_apps", "Apps", 36, 196)
-        self._create_sidebar_item("nav_dictionary", "Dictionary", 36, 236)
-        self._create_sidebar_item("nav_privacy", "Privacy", 36, 276)
-        self._create_sidebar_item("nav_appearance", "Appearance", 36, 316)
-        self._create_sidebar_item("nav_ai", "Local AI", 36, 356)
-        self._create_sidebar_item("nav_diagnostics", "Diagnostics", 36, 396)
+        self._create_sidebar_item("general", ID_NAV_GENERAL, "\uE713  General", 36, 126)
+        self._create_sidebar_item("apps", ID_NAV_APPS, "\uE71D  Apps", 36, 172)
+        self._create_sidebar_item("dictionary", ID_NAV_DICTIONARY, "\uE8D2  Dictionary", 36, 218)
+        self._create_sidebar_item("appearance", ID_NAV_APPEARANCE, "\uE790  Appearance", 36, 264)
+        self._create_sidebar_item("ai", ID_NAV_AI, "\uE950  Local AI", 36, 310)
 
         self._controls["title"] = self._create_static("Settings", MAIN_X, 26, 340, 34, title=True)
         self._controls["subtitle"] = self._create_static(
@@ -277,68 +295,80 @@ class SettingsWindow:
             24,
         )
 
-        self._controls["general_card"] = self._create_panel(MAIN_X, 104, MAIN_WIDTH, 136, "card")
-        self._controls["assistant_label"] = self._create_static("Assistant", MAIN_X + 24, 124, 144, 22, role="card")
-        self._controls["assistant_desc"] = self._create_static("Enable or pause live suggestions.", MAIN_X + 24, 148, 280, 22, role="card")
-        self._controls["assistant_combo"] = self._create_combo(ID_ASSISTANT_COMBO, MAIN_X + 448, 126, 150, 120)
+        self._controls["general_card"] = self._create_panel(MAIN_X, 104, MAIN_WIDTH, 356, "card", page="general")
+        self._controls["assistant_label"] = self._create_static("Assistant", MAIN_X + 24, 132, 180, 22, role="card", page="general")
+        self._controls["assistant_desc"] = self._create_static("Enable or pause live suggestions.", MAIN_X + 24, 156, 360, 22, role="card", page="general")
+        self._controls["assistant_combo"] = self._create_combo("assistant_combo", ID_ASSISTANT_COMBO, MAIN_X + 536, 132, 150, page="general")
         self._combo_add_many("assistant_combo", ["On", "Off"])
 
-        self._controls["strength_label"] = self._create_static("Correction strength", MAIN_X + 24, 182, 170, 22, role="card")
-        self._controls["strength_desc"] = self._create_static("Controls how proactive automatic fixes can be.", MAIN_X + 24, 206, 330, 22, role="card")
-        self._controls["strength_combo"] = self._create_combo(ID_STRENGTH_COMBO, MAIN_X + 428, 184, 170, 120)
+        self._controls["strength_label"] = self._create_static("Correction strength", MAIN_X + 24, 206, 220, 22, role="card", page="general")
+        self._controls["strength_desc"] = self._create_static("Controls how proactive automatic fixes can be.", MAIN_X + 24, 230, 400, 22, role="card", page="general")
+        self._controls["strength_combo"] = self._create_combo("strength_combo", ID_STRENGTH_COMBO, MAIN_X + 516, 206, 170, page="general")
         self._combo_add_many("strength_combo", ["Light", "Balanced", "Aggressive"])
 
-        self._controls["privacy_card"] = self._create_panel(MAIN_X, 260, MAIN_WIDTH, 116, "card")
-        self._controls["learning_label"] = self._create_static("Learning", MAIN_X + 24, 280, 144, 22, role="card")
-        self._controls["learning_desc"] = self._create_static("Let the app adapt locally from accepted suggestions.", MAIN_X + 24, 304, 340, 22, role="card")
-        self._controls["learning_combo"] = self._create_combo(ID_LEARNING_COMBO, MAIN_X + 448, 282, 150, 120)
+        self._controls["learning_label"] = self._create_static("Learning", MAIN_X + 24, 280, 180, 22, role="card", page="general")
+        self._controls["learning_desc"] = self._create_static("Let the app adapt locally from accepted suggestions.", MAIN_X + 24, 304, 420, 22, role="card", page="general")
+        self._controls["learning_combo"] = self._create_combo("learning_combo", ID_LEARNING_COMBO, MAIN_X + 536, 280, 150, page="general")
         self._combo_add_many("learning_combo", ["On", "Off"])
-        self._controls["data"] = self._create_static("", MAIN_X + 24, 334, 410, 24, role="card")
-        self._controls["clear_button"] = self._create_button("Clear learning", ID_CLEAR_LEARNING, MAIN_X + 460, 330, 138, 32)
+        self._controls["data"] = self._create_static("", MAIN_X + 24, 352, 470, 24, role="card", page="general")
+        self._controls["clear_button"] = self._create_button("Clear learning", ID_CLEAR_LEARNING, MAIN_X + 548, 346, 138, 34, page="general")
 
-        self._controls["apps_card"] = self._create_panel(MAIN_X, 396, 306, 156, "card")
-        self._controls["apps_title"] = self._create_static("Apps", MAIN_X + 20, 416, 200, 24, title=True, role="card")
-        self._controls["app_edit"] = self._create_edit("app.exe", MAIN_X + 20, 452, 156, 30)
-        self._controls["app_off"] = self._create_button("Off", ID_APP_OFF, MAIN_X + 188, 450, 54, 32)
-        self._controls["app_limited"] = self._create_button("Limited", ID_APP_LIMITED, MAIN_X + 248, 450, 78, 32)
-        self._controls["app_on"] = self._create_button("On", ID_APP_ON, MAIN_X + 332, 450, 54, 32)
-        self._controls["apps_list"] = self._create_listbox(MAIN_X + 20, 492, 266, 42)
+        self._controls["apps_card"] = self._create_panel(MAIN_X, 104, MAIN_WIDTH, 430, "card", page="apps")
+        self._controls["apps_title"] = self._create_static("Apps", MAIN_X + 24, 132, 220, 28, title=True, role="card", page="apps")
+        self._controls["apps_desc"] = self._create_static("Set assistant behavior for specific applications.", MAIN_X + 24, 164, 440, 22, role="card", page="apps")
+        self._controls["app_edit"] = self._create_edit("app.exe", MAIN_X + 24, 214, 260, 34, page="apps")
+        self._controls["app_off"] = self._create_button("Off", ID_APP_OFF, MAIN_X + 304, 214, 82, 34, page="apps")
+        self._controls["app_limited"] = self._create_button("Limited", ID_APP_LIMITED, MAIN_X + 398, 214, 104, 34, page="apps")
+        self._controls["app_on"] = self._create_button("On", ID_APP_ON, MAIN_X + 514, 214, 82, 34, page="apps")
+        self._controls["apps_list"] = self._create_listbox(MAIN_X + 24, 272, MAIN_WIDTH - 48, 220, page="apps")
 
-        self._controls["dictionary_card"] = self._create_panel(MAIN_X + 326, 396, 314, 156, "card")
-        self._controls["dictionary_title"] = self._create_static("Dictionary", MAIN_X + 346, 416, 220, 24, title=True, role="card")
-        self._controls["dict_edit"] = self._create_edit("word", MAIN_X + 346, 452, 122, 30)
-        self._controls["dict_add"] = self._create_button("Add", ID_DICT_ADD, MAIN_X + 478, 450, 58, 32)
-        self._controls["dict_add_never"] = self._create_button("Never", ID_DICT_ADD_NEVER, MAIN_X + 544, 450, 72, 32)
-        self._controls["dict_remove"] = self._create_button("Remove", ID_DICT_REMOVE, MAIN_X + 624, 450, 82, 32)
-        self._controls["dict_list"] = self._create_listbox(MAIN_X + 346, 492, 274, 42)
+        self._controls["dictionary_card"] = self._create_panel(MAIN_X, 104, MAIN_WIDTH, 430, "card", page="dictionary")
+        self._controls["dictionary_title"] = self._create_static("Dictionary", MAIN_X + 24, 132, 260, 28, title=True, role="card", page="dictionary")
+        self._controls["dictionary_desc"] = self._create_static("Add personal words or words that should never be corrected.", MAIN_X + 24, 164, 520, 22, role="card", page="dictionary")
+        self._controls["dict_edit"] = self._create_edit("word", MAIN_X + 24, 214, 260, 34, page="dictionary")
+        self._controls["dict_add"] = self._create_button("Add", ID_DICT_ADD, MAIN_X + 304, 214, 82, 34, page="dictionary")
+        self._controls["dict_add_never"] = self._create_button("Never correct", ID_DICT_ADD_NEVER, MAIN_X + 398, 214, 136, 34, page="dictionary")
+        self._controls["dict_remove"] = self._create_button("Remove", ID_DICT_REMOVE, MAIN_X + 546, 214, 104, 34, page="dictionary")
+        self._controls["dict_list"] = self._create_listbox(MAIN_X + 24, 272, MAIN_WIDTH - 48, 220, page="dictionary")
 
-        self._controls["appearance_card"] = self._create_panel(MAIN_X, 572, 306, 150, "card")
-        self._controls["appearance_title"] = self._create_static("Appearance", MAIN_X + 20, 592, 200, 24, title=True, role="card")
-        self._controls["theme_label"] = self._create_static("Theme", MAIN_X + 20, 626, 144, 22, role="card")
-        self._controls["theme_combo"] = self._create_combo(ID_THEME_COMBO, MAIN_X + 136, 626, 150, 120)
+        self._controls["appearance_card"] = self._create_panel(MAIN_X, 104, MAIN_WIDTH, 330, "card", page="appearance")
+        self._controls["appearance_title"] = self._create_static("Appearance", MAIN_X + 24, 132, 260, 28, title=True, role="card", page="appearance")
+        self._controls["appearance_desc"] = self._create_static("Adjust the suggestion overlay style and motion.", MAIN_X + 24, 164, 480, 22, role="card", page="appearance")
+        self._controls["theme_label"] = self._create_static("Theme", MAIN_X + 24, 220, 180, 22, role="card", page="appearance")
+        self._controls["theme_combo"] = self._create_combo("theme_combo", ID_THEME_COMBO, MAIN_X + 536, 216, 150, page="appearance")
         self._combo_add_many("theme_combo", ["Dark", "Light", "System"])
-        self._controls["appearance_status"] = self._create_static("", MAIN_X + 20, 662, 260, 24, role="card")
-        self._controls["size_button"] = self._create_button("Size", ID_SIZE, MAIN_X + 20, 690, 72, 32)
-        self._controls["opacity_button"] = self._create_button("Opacity", ID_OPACITY, MAIN_X + 100, 690, 86, 32)
-        self._controls["animations_button"] = self._create_button("", ID_ANIMATIONS, MAIN_X + 194, 690, 92, 32)
+        self._controls["appearance_status"] = self._create_static("", MAIN_X + 24, 270, 520, 24, role="card", page="appearance")
+        self._controls["size_button"] = self._create_button("Size", ID_SIZE, MAIN_X + 24, 322, 92, 34, page="appearance")
+        self._controls["opacity_button"] = self._create_button("Opacity", ID_OPACITY, MAIN_X + 128, 322, 104, 34, page="appearance")
+        self._controls["animations_button"] = self._create_button("", ID_ANIMATIONS, MAIN_X + 244, 322, 140, 34, page="appearance")
 
-        self._controls["ai_card"] = self._create_panel(MAIN_X + 326, 572, 314, 150, "card")
-        self._controls["ai_title"] = self._create_static("Local AI", MAIN_X + 346, 592, 200, 24, title=True, role="card")
-        self._controls["ai_status"] = self._create_static("", MAIN_X + 346, 624, 276, 24, role="card")
-        self._controls["ai_toggle"] = self._create_button("", ID_AI_TOGGLE, MAIN_X + 346, 660, 76, 32)
-        self._controls["ai_provider"] = self._create_button("Provider", ID_AI_PROVIDER, MAIN_X + 432, 660, 92, 32)
-        self._controls["ai_model_edit"] = self._create_edit("model", MAIN_X + 534, 662, 88, 30)
-        self._controls["ai_model"] = self._create_button("Save", ID_AI_MODEL, MAIN_X + 534, 698, 88, 32)
+        self._controls["ai_card"] = self._create_panel(MAIN_X, 104, MAIN_WIDTH, 330, "card", page="ai")
+        self._controls["ai_title"] = self._create_static("Local AI", MAIN_X + 24, 132, 260, 28, title=True, role="card", page="ai")
+        self._controls["ai_desc"] = self._create_static("Optional local model suggestions. The built-in engine works without it.", MAIN_X + 24, 164, 560, 22, role="card", page="ai")
+        self._controls["ai_status"] = self._create_static("", MAIN_X + 24, 218, 560, 24, role="card", page="ai")
+        self._controls["ai_toggle"] = self._create_button("", ID_AI_TOGGLE, MAIN_X + 24, 276, 86, 34, page="ai")
+        self._controls["ai_provider"] = self._create_button("Provider", ID_AI_PROVIDER, MAIN_X + 124, 276, 112, 34, page="ai")
+        self._controls["ai_model_edit"] = self._create_edit("model", MAIN_X + 250, 276, 230, 34, page="ai")
+        self._controls["ai_model"] = self._create_button("Save", ID_AI_MODEL, MAIN_X + 496, 276, 92, 34, page="ai")
 
         self._controls["close_button"] = self._create_button("Close", ID_CLOSE, MAIN_X, 734, 104, 32)
         self._refresh_lists()
+        self._set_active_page("general")
 
-    def _create_sidebar_item(self, name: str, text: str, x: int, y: int, active: bool = False) -> None:
-        if active:
-            self._controls[f"{name}_active"] = self._create_panel(x - 10, y - 5, SIDEBAR_WIDTH - 32, 32, "active")
-        self._controls[name] = self._create_static(text, x, y, SIDEBAR_WIDTH - 44, 22, role="active" if active else "sidebar")
+    def _create_sidebar_item(self, page: str, control_id: int, text: str, x: int, y: int) -> None:
+        self._nav_pages[control_id] = page
+        self._controls[f"nav_{page}_active"] = self._create_panel(x - 10, y - 5, SIDEBAR_WIDTH - 32, 34, "active")
+        self._controls[f"nav_{page}"] = self._create_static(
+            text,
+            x,
+            y,
+            SIDEBAR_WIDTH - 44,
+            24,
+            role="sidebar",
+            control_id=control_id,
+        )
 
-    def _create_panel(self, x: int, y: int, width: int, height: int, role: str) -> int:
+    def _create_panel(self, x: int, y: int, width: int, height: int, role: str, page: str | None = None) -> int:
         hwnd = self.user32.CreateWindowExW(
             0,
             "STATIC",
@@ -355,33 +385,55 @@ class SettingsWindow:
         )
         self._control_roles[hwnd] = role
         self._round_control(hwnd, width, height, CONTROL_RADIUS_MM)
+        self._add_page_control(hwnd, page)
         return hwnd
 
-    def _create_static(self, text: str, x: int, y: int, width: int, height: int, title: bool = False, role: str = "text") -> int:
+    def _create_static(
+        self,
+        text: str,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        title: bool = False,
+        role: str = "text",
+        control_id: int = 0,
+        page: str | None = None,
+    ) -> int:
         hwnd = self.user32.CreateWindowExW(
             0,
             "STATIC",
             text,
-            WS_VISIBLE | WS_CHILD | SS_LEFT,
+            WS_VISIBLE | WS_CHILD | SS_LEFT | (SS_NOTIFY if control_id else 0),
             x,
             y,
             width,
             height,
             self.hwnd,
-            0,
+            control_id,
             self.kernel32.GetModuleHandleW(None),
             None,
         )
         self._control_roles[hwnd] = role
         self._set_control_font(hwnd, title=title)
+        self._add_page_control(hwnd, page)
         return hwnd
 
-    def _create_button(self, text: str, control_id: int, x: int, y: int, width: int, height: int) -> int:
+    def _create_button(
+        self,
+        text: str,
+        control_id: int,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        page: str | None = None,
+    ) -> int:
         hwnd = self.user32.CreateWindowExW(
             0,
-            "BUTTON",
+            "STATIC",
             text,
-            WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_PUSHBUTTON | BS_FLAT,
+            WS_VISIBLE | WS_CHILD | WS_TABSTOP | SS_NOTIFY | SS_CENTER | SS_CENTERIMAGE,
             x,
             y,
             width,
@@ -394,9 +446,11 @@ class SettingsWindow:
         self._set_control_font(hwnd)
         self._control_roles[hwnd] = "button"
         self._apply_flat_theme(hwnd)
+        self._round_control(hwnd, width, height, CONTROL_RADIUS_MM)
+        self._add_page_control(hwnd, page)
         return hwnd
 
-    def _create_edit(self, text: str, x: int, y: int, width: int, height: int) -> int:
+    def _create_edit(self, text: str, x: int, y: int, width: int, height: int, page: str | None = None) -> int:
         hwnd = self.user32.CreateWindowExW(
             0,
             "EDIT",
@@ -415,9 +469,10 @@ class SettingsWindow:
         self._control_roles[hwnd] = "input"
         self._apply_flat_theme(hwnd)
         self._round_control(hwnd, width, height, CONTROL_RADIUS_MM)
+        self._add_page_control(hwnd, page)
         return hwnd
 
-    def _create_listbox(self, x: int, y: int, width: int, height: int) -> int:
+    def _create_listbox(self, x: int, y: int, width: int, height: int, page: str | None = None) -> int:
         hwnd = self.user32.CreateWindowExW(
             0,
             "LISTBOX",
@@ -436,39 +491,162 @@ class SettingsWindow:
         self._control_roles[hwnd] = "input"
         self._apply_flat_theme(hwnd)
         self._round_control(hwnd, width, height, CONTROL_RADIUS_MM)
+        self._add_page_control(hwnd, page)
         return hwnd
 
-    def _create_combo(self, control_id: int, x: int, y: int, width: int, height: int) -> int:
+    def _create_combo(self, name: str, control_id: int, x: int, y: int, width: int, page: str | None = None) -> int:
         hwnd = self.user32.CreateWindowExW(
             0,
-            "COMBOBOX",
+            "STATIC",
             "",
-            WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST,
+            WS_VISIBLE | WS_CHILD | WS_TABSTOP | SS_NOTIFY | SS_LEFT | SS_CENTERIMAGE,
             x,
             y,
             width,
-            height,
+            34,
             self.hwnd,
             control_id,
             self.kernel32.GetModuleHandleW(None),
             None,
         )
         self._set_control_font(hwnd)
-        self._control_roles[hwnd] = "input"
+        self._control_roles[hwnd] = "dropdown"
         self._apply_flat_theme(hwnd)
-        self._round_control(hwnd, width, 30, CONTROL_RADIUS_MM)
+        self._round_control(hwnd, width, 34, CONTROL_RADIUS_MM)
+        self._add_page_control(hwnd, page)
+        self._dropdowns[name] = {
+            "hwnd": hwnd,
+            "control_id": control_id,
+            "x": x,
+            "y": y,
+            "width": width,
+            "page": page,
+            "values": [],
+            "index": 0,
+            "options": [],
+            "open": False,
+        }
         return hwnd
 
     def _combo_add_many(self, name: str, values: list[str]) -> None:
-        hwnd = self._controls[name]
-        for value in values:
-            self.user32.SendMessageW(hwnd, CB_ADDSTRING, 0, ctypes.c_wchar_p(value))
+        dropdown = self._dropdowns[name]
+        dropdown["values"] = list(values)
+        page = dropdown["page"]
+        x = int(dropdown["x"])
+        y = int(dropdown["y"])
+        width = int(dropdown["width"])
+        option_controls: list[int] = []
+        for index, value in enumerate(values):
+            option_id = self._next_dropdown_option_id
+            self._next_dropdown_option_id += 1
+            option = self._create_static(
+                f"  {value}",
+                x,
+                y + 38 + index * 32,
+                width,
+                30,
+                role="dropdown_option",
+                control_id=option_id,
+                page=page if isinstance(page, str) else None,
+            )
+            self._round_control(option, width, 30, CONTROL_RADIUS_MM)
+            self.user32.ShowWindow(option, SW_HIDE)
+            self._dropdown_option_actions[option_id] = (name, index)
+            option_controls.append(option)
+        dropdown["options"] = option_controls
+        self._set_combo_index(name, 0)
 
     def _set_combo_index(self, name: str, index: int) -> None:
-        self.user32.SendMessageW(self._controls[name], CB_SETCURSEL, index, None)
+        dropdown = self._dropdowns[name]
+        values = dropdown.get("values", [])
+        if not values:
+            dropdown["index"] = 0
+            return
+        safe_index = max(0, min(index, len(values) - 1))
+        dropdown["index"] = safe_index
+        self._set_text(name, f"  {values[safe_index]}  \u02c5")
 
     def _get_combo_index(self, name: str) -> int:
-        return int(self.user32.SendMessageW(self._controls[name], CB_GETCURSEL, 0, None))
+        return int(self._dropdowns[name].get("index", 0))
+
+    def _add_page_control(self, hwnd: int, page: str | None) -> None:
+        if page:
+            self._pages.setdefault(page, []).append(hwnd)
+
+    def _set_active_page(self, page: str) -> None:
+        if page not in self._pages:
+            return
+        self._active_page = page
+        self._hide_dropdowns()
+        titles = {
+            "general": "General",
+            "apps": "Apps",
+            "dictionary": "Dictionary",
+            "appearance": "Appearance",
+            "ai": "Local AI",
+        }
+        self._set_text("title", titles.get(page, "Settings"))
+        for page_name, handles in self._pages.items():
+            command = SW_SHOW if page_name == page else SW_HIDE
+            for hwnd in handles:
+                self.user32.ShowWindow(hwnd, command)
+        self._hide_dropdowns()
+        for page_name in self._pages:
+            active_handle = self._controls.get(f"nav_{page_name}_active")
+            label_handle = self._controls.get(f"nav_{page_name}")
+            if active_handle:
+                self.user32.ShowWindow(active_handle, SW_SHOW if page_name == page else SW_HIDE)
+            if label_handle:
+                self._control_roles[label_handle] = "active" if page_name == page else "sidebar"
+                self.user32.InvalidateRect(label_handle, None, True)
+
+    def _toggle_dropdown_by_control_id(self, control_id: int) -> bool:
+        for name, dropdown in self._dropdowns.items():
+            if dropdown.get("control_id") == control_id:
+                if dropdown.get("open"):
+                    self._hide_dropdowns()
+                else:
+                    self._show_dropdown(name)
+                return True
+        return False
+
+    def _show_dropdown(self, name: str) -> None:
+        self._hide_dropdowns()
+        dropdown = self._dropdowns[name]
+        dropdown["open"] = True
+        for hwnd in dropdown.get("options", []):
+            self.user32.SetWindowPos(
+                hwnd,
+                HWND_TOP,
+                0,
+                0,
+                0,
+                0,
+                SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW,
+            )
+
+    def _hide_dropdowns(self) -> None:
+        for dropdown in self._dropdowns.values():
+            dropdown["open"] = False
+            for hwnd in dropdown.get("options", []):
+                self.user32.ShowWindow(hwnd, SW_HIDE)
+
+    def _select_dropdown_option(self, name: str, index: int) -> None:
+        self._set_combo_index(name, index)
+        self._hide_dropdowns()
+        if name == "assistant_combo":
+            self.database.set_bool_setting("assistant_enabled", index == 0)
+        elif name == "strength_combo":
+            strengths = ["light", "balanced", "aggressive"]
+            if 0 <= index < len(strengths):
+                self.database.set_setting("correction_strength", strengths[index])
+        elif name == "learning_combo":
+            self.database.set_bool_setting("learning_enabled", index == 0)
+        elif name == "theme_combo":
+            themes = ["dark", "light", "system"]
+            if 0 <= index < len(themes):
+                self.database.set_appearance_settings(theme=themes[index])
+        self.refresh()
 
     def _set_control_font(self, hwnd: int, title: bool = False) -> None:
         self.user32.SendMessageW(hwnd, WM_SETFONT, self._title_font if title else self._font, ctypes.c_void_p(1))
@@ -602,6 +780,9 @@ class SettingsWindow:
         if role == "active":
             self.gdi32.SetBkColor(device_context, DARK_ACTIVE)
             return self._brush_active
+        if role in {"button", "dropdown", "dropdown_option"}:
+            self.gdi32.SetBkColor(device_context, DARK_INPUT if role == "dropdown" else DARK_ACTIVE)
+            return self._brush_input if role == "dropdown" else self._brush_active
         if role == "card":
             self.gdi32.SetBkColor(device_context, DARK_PANEL)
             return self._brush_panel
@@ -612,21 +793,18 @@ class SettingsWindow:
         return self._brush_background
 
     def _handle_command(self, control_id: int) -> None:
-        if control_id == ID_ASSISTANT_COMBO:
-            self.database.set_bool_setting("assistant_enabled", self._get_combo_index("assistant_combo") == 0)
-        elif control_id == ID_STRENGTH_COMBO:
-            strengths = ["light", "balanced", "aggressive"]
-            index = self._get_combo_index("strength_combo")
-            if 0 <= index < len(strengths):
-                self.database.set_setting("correction_strength", strengths[index])
-        elif control_id == ID_LEARNING_COMBO:
-            self.database.set_bool_setting("learning_enabled", self._get_combo_index("learning_combo") == 0)
-        elif control_id == ID_THEME_COMBO:
-            themes = ["dark", "light", "system"]
-            index = self._get_combo_index("theme_combo")
-            if 0 <= index < len(themes):
-                self.database.set_appearance_settings(theme=themes[index])
-        elif control_id == ID_CLEAR_LEARNING:
+        if control_id in self._nav_pages:
+            self._set_active_page(self._nav_pages[control_id])
+            return
+        if control_id in self._dropdown_option_actions:
+            name, index = self._dropdown_option_actions[control_id]
+            self._select_dropdown_option(name, index)
+            return
+        if self._toggle_dropdown_by_control_id(control_id):
+            return
+        self._hide_dropdowns()
+
+        if control_id == ID_CLEAR_LEARNING:
             self.database.clear_learning_data()
         elif control_id in {ID_APP_OFF, ID_APP_LIMITED, ID_APP_ON}:
             identifier = self._get_text("app_edit")
@@ -705,6 +883,18 @@ class SettingsWindow:
         self.user32.GetWindowTextW.argtypes = [wintypes.HWND, wintypes.LPWSTR, ctypes.c_int]
         self.user32.SendMessageW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM, ctypes.c_void_p]
         self.user32.SendMessageW.restype = wintypes.LPARAM
+        self.user32.InvalidateRect.argtypes = [wintypes.HWND, ctypes.c_void_p, wintypes.BOOL]
+        self.user32.InvalidateRect.restype = wintypes.BOOL
+        self.user32.SetWindowPos.argtypes = [
+            wintypes.HWND,
+            wintypes.HWND,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+            wintypes.UINT,
+        ]
+        self.user32.SetWindowPos.restype = wintypes.BOOL
         self.user32.SetWindowRgn.argtypes = [wintypes.HWND, HRGN, wintypes.BOOL]
         self.user32.SetWindowRgn.restype = ctypes.c_int
         if hasattr(self.user32, "GetDpiForWindow"):

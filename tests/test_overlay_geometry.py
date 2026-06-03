@@ -6,6 +6,7 @@ from keyboard_assistant.core.models import AppearanceSettings
 from keyboard_assistant.ui.suggestion_overlay import calculate_overlay_position
 from keyboard_assistant.ui.suggestion_overlay import chip_rects
 from keyboard_assistant.ui.suggestion_overlay import choice_index_at_x
+from keyboard_assistant.ui.suggestion_overlay import is_drag_handle_x
 from keyboard_assistant.ui.suggestion_overlay import SuggestionOverlay
 from keyboard_assistant.ui.suggestion_overlay import _format_label
 from keyboard_assistant.ui.suggestion_overlay import _measure_width
@@ -69,6 +70,7 @@ class OverlayGeometryTests(unittest.TestCase):
         self.assertGreater(rects[0][0], 0)
         self.assertLess(rects[-1][2], width)
         self.assertGreater(rects[0][1], 0)
+        self.assertGreaterEqual(rects[0][0], 32)
 
     def test_chip_layout_uses_equal_width_slots(self) -> None:
         appearance = AppearanceSettings(theme="dark", suggestion_size="medium")
@@ -84,6 +86,15 @@ class OverlayGeometryTests(unittest.TestCase):
 
         self.assertEqual(chip_rects(labels, appearance), chip_rects(labels, appearance))
         self.assertEqual(_format_label(1, Suggestion("teh", "the", "typo", 0.96), focus_index=1), "the")
+
+    def test_drag_handle_hit_area_is_separate_from_choices(self) -> None:
+        appearance = AppearanceSettings(theme="dark", suggestion_size="medium")
+        rects = chip_rects(["left", "middle", "right"], appearance)
+        bounds = [(left, right) for left, _top, right, _bottom in rects]
+
+        self.assertTrue(is_drag_handle_x(8))
+        self.assertIsNone(choice_index_at_x(bounds, 8))
+        self.assertFalse(is_drag_handle_x(rects[0][0]))
 
     def test_overlay_instantiation_requires_windows(self) -> None:
         with patch("keyboard_assistant.ui.suggestion_overlay._is_windows_overlay_available", return_value=False):
