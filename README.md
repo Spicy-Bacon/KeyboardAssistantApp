@@ -46,7 +46,7 @@ python -m keyboard_assistant.cli "i am going home"
 
 ## Run the Desktop Prototype
 
-This starts the current Windows-focused live prototype. It uses a global keyboard hook, a typed-buffer fallback, and a small always-on-top suggestion overlay.
+This starts the current Windows-focused live prototype. It uses a global keyboard hook, a cursor-aware typed-buffer fallback, and a compact always-on-top suggestion overlay.
 
 ```powershell
 $env:PYTHONPATH="src"
@@ -75,7 +75,7 @@ $env:PYTHONPATH="src"
 python -m keyboard_assistant.settings_app
 ```
 
-The native settings window currently supports assistant on/off, correction strength, learning on/off, local data counts, clearing learning data, app behavior rules, personal dictionary management, overlay appearance, and local AI settings.
+The native settings window uses a dark sidebar/card layout and supports assistant on/off, correction strength, learning on/off, local data counts, clearing learning data, app behavior rules, personal dictionary management, overlay appearance, and local AI settings.
 
 Current live controls:
 
@@ -93,8 +93,10 @@ Current limitations:
 - The tray icon uses the Windows notification area directly and needs validation in a normal desktop session.
 - Text context comes from the fallback typed buffer, not full target-app text extraction.
 - Normal key handling is queued off the low-level hook callback so typing stays responsive while suggestions are computed.
-- The typed buffer resets when the active app, window, or focused field changes to avoid stale cross-app context.
-- Cursor following uses best-effort Windows caret detection with mouse-position fallback.
+- The typed buffer resets when the active app or focused field changes to avoid stale cross-app context. Window title-only changes in the same app/control do not normally clear the buffer.
+- Backspace removes the previous buffered character; when the current word becomes empty, suggestions hide.
+- Delete, Tab, Home/End, PageUp/PageDown, cursor movement without visible suggestions, and common Ctrl shortcuts clear the typed buffer instead of trying to correct unknown edited or pasted content.
+- Cursor following uses best-effort Windows caret detection with mouse-position fallback. If the caret anchor jumps significantly between typed events, the buffer clears before new suggestions are generated.
 - Overlay placement clamps to the visible screen and flips above the caret near the bottom edge.
 - Sensitive field detection is conservative but not complete yet.
 

@@ -51,6 +51,35 @@ class RuntimeStats:
     corrections_reverted: int = 0
     injection_errors: int = 0
     app_context_changes: int = 0
+    buffer_resets: int = 0
+
+
+@dataclass
+class BufferSyncState:
+    last_anchor_x: int | None = None
+    last_anchor_y: int | None = None
+    reliable: bool = True
+
+    def update_anchor(self, x: int, y: int) -> None:
+        self.last_anchor_x = x
+        self.last_anchor_y = y
+        self.reliable = True
+
+    def clear_anchor(self) -> None:
+        self.last_anchor_x = None
+        self.last_anchor_y = None
+        self.reliable = False
+
+    def moved_significantly(self, x: int, y: int, threshold: int) -> bool:
+        if self.last_anchor_x is None or self.last_anchor_y is None:
+            return False
+        return abs(x - self.last_anchor_x) > threshold or abs(y - self.last_anchor_y) > threshold
+
+
+CURSOR_RESET_THRESHOLD_PX = 48
+NAVIGATION_RESET_KEYS = {"delete", "home", "end", "pageup", "pagedown"}
+ARROW_KEYS = {"left", "right", "up", "down"}
+CTRL_RESET_KEYS = {"a", "c", "v", "x", "z", "left", "right", "home", "end", "delete"}
 
 
 class DesktopAssistantRuntime:
@@ -121,6 +150,7 @@ class DesktopAssistantRuntime:
         self._event_queue: queue.Queue[KeyboardEvent | None] = queue.Queue()
         self._event_worker: threading.Thread | None = None
         self._last_app_signature: tuple[str, str, str, str] | None = None
+        self._buffer_sync = BufferSyncState()
         self.stats = RuntimeStats()
         self.diagnostics.info("runtime_initialized", health=self.health.snapshot())
         self._print("Keyboard Assistant initialized.")
@@ -256,6 +286,8 @@ class DesktopAssistantRuntime:
             debug_only=True,
         )
         if event.ctrl:
+            if event.key in CTRL_RESET_KEYS:
+                self._reset_buffer("ctrl_shortcut", cursor_changed=False)
             return False
 
         if event.key == "escape":
@@ -264,11 +296,23 @@ class DesktopAssistantRuntime:
                 return True
             return False
 
-        if event.key in {"left", "up"}:
+        if event.key in {"left", "up"} and self._has_visible_suggestions():
             return self._move_selection(-1)
 
-        if event.key in {"right", "down"}:
+        if event.key in {"right", "down"} and self._has_visible_suggestions():
             return self._move_selection(1)
+
+        if event.key in ARROW_KEYS:
+            self._reset_buffer("arrow_navigation", cursor_changed=True)
+            return False
+
+        if event.key in NAVIGATION_RESET_KEYS:
+            self._reset_buffer("navigation_key", cursor_changed=True)
+            return False
+
+        if event.key == "tab":
+            self._reset_buffer("tab", cursor_changed=True)
+            return False
 
         if event.key == "backspace":
             self._queue_event(event)
@@ -300,6 +344,10 @@ class DesktopAssistantRuntime:
         if event.key == "backspace":
             app_context = self._prepare_app_context()
             self.buffer.push("\b")
+            if not self.buffer.context().current_word:
+                self._hide()
+                self._remember_cursor_anchor()
+                return
             self._update_suggestions(app_context)
             return
 
@@ -315,6 +363,7 @@ class DesktopAssistantRuntime:
             self.buffer.push("\n")
             self.assistant.observe_text(self.buffer.text, app_context)
             self._hide()
+            self._remember_cursor_anchor()
             return
 
         if event.key == "char" and event.char:
@@ -354,11 +403,11 @@ class DesktopAssistantRuntime:
         self.health.current_app = app_context.app_identifier
         signature = _app_signature(app_context)
         if self._last_app_signature is not None and signature != self._last_app_signature:
-            self.buffer.clear()
+            self._reset_buffer("app_context_changed", app_context=app_context, cursor_changed=False)
             self._last_correction = None
             self.stats.app_context_changes += 1
-            self.diagnostics.info("app_context_changed")
-            self._hide()
+        else:
+            self._maybe_reset_buffer_for_cursor_change(app_context)
         self._last_app_signature = signature
         return app_context
 
@@ -376,10 +425,11 @@ class DesktopAssistantRuntime:
             self._suggestions = choices
             self._selection_index = _default_selection_index(choices)
         self.ai_worker.request(self.buffer.text, app_context, rule_suggestions=choices)
+        point = self.cursor_locator.current_anchor()
+        self._buffer_sync.update_anchor(point.x, point.y)
         if not choices:
             self._hide()
             return
-        point = self.cursor_locator.current_anchor()
         appearance = self.database.get_appearance_settings()
         self.overlay.call_soon(
             lambda: (
@@ -530,6 +580,44 @@ class DesktopAssistantRuntime:
             self._selection_index = 0
         self.overlay.call_soon(self.overlay.hide)
 
+    def _reset_buffer(
+        self,
+        reason: str,
+        app_context: AppContext | None = None,
+        cursor_changed: bool = False,
+    ) -> None:
+        had_text = bool(self.buffer.text)
+        before_len = len(self.buffer.text)
+        self.buffer.clear()
+        self._last_correction = None
+        self._buffer_sync.clear_anchor()
+        self.stats.buffer_resets += 1
+        self.ai_worker.cancel()
+        self._hide()
+        self.diagnostics.info(
+            "typed_buffer_reset",
+            reason=reason,
+            before_len=before_len,
+            had_text=had_text,
+            cursor_changed=cursor_changed,
+            app_identifier=(app_context.app_identifier if app_context else ""),
+        )
+
+    def _maybe_reset_buffer_for_cursor_change(self, app_context: AppContext) -> None:
+        if not self.buffer.text:
+            self._remember_cursor_anchor()
+            return
+        point = self.cursor_locator.current_anchor()
+        if self._buffer_sync.moved_significantly(point.x, point.y, CURSOR_RESET_THRESHOLD_PX):
+            self._reset_buffer("cursor_anchor_changed", app_context=app_context, cursor_changed=True)
+            self._buffer_sync.update_anchor(point.x, point.y)
+            return
+        self._buffer_sync.update_anchor(point.x, point.y)
+
+    def _remember_cursor_anchor(self) -> None:
+        point = self.cursor_locator.current_anchor()
+        self._buffer_sync.update_anchor(point.x, point.y)
+
     def _print(self, message: str, debug_only: bool = False) -> None:
         if debug_only and not self.verbose:
             return
@@ -545,6 +633,7 @@ class DesktopAssistantRuntime:
             "corrections_reverted": self.stats.corrections_reverted,
             "injection_errors": self.stats.injection_errors,
             "app_context_changes": self.stats.app_context_changes,
+            "buffer_resets": self.stats.buffer_resets,
         }
 
     def _display_choices(self, suggestions: list[Suggestion], app_context: AppContext) -> list[Suggestion]:

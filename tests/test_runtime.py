@@ -30,8 +30,12 @@ class StaticAppDetector:
 
 
 class StaticCursorLocator:
+    def __init__(self, x: int = 100, y: int = 100) -> None:
+        self.x = x
+        self.y = y
+
     def current_anchor(self):
-        return type("Point", (), {"x": 100, "y": 100})()
+        return type("Point", (), {"x": self.x, "y": self.y})()
 
 
 class StaticComponentFactory:
@@ -271,6 +275,78 @@ class DesktopAssistantRuntimeTests(unittest.TestCase):
         injector.replace_previous_text.assert_not_called()
         runtime.stop()
 
+    def test_backspace_removes_last_character_from_buffer(self) -> None:
+        runtime = self.make_runtime()
+        for char in "teh":
+            runtime.buffer.push(char)
+
+        runtime._process_keyboard_event(KeyboardEvent(key="backspace"))
+
+        self.assertEqual(runtime.buffer.text, "te")
+        runtime.stop()
+
+    def test_backspace_hides_suggestions_when_word_becomes_empty(self) -> None:
+        overlay = NullOverlay()
+        overlay.hide = Mock()
+        runtime = self.make_runtime(overlay=overlay)
+        runtime.buffer.push("a")
+        runtime._suggestions = [Suggestion("a", "a", "typed", 1.0)]
+
+        runtime._process_keyboard_event(KeyboardEvent(key="backspace"))
+
+        self.assertEqual(runtime.buffer.text, "")
+        overlay.hide.assert_called()
+        self.assertFalse(runtime._suggestions)
+        runtime.stop()
+
+    def test_arrow_key_without_visible_suggestions_clears_buffer(self) -> None:
+        overlay = NullOverlay()
+        overlay.hide = Mock()
+        runtime = self.make_runtime(overlay=overlay)
+        for char in "hello":
+            runtime.buffer.push(char)
+
+        self.assertFalse(runtime._handle_keyboard_event(KeyboardEvent(key="left")))
+
+        self.assertEqual(runtime.buffer.text, "")
+        self.assertFalse(runtime._suggestions)
+        overlay.hide.assert_called()
+        runtime.stop()
+
+    def test_delete_clears_buffer_and_hides_stale_suggestions(self) -> None:
+        overlay = NullOverlay()
+        overlay.hide = Mock()
+        runtime = self.make_runtime(overlay=overlay)
+        runtime.buffer.push("x")
+        runtime._suggestions = [Suggestion("x", "x", "typed", 1.0)]
+
+        self.assertFalse(runtime._handle_keyboard_event(KeyboardEvent(key="delete")))
+
+        self.assertEqual(runtime.buffer.text, "")
+        self.assertFalse(runtime._suggestions)
+        overlay.hide.assert_called()
+        runtime.stop()
+
+    def test_home_and_end_clear_buffer(self) -> None:
+        runtime = self.make_runtime()
+        runtime.buffer.push("a")
+        runtime._handle_keyboard_event(KeyboardEvent(key="home"))
+        self.assertEqual(runtime.buffer.text, "")
+        runtime.buffer.push("b")
+        runtime._handle_keyboard_event(KeyboardEvent(key="end"))
+        self.assertEqual(runtime.buffer.text, "")
+        runtime.stop()
+
+    def test_ctrl_shortcut_marks_buffer_unreliable(self) -> None:
+        runtime = self.make_runtime()
+        runtime.buffer.push("a")
+
+        self.assertFalse(runtime._handle_keyboard_event(KeyboardEvent(key="v", ctrl=True)))
+
+        self.assertEqual(runtime.buffer.text, "")
+        self.assertFalse(runtime._buffer_sync.reliable)
+        runtime.stop()
+
     def test_escape_declines_all_visible_suggestions(self) -> None:
         runtime = self.make_runtime()
         runtime._suggestions = [
@@ -322,6 +398,19 @@ class DesktopAssistantRuntimeTests(unittest.TestCase):
         self.assertEqual(runtime.stats.app_context_changes, 1)
         runtime.stop()
 
+    def test_field_change_clears_typed_buffer_before_next_character(self) -> None:
+        detector = StaticAppDetector(
+            AppContext(app_identifier="notepad.exe", window_class_name="Edit", field_name="body")
+        )
+        runtime = self.make_runtime(app_detector=detector)
+        runtime._process_keyboard_event(KeyboardEvent(key="char", char="a"))
+        detector.context = AppContext(app_identifier="notepad.exe", window_class_name="Edit", field_name="title")
+        runtime._process_keyboard_event(KeyboardEvent(key="char", char="b"))
+
+        self.assertEqual(runtime.buffer.text, "b")
+        self.assertEqual(runtime.stats.app_context_changes, 1)
+        runtime.stop()
+
     def test_window_title_change_does_not_clear_typed_buffer(self) -> None:
         detector = StaticAppDetector(
             AppContext(app_identifier="notepad.exe", window_title="A", window_class_name="Notepad")
@@ -333,6 +422,18 @@ class DesktopAssistantRuntimeTests(unittest.TestCase):
 
         self.assertEqual(runtime.buffer.text, "ab")
         self.assertEqual(runtime.stats.app_context_changes, 0)
+        runtime.stop()
+
+    def test_cursor_anchor_change_clears_typed_buffer_before_next_character(self) -> None:
+        cursor = StaticCursorLocator(100, 100)
+        runtime = self.make_runtime(cursor_locator=cursor)
+        runtime._process_keyboard_event(KeyboardEvent(key="char", char="a"))
+        cursor.x = 300
+        cursor.y = 220
+        runtime._process_keyboard_event(KeyboardEvent(key="char", char="b"))
+
+        self.assertEqual(runtime.buffer.text, "b")
+        self.assertGreaterEqual(runtime.stats.buffer_resets, 1)
         runtime.stop()
 
     def test_stop_cleans_up_runtime_components(self) -> None:

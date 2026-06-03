@@ -23,8 +23,10 @@ SW_HIDE = 0
 SW_SHOWNOACTIVATE = 4
 LWA_ALPHA = 0x00000002
 DT_LEFT = 0x00000000
+DT_CENTER = 0x00000001
 DT_VCENTER = 0x00000004
 DT_SINGLELINE = 0x00000020
+NULL_PEN = 8
 DEFAULT_CHARSET = 1
 OUT_DEFAULT_PRECIS = 0
 CLIP_DEFAULT_PRECIS = 0
@@ -52,11 +54,15 @@ THEMES = {
         "highlight_background": 0x003A3A3A,
     },
 }
-OVERLAY_RADIUS_MM = 2.0
+OVERLAY_RADIUS_MM = 1.5
+CHIP_RADIUS_MM = 1.5
+OVERLAY_PADDING_X = 8
+CHIP_VERTICAL_MARGIN = 4
+CHIP_GAP = 6
 SIZE_CONFIG = {
-    "small": {"height": 30, "font_height": -13, "char_width": 7, "padding": 22, "min_choice_width": 96},
-    "medium": {"height": 36, "font_height": -15, "char_width": 8, "padding": 26, "min_choice_width": 128},
-    "large": {"height": 44, "font_height": -17, "char_width": 10, "padding": 30, "min_choice_width": 156},
+    "small": {"height": 30, "font_height": -13, "char_width": 7, "padding": 20, "min_choice_width": 92},
+    "medium": {"height": 36, "font_height": -15, "char_width": 8, "padding": 24, "min_choice_width": 118},
+    "large": {"height": 44, "font_height": -17, "char_width": 10, "padding": 28, "min_choice_width": 144},
 }
 
 
@@ -133,6 +139,8 @@ class SuggestionOverlay:
         self._labels: list[str] = []
         self._focus_index = 0
         self._choice_bounds: list[tuple[int, int]] = []
+        self._chip_rects: list[tuple[int, int, int, int]] = []
+        self._transition_offset = 0
         self._appearance = AppearanceSettings()
         self._closed = False
         self._wnd_proc_ref = WndProc(self._wnd_proc)
@@ -167,11 +175,15 @@ class SuggestionOverlay:
 
     def show_suggestions(self, suggestions: list[Suggestion], x: int, y: int, focus_index: int = 0) -> None:
         self._focus_index = max(0, min(focus_index, max(0, len(suggestions[:3]) - 1)))
-        self._labels = [
+        labels = [
             _format_label(index, suggestion, self._focus_index)
             for index, suggestion in enumerate(suggestions[:3])
         ]
-        self._choice_bounds = _choice_bounds(self._labels, self._appearance)
+        if labels != self._labels and self._appearance.animations_enabled:
+            self._transition_offset = 3
+        self._labels = labels
+        self._chip_rects = chip_rects(self._labels, self._appearance)
+        self._choice_bounds = [(left, right) for left, _top, right, _bottom in self._chip_rects]
         width = _measure_width(self._labels, self._appearance)
         height = _size_config(self._appearance)["height"]
         screen_width = self.user32.GetSystemMetrics(0)
@@ -277,6 +289,18 @@ class SuggestionOverlay:
         self.gdi32.SelectObject.restype = HGDIOBJ
         self.gdi32.DeleteObject.argtypes = [HGDIOBJ]
         self.gdi32.DeleteObject.restype = wintypes.BOOL
+        self.gdi32.GetStockObject.argtypes = [ctypes.c_int]
+        self.gdi32.GetStockObject.restype = HGDIOBJ
+        self.gdi32.RoundRect.argtypes = [
+            wintypes.HDC,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+        ]
+        self.gdi32.RoundRect.restype = wintypes.BOOL
 
     def _create_window(self) -> int:
         ex_style = WS_EX_TOPMOST | WS_EX_TOOLWINDOW | WS_EX_LAYERED | WS_EX_NOACTIVATE
@@ -346,18 +370,44 @@ class SuggestionOverlay:
             self.gdi32.SetBkMode(hdc, 1)
             font = self._create_text_font(config)
             previous_font = self.gdi32.SelectObject(hdc, font) if font else None
+            previous_pen = self.gdi32.SelectObject(hdc, self.gdi32.GetStockObject(NULL_PEN))
 
             for index, label in enumerate(self._labels):
-                label_width = _label_width(label, config)
-                x = self._choice_bounds[index][0] if index < len(self._choice_bounds) else 10
-                label_rect = wintypes.RECT(x, 0, x + label_width, config["height"])
+                left, top, right, bottom = (
+                    self._chip_rects[index]
+                    if index < len(self._chip_rects)
+                    else (OVERLAY_PADDING_X, CHIP_VERTICAL_MARGIN, 120, config["height"] - CHIP_VERTICAL_MARGIN)
+                )
+                offset = self._transition_offset if self._appearance.animations_enabled else 0
+                label_rect = wintypes.RECT(left, top + offset, right, bottom + offset)
                 if index == self._focus_index:
                     highlight = self.gdi32.CreateSolidBrush(theme["highlight_background"])
-                    self.user32.FillRect(hdc, ctypes.byref(label_rect), highlight)
+                    previous_brush = self.gdi32.SelectObject(hdc, highlight)
+                    radius = self._mm_to_pixels(CHIP_RADIUS_MM) * 2
+                    self.gdi32.RoundRect(
+                        hdc,
+                        label_rect.left,
+                        label_rect.top,
+                        label_rect.right,
+                        label_rect.bottom,
+                        radius,
+                        radius,
+                    )
+                    if previous_brush:
+                        self.gdi32.SelectObject(hdc, previous_brush)
                     self.gdi32.DeleteObject(highlight)
                 self.gdi32.SetTextColor(hdc, theme["text_primary"] if index == self._focus_index else theme["text_secondary"])
-                self.user32.DrawTextW(hdc, label, -1, ctypes.byref(label_rect), DT_LEFT | DT_VCENTER | DT_SINGLELINE)
+                self.user32.DrawTextW(
+                    hdc,
+                    label,
+                    -1,
+                    ctypes.byref(label_rect),
+                    DT_CENTER | DT_VCENTER | DT_SINGLELINE,
+                )
+            self._transition_offset = 0
         finally:
+            if "previous_pen" in locals() and previous_pen:
+                self.gdi32.SelectObject(hdc, previous_pen)
             if "previous_font" in locals() and previous_font:
                 self.gdi32.SelectObject(hdc, previous_font)
             if "font" in locals() and font:
@@ -402,19 +452,29 @@ def _format_label(index: int, suggestion: Suggestion, focus_index: int = 0) -> s
 
 
 def _measure_width(labels: list[str], appearance: AppearanceSettings) -> int:
-    config = _size_config(appearance)
-    return min(max(240, sum(_label_width(label, config) for label in labels) + 16), 900)
+    if not labels:
+        return 0
+    rects = chip_rects(labels, appearance)
+    return min(max(220, rects[-1][2] + OVERLAY_PADDING_X), 900)
 
 
 def _choice_bounds(labels: list[str], appearance: AppearanceSettings) -> list[tuple[int, int]]:
+    return [(left, right) for left, _top, right, _bottom in chip_rects(labels, appearance)]
+
+
+def chip_rects(labels: list[str], appearance: AppearanceSettings) -> list[tuple[int, int, int, int]]:
     config = _size_config(appearance)
-    bounds: list[tuple[int, int]] = []
-    x = 10
+    if not labels:
+        return []
+    slot_width = max(config["min_choice_width"], max(_label_width(label, config) for label in labels))
+    top = CHIP_VERTICAL_MARGIN
+    bottom = config["height"] - CHIP_VERTICAL_MARGIN
+    rects: list[tuple[int, int, int, int]] = []
+    x = OVERLAY_PADDING_X
     for label in labels:
-        width = _label_width(label, config)
-        bounds.append((x, x + width))
-        x += width
-    return bounds
+        rects.append((x, top, x + slot_width, bottom))
+        x += slot_width + CHIP_GAP
+    return rects
 
 
 def choice_index_at_x(bounds: list[tuple[int, int]], x: int) -> int | None:

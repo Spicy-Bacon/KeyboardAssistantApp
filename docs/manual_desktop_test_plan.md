@@ -67,6 +67,11 @@ Password detection is best effort. If a password field still receives suggestion
 | --- | --- | --- |
 | [ ] | App switching from Notepad to browser | Typed buffer resets when the app identity changes |
 | [ ] | Window title changes within same app | Typed buffer is not unnecessarily cleared |
+| [ ] | Backspace through the current word | Suggestions update as characters are removed and hide when the word is empty |
+| [ ] | Left/right/up/down with no visible suggestions | Cursor movement clears the typed buffer and hides stale suggestions |
+| [ ] | Home/End/PageUp/PageDown/Delete | Buffer clears and suggestions hide without changing existing text |
+| [ ] | Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z | Buffer clears or becomes unreliable; pasted/selected content is not auto-corrected |
+| [ ] | Mouse click into another word in Notepad | Old suggestions disappear; new typing starts from a fresh buffer |
 | [ ] | Overlay placement near screen edges | Overlay stays visible and does not cover typed text more than necessary |
 | [ ] | Multi-monitor and 125%/150% scaling | Overlay appears near caret or cursor on the correct monitor |
 | [ ] | Arrow keys | Left/right/up/down move selection when suggestions are visible |
@@ -76,3 +81,11 @@ Password detection is best effort. If a password field still receives suggestion
 | [ ] | Pause/resume from tray | Pause hides suggestions and stops correction until resumed |
 | [ ] | Tray icon | Tooltip/menu works, settings opens, exit shuts down cleanly |
 | [ ] | Shutdown/restart | Listener, overlay, tray, and local AI worker clean up without leaving a stuck process |
+
+## UI Preview
+
+| Done | Scenario | Expected Result |
+| --- | --- | --- |
+| [ ] | `python -m keyboard_assistant.settings_app` | Opens the dark settings window with sidebar navigation, cards, readable controls, and saved settings |
+| [ ] | `python -m keyboard_assistant.desktop --overlay-demo` | Shows a compact dark QuickType-style suggestion bar with centered chips and padded highlight |
+| [ ] | `python -m keyboard_assistant.desktop --debug` | Live typing works with privacy-safe debug metadata and no raw typed text in diagnostics |
