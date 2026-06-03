@@ -58,11 +58,20 @@ class OllamaProvider:
 
 
 class LocalAIService:
-    def __init__(self, provider_name: str, model: str, enabled: bool) -> None:
+    def __init__(
+        self,
+        provider_name: str,
+        model: str,
+        enabled: bool,
+        endpoint: str = "http://127.0.0.1:11434",
+        timeout_seconds: float = DEFAULT_LOCAL_AI_TIMEOUT_SECONDS,
+    ) -> None:
         self.provider_name = provider_name
         self.model = model
         self.enabled = enabled
-        self.provider = self._provider_for(provider_name) if enabled else DisabledLocalAIProvider()
+        self.endpoint = endpoint
+        self.timeout_seconds = timeout_seconds
+        self.provider = self._provider_for(provider_name, endpoint) if enabled else DisabledLocalAIProvider()
 
     def status(self) -> str:
         if not self.enabled:
@@ -71,16 +80,13 @@ class LocalAIService:
             return f"enabled: ollama model={self.model or '(not configured)'}"
         return f"unsupported provider: {self.provider_name}"
 
-    def test(
-        self,
-        prompt: str = "Suggest the next word after: I will",
-        timeout_seconds: float = DEFAULT_LOCAL_AI_TIMEOUT_SECONDS,
-    ) -> LocalAIResult:
+    def test(self, prompt: str = "Suggest the next word after: I will", timeout_seconds: float | None = None) -> LocalAIResult:
         if not self.enabled:
             return LocalAIResult(ok=False, text="", error="local AI is disabled")
         if self.provider_name != "ollama":
             return LocalAIResult(ok=False, text="", error=f"unsupported provider: {self.provider_name}")
-        return self.provider.generate(prompt, self.model, timeout_seconds=timeout_seconds)
+        timeout = self.timeout_seconds if timeout_seconds is None else timeout_seconds
+        return self.provider.generate(prompt, self.model, timeout_seconds=timeout)
 
     def suggest_next(self, context: str, timeout_seconds: float = LIVE_LOCAL_AI_TIMEOUT_SECONDS) -> LocalAIResult:
         prompt = (
@@ -92,9 +98,9 @@ class LocalAIService:
         return self.test(prompt, timeout_seconds=timeout_seconds)
 
     @staticmethod
-    def _provider_for(provider_name: str) -> LocalAIProvider:
+    def _provider_for(provider_name: str, endpoint: str = "http://127.0.0.1:11434") -> LocalAIProvider:
         if provider_name == "ollama":
-            return OllamaProvider()
+            return OllamaProvider(endpoint)
         return DisabledLocalAIProvider()
 
 

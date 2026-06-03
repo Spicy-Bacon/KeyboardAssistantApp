@@ -60,6 +60,15 @@ class CliTests(unittest.TestCase):
         self.assertIn("startup: on", output)
         self.assertIn("keyboard_assistant.desktop", output)
 
+    def test_doctor_command_reports_core_checks(self) -> None:
+        exit_code, output = self.run_cli("doctor")
+
+        self.assertEqual(exit_code, 0)
+        self.assertIn("python:", output)
+        self.assertIn("database:", output)
+        self.assertIn("language_data:", output)
+        self.assertIn("correction_engine:", output)
+
     def test_version_command_exits_zero(self) -> None:
         exit_code, output = self.run_cli("--version")
         self.assertEqual(exit_code, 0)

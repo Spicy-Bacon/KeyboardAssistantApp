@@ -12,6 +12,8 @@ This first build focuses on the foundation:
 - Local SQLite schema for settings, app profiles, dictionary, corrections, and learning events.
 - App/sensitive-context policy stubs for Windows-focused desktop behavior.
 - CLI demo and unit tests using only the Python standard library.
+- GitHub Actions CI on Ubuntu and Windows.
+- Production-readiness docs for architecture, privacy, manual desktop testing, and Windows install testing.
 
 ## Fresh-Install Intelligence
 
@@ -64,7 +66,7 @@ When Windows exposes a notification area, the live prototype adds a tray icon wi
 In non-interactive or restricted contexts where the notification area is unavailable, the app falls back to keyboard controls without failing startup.
 Only one live assistant instance is allowed at a time. If another copy is already running, startup exits with an explicit message.
 
-Use `--debug` when testing the live hook; it prints received key events, the typed buffer, current app identifier, policy reason, suggestion counts, and session counters on shutdown. Use `--doctor` to run desktop subsystem checks for the database, correction engine, active app detector, overlay, and keyboard hook. Use `--overlay-demo` to show a sample suggestion popup without relying on the keyboard hook. Use `--inject-demo` with Notepad focused to test whether Windows text insertion works independently of the hook and overlay.
+Use `--debug` when testing the live hook; it prints received key events, privacy-safe buffer metadata, current app identifier, policy reason, suggestion counts, and session counters on shutdown. Use `--doctor` to run desktop subsystem checks for the database, language data, correction engine, active app detector, text injector, overlay, tray, keyboard listener/hook, local AI status, and diagnostics log. Use `--overlay-demo` to show a sample suggestion popup without relying on the keyboard hook. Use `--inject-demo` with Notepad focused to test whether Windows text insertion works independently of the hook and overlay.
 
 ## Run Settings
 
@@ -107,8 +109,21 @@ python -m unittest tests.test_fresh_install_benchmark -v
 python scripts\profile_startup.py
 ```
 
+GitHub Actions runs the same validation on `ubuntu-latest` and `windows-latest` with Python 3.12.
 The fresh-install benchmark uses `tests/fixtures/fresh_install_cases.json`, disables learning and local AI, and enforces an 85% minimum deterministic pass rate.
 The verbose benchmark output reports pass rates by category and the false auto-correction count.
+
+## Doctor Diagnostics
+
+```powershell
+$env:PYTHONPATH="src"
+python -m keyboard_assistant.cli doctor
+python -m keyboard_assistant.cli doctor --test-hook
+python -m keyboard_assistant.desktop --doctor
+python -m keyboard_assistant.desktop --doctor --skip-hook-test
+```
+
+Doctor output is privacy-safe and reports environment, package status, database path/access, language data counts, correction engine status, desktop component availability, optional local AI status/reachability when enabled, diagnostics log path, and recent error count. It does not print raw typed text.
 
 ## Language Data
 
@@ -192,7 +207,7 @@ python -m keyboard_assistant.cli appearance show
 python -m keyboard_assistant.cli appearance set --theme light --size small --opacity 85 --animations off
 
 python -m keyboard_assistant.cli local-ai status
-python -m keyboard_assistant.cli local-ai set --enabled on --provider ollama --model qwen2.5:3b
+python -m keyboard_assistant.cli local-ai set --enabled on --provider ollama --model qwen2.5:3b --endpoint http://127.0.0.1:11434 --timeout 2
 python -m keyboard_assistant.cli local-ai test
 
 python -m keyboard_assistant.cli startup status
@@ -213,6 +228,15 @@ Repeated personal-looking words, such as names or model/product terms with capit
 
 Diagnostics are local JSON-lines logs next to the SQLite database. They record lifecycle events, state changes, exception types, and counts, but redact raw typed text and suggestion text fields.
 
+## Production-Readiness Docs
+
+- [Architecture](docs/architecture.md)
+- [Privacy Design](docs/privacy_design.md)
+- [Manual Desktop Test Plan](docs/manual_desktop_test_plan.md)
+- [Windows Install Test Plan](docs/windows_install_test_plan.md)
+- [Language Data Quality Report](docs/language_data_quality_report.md)
+- [Final Quality Pass](docs/final_quality_pass.md)
+
 ## Current Scope
 
-The live desktop path is now present, but the next production work is hardening app compatibility, settings, tray behavior, and packaging.
+The live desktop path is now present and covered by unit tests, CI, doctor diagnostics, and manual test plans. The next production work is live Windows soak testing across more apps, richer context extraction, and a more formal installer.

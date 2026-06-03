@@ -86,8 +86,13 @@ def build_parser() -> argparse.ArgumentParser:
     configure_ai.add_argument("--enabled", choices=["on", "off"], default=None)
     configure_ai.add_argument("--provider", choices=["none", "ollama"], default=None)
     configure_ai.add_argument("--model", default=None)
+    configure_ai.add_argument("--endpoint", default=None)
+    configure_ai.add_argument("--timeout", type=float, default=None)
     test_ai = local_ai_sub.add_parser("test", help="Send a short test prompt to the configured local model.")
     test_ai.add_argument("--prompt", default="Suggest the next word after: I will")
+
+    doctor = subparsers.add_parser("doctor", help="Run privacy-safe runtime diagnostics.")
+    doctor.add_argument("--test-hook", action="store_true", help="Attempt to install the Windows keyboard hook.")
 
     startup = subparsers.add_parser("startup", help="Manage Windows startup-on-login registration.")
     startup_sub = startup.add_subparsers(dest="startup_command")
@@ -134,6 +139,7 @@ COMMANDS = {
     "appearance",
     "local-ai",
     "startup",
+    "doctor",
 }
 
 
@@ -168,6 +174,8 @@ def main(argv: list[str] | None = None) -> int:
         return _handle_local_ai(args, database)
     if args.command == "startup":
         return _handle_startup(args)
+    if args.command == "doctor":
+        return _handle_doctor(args, database)
 
     if getattr(args, "interactive", False):
         run_interactive(assistant)
@@ -332,13 +340,21 @@ def _handle_local_ai(args: argparse.Namespace, database: Database) -> int:
             provider_name=str(settings["provider"]),
             model=str(settings["model"]),
             enabled=bool(settings["enabled"]),
+            endpoint=str(settings["endpoint"]),
+            timeout_seconds=float(settings["timeout_seconds"]),
         )
         print(service.status())
         return 0
 
     if args.local_ai_command == "set":
         enabled = None if args.enabled is None else args.enabled == "on"
-        database.set_model_settings(provider=args.provider, model=args.model, enabled=enabled)
+        database.set_model_settings(
+            provider=args.provider,
+            model=args.model,
+            enabled=enabled,
+            endpoint=args.endpoint,
+            timeout_seconds=args.timeout,
+        )
         print("Updated.")
         return 0
 
@@ -347,6 +363,8 @@ def _handle_local_ai(args: argparse.Namespace, database: Database) -> int:
             provider_name=str(settings["provider"]),
             model=str(settings["model"]),
             enabled=bool(settings["enabled"]),
+            endpoint=str(settings["endpoint"]),
+            timeout_seconds=float(settings["timeout_seconds"]),
         )
         result = service.test(args.prompt)
         if result.ok:
@@ -356,6 +374,15 @@ def _handle_local_ai(args: argparse.Namespace, database: Database) -> int:
         return 1
 
     return 2
+
+
+def _handle_doctor(args: argparse.Namespace, database: Database) -> int:
+    from keyboard_assistant.diagnostics.doctor import format_doctor_checks, run_desktop_doctor
+
+    checks = run_desktop_doctor(database, test_hook=args.test_hook)
+    print(format_doctor_checks(checks))
+    critical_names = {"python", "package", "database", "language_data", "correction_engine", "diagnostics"}
+    return 0 if all(check.ok for check in checks if check.name in critical_names) else 1
 
 
 def _handle_startup(args: argparse.Namespace) -> int:

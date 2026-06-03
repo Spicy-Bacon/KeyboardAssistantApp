@@ -12,6 +12,7 @@ from keyboard_assistant.diagnostics.doctor import (
 from keyboard_assistant.diagnostics.logger import DiagnosticsLogger, default_log_path
 from keyboard_assistant.platform.single_instance import SingleInstance
 from keyboard_assistant.runtime.desktop_runtime import DesktopAssistantRuntime
+from keyboard_assistant.runtime.windows_factory import WindowsRuntimeComponentFactory
 from keyboard_assistant.storage.database import Database
 
 
@@ -60,7 +61,12 @@ def main(argv: list[str] | None = None) -> int:
         print("Keyboard Assistant is already running. Stop the existing instance before starting another one.")
         return 1
     try:
-        runtime = DesktopAssistantRuntime(database, diagnostics=diagnostics, verbose=args.debug)
+        runtime = DesktopAssistantRuntime(
+            database,
+            diagnostics=diagnostics,
+            verbose=args.debug,
+            component_factory=WindowsRuntimeComponentFactory(),
+        )
         runtime.run()
     except Exception as exc:
         diagnostics.exception("runtime_crashed", exc)

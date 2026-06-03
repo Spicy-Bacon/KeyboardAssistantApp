@@ -88,6 +88,7 @@ class SuggestionRankerTests(unittest.TestCase):
         self.db.record_reverted_correction("teh", "the")
         reduced = self.ranker.rank([candidate])[0]
         self.assertLess(reduced.confidence, original.confidence)
+        self.assertFalse(reduced.auto_apply)
 
     def test_app_specific_word_frequency_boosts_score(self) -> None:
         candidate = self.candidate("", "Exeter", "phrase_prediction", 0.72, "common_phrases", False)
@@ -96,6 +97,15 @@ class SuggestionRankerTests(unittest.TestCase):
             self.db.increment_word_frequency("Exeter", "notepad.exe")
         boosted = self.ranker.rank([candidate], AppContext(app_identifier="notepad.exe"))[0]
         self.assertGreater(boosted.confidence, original.confidence)
+
+    def test_app_specific_word_frequency_does_not_boost_other_apps(self) -> None:
+        candidate = self.candidate("", "Exeter", "phrase_prediction", 0.72, "common_phrases", False)
+        original = self.ranker.rank([candidate], AppContext(app_identifier="word.exe"))[0]
+        for _ in range(3):
+            self.db.increment_word_frequency("Exeter", "notepad.exe")
+        other_app = self.ranker.rank([candidate], AppContext(app_identifier="word.exe"))[0]
+
+        self.assertEqual(other_app.confidence, original.confidence)
 
     def test_phrase_predictions_never_auto_apply(self) -> None:
         suggestions = self.ranker.rank(

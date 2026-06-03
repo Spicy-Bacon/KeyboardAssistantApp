@@ -118,6 +118,8 @@ class CandidateGeneratorTests(unittest.TestCase):
     def test_phrase_prediction_supports_one_two_and_three_word_prefixes(self) -> None:
         cases = {
             "thank ": "you",
+            "let me ": "know",
+            "looking forward ": "to",
             "thank you ": "for",
             "thank you for ": "your",
         }

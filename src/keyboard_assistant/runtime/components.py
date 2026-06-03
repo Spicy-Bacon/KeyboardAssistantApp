@@ -69,6 +69,36 @@ class LocalAIWorkerProtocol(Protocol):
         ...
 
 
+class RuntimeComponentFactory(Protocol):
+    def create_text_injector(self) -> TextInjector:
+        ...
+
+    def create_overlay(self, on_close: Callable[[], None], on_select: Callable[[int], None]) -> Overlay:
+        ...
+
+    def create_tray(
+        self,
+        on_toggle_pause: Callable[[], bool],
+        on_open_settings: Callable[[], None],
+        on_exit: Callable[[], None],
+        is_paused: Callable[[], bool],
+    ) -> Tray:
+        ...
+
+    def create_keyboard_listener(
+        self,
+        on_event: Callable[[KeyboardEvent], bool | None],
+        on_error: Callable[[BaseException], None] | None = None,
+    ) -> KeyboardListener:
+        ...
+
+    def create_app_detector(self) -> AppDetectorProtocol:
+        ...
+
+    def create_cursor_locator(self) -> CursorLocatorProtocol:
+        ...
+
+
 class NullTrayIcon:
     def close(self) -> None:
         pass
@@ -103,3 +133,45 @@ class NullKeyboardListener:
 
     def stop(self) -> None:
         pass
+
+
+class NullAppDetector:
+    def current_app(self) -> AppContext:
+        return AppContext()
+
+
+class NullCursorLocator:
+    def current_anchor(self) -> ScreenPoint:
+        return ScreenPoint(100, 100)
+
+
+class NullRuntimeComponentFactory:
+    def create_text_injector(self) -> TextInjector:
+        from keyboard_assistant.platform.text_injector import NullTextInjector
+
+        return NullTextInjector()
+
+    def create_overlay(self, on_close: Callable[[], None], on_select: Callable[[int], None]) -> Overlay:
+        return NullOverlay()
+
+    def create_tray(
+        self,
+        on_toggle_pause: Callable[[], bool],
+        on_open_settings: Callable[[], None],
+        on_exit: Callable[[], None],
+        is_paused: Callable[[], bool],
+    ) -> Tray:
+        return NullTrayIcon()
+
+    def create_keyboard_listener(
+        self,
+        on_event: Callable[[KeyboardEvent], bool | None],
+        on_error: Callable[[BaseException], None] | None = None,
+    ) -> KeyboardListener:
+        return NullKeyboardListener()
+
+    def create_app_detector(self) -> AppDetectorProtocol:
+        return NullAppDetector()
+
+    def create_cursor_locator(self) -> CursorLocatorProtocol:
+        return NullCursorLocator()

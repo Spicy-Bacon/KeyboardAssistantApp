@@ -34,6 +34,44 @@ class StaticCursorLocator:
         return type("Point", (), {"x": 100, "y": 100})()
 
 
+class StaticComponentFactory:
+    def __init__(self) -> None:
+        self.injector = NullTextInjector()
+        self.overlay = NullOverlay()
+        self.tray = NullTrayIcon()
+        self.listener = NullKeyboardListener()
+        self.app_detector = StaticAppDetector()
+        self.cursor_locator = StaticCursorLocator()
+
+    def create_text_injector(self):
+        return self.injector
+
+    def create_overlay(self, on_close, on_select):
+        return self.overlay
+
+    def create_tray(self, on_toggle_pause, on_open_settings, on_exit, is_paused):
+        return self.tray
+
+    def create_keyboard_listener(self, on_event, on_error=None):
+        return self.listener
+
+    def create_app_detector(self):
+        return self.app_detector
+
+    def create_cursor_locator(self):
+        return self.cursor_locator
+
+
+class FailingTextInjectorFactory(StaticComponentFactory):
+    def create_text_injector(self):
+        raise RuntimeError("no sendinput")
+
+
+class FailingTrayFactory(StaticComponentFactory):
+    def create_tray(self, on_toggle_pause, on_open_settings, on_exit, is_paused):
+        raise RuntimeError("tray unavailable")
+
+
 class DesktopAssistantRuntimeTests(unittest.TestCase):
     def setUp(self) -> None:
         self.tempdir = tempfile.TemporaryDirectory()
@@ -64,9 +102,23 @@ class DesktopAssistantRuntimeTests(unittest.TestCase):
         self.assertIn("text_injector_injected", runtime.health.events)
         runtime.stop()
 
+    def test_runtime_constructs_components_from_factory(self) -> None:
+        factory = StaticComponentFactory()
+        with redirect_stdout(io.StringIO()):
+            runtime = DesktopAssistantRuntime(self.db, component_factory=factory, allow_null_injector=True)
+
+        self.assertIs(runtime.injector, factory.injector)
+        self.assertIs(runtime.overlay, factory.overlay)
+        self.assertIs(runtime.tray, factory.tray)
+        self.assertIs(runtime.listener, factory.listener)
+        runtime.stop()
+
     def test_text_injector_failure_can_fall_back_and_records_health(self) -> None:
-        with patch("keyboard_assistant.runtime.desktop_runtime.WindowsTextInjector", side_effect=RuntimeError("no sendinput")):
-            runtime = self.make_runtime(injector=None, allow_null_injector=True)
+        runtime = self.make_runtime(
+            injector=None,
+            component_factory=FailingTextInjectorFactory(),
+            allow_null_injector=True,
+        )
 
         self.assertIsInstance(runtime.injector, NullTextInjector)
         self.assertTrue(runtime.health.text_injector_failed)
@@ -74,9 +126,12 @@ class DesktopAssistantRuntimeTests(unittest.TestCase):
         runtime.stop()
 
     def test_text_injector_failure_without_fallback_is_clear(self) -> None:
-        with patch("keyboard_assistant.runtime.desktop_runtime.WindowsTextInjector", side_effect=RuntimeError("no sendinput")):
-            with self.assertRaisesRegex(RuntimeError, "Text injector failed to start"):
-                self.make_runtime(injector=None, allow_null_injector=False)
+        with self.assertRaisesRegex(RuntimeError, "Text injector failed to start"):
+            self.make_runtime(
+                injector=None,
+                component_factory=FailingTextInjectorFactory(),
+                allow_null_injector=False,
+            )
 
     def test_toggle_pause(self) -> None:
         runtime = self.make_runtime()
@@ -87,8 +142,7 @@ class DesktopAssistantRuntimeTests(unittest.TestCase):
         runtime.stop()
 
     def test_tray_runtime_error_falls_back_to_null_tray(self) -> None:
-        with patch("keyboard_assistant.runtime.desktop_runtime.TrayIcon", side_effect=RuntimeError("tray unavailable")):
-            runtime = self.make_runtime(tray=None)
+        runtime = self.make_runtime(tray=None, component_factory=FailingTrayFactory())
 
         self.assertIsInstance(runtime.tray, NullTrayIcon)
         self.assertTrue(runtime.health.tray_icon_failed)
@@ -113,6 +167,19 @@ class DesktopAssistantRuntimeTests(unittest.TestCase):
             time.sleep(0.01)
 
         self.assertEqual(runtime.buffer.text, "r")
+        runtime.stop()
+
+    def test_listener_start_failure_is_recorded_and_worker_stops(self) -> None:
+        listener = Mock()
+        listener.start.side_effect = RuntimeError("hook denied")
+        runtime = self.make_runtime(listener=listener)
+
+        with self.assertRaises(RuntimeError):
+            runtime.run()
+
+        self.assertTrue(runtime.health.keyboard_hook_failed)
+        self.assertIn("keyboard_hook", runtime.health.last_exception)
+        self.assertIsNone(runtime._event_worker)
         runtime.stop()
 
     def test_space_accepts_focused_visible_suggestion(self) -> None:

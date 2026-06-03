@@ -4,7 +4,7 @@ import threading
 import time
 from pathlib import Path
 
-from keyboard_assistant.ai.local_ai import LIVE_LOCAL_AI_TIMEOUT_SECONDS, LocalAIResult, LocalAIService
+from keyboard_assistant.ai.local_ai import LIVE_LOCAL_AI_TIMEOUT_SECONDS, LocalAIResult, LocalAIService, OllamaProvider
 from keyboard_assistant.ai.local_ai import _disable_thinking_prompt
 from keyboard_assistant.ai.suggestion_worker import LocalAISuggestionWorker
 from keyboard_assistant.ai.suggestion_worker import _clean_ai_text
@@ -49,6 +49,35 @@ class LocalAIServiceTests(unittest.TestCase):
         result = service.suggest_next("I will now continue ")
         self.assertTrue(result.ok)
         self.assertEqual(provider.timeout_seconds, LIVE_LOCAL_AI_TIMEOUT_SECONDS)
+
+    def test_service_uses_configured_ollama_endpoint(self) -> None:
+        service = LocalAIService(
+            provider_name="ollama",
+            model="qwen3:4b",
+            enabled=True,
+            endpoint="http://localhost:11435",
+        )
+
+        self.assertIsInstance(service.provider, OllamaProvider)
+        self.assertEqual(service.provider.base_url, "http://localhost:11435")
+
+    def test_service_uses_configured_timeout_for_test(self) -> None:
+        class RecordingProvider:
+            def __init__(self) -> None:
+                self.timeout_seconds = 0.0
+
+            def generate(self, _prompt: str, _model: str, timeout_seconds: float = 0.0) -> LocalAIResult:
+                self.timeout_seconds = timeout_seconds
+                return LocalAIResult(ok=True, text="next")
+
+        service = LocalAIService(provider_name="ollama", model="fake", enabled=True, timeout_seconds=1.25)
+        provider = RecordingProvider()
+        service.provider = provider
+
+        result = service.test("prompt")
+
+        self.assertTrue(result.ok)
+        self.assertEqual(provider.timeout_seconds, 1.25)
 
 
 class FakeAIService:

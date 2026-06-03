@@ -14,10 +14,8 @@ from keyboard_assistant.core.context import TextContext, TypedBuffer, extract_te
 from keyboard_assistant.core.models import AppContext, Suggestion
 from keyboard_assistant.data.defaults import NEXT_WORD_FALLBACKS
 from keyboard_assistant.diagnostics.logger import DiagnosticsLogger, default_log_path
-from keyboard_assistant.platform.app_detector import AppDetector
-from keyboard_assistant.platform.cursor import CursorLocator
-from keyboard_assistant.platform.keyboard_listener import KeyboardEvent, WindowsKeyboardListener
-from keyboard_assistant.platform.text_injector import NullTextInjector, WindowsTextInjector
+from keyboard_assistant.platform.keyboard_listener import KeyboardEvent
+from keyboard_assistant.platform.text_injector import NullTextInjector
 from keyboard_assistant.runtime.components import (
     AppDetectorProtocol,
     CursorLocatorProtocol,
@@ -25,15 +23,15 @@ from keyboard_assistant.runtime.components import (
     LocalAIWorkerProtocol,
     NullKeyboardListener,
     NullOverlay,
+    NullRuntimeComponentFactory,
     NullTrayIcon,
     Overlay,
+    RuntimeComponentFactory,
     TextInjector,
     Tray,
 )
 from keyboard_assistant.runtime.health import RuntimeHealth
 from keyboard_assistant.storage.database import Database
-from keyboard_assistant.ui.suggestion_overlay import SuggestionOverlay
-from keyboard_assistant.ui.tray_icon import TrayIcon
 
 
 @dataclass(frozen=True)
@@ -68,6 +66,7 @@ class DesktopAssistantRuntime:
         app_detector: AppDetectorProtocol | None = None,
         cursor_locator: CursorLocatorProtocol | None = None,
         ai_worker: LocalAIWorkerProtocol | None = None,
+        component_factory: RuntimeComponentFactory | None = None,
         allow_null_injector: bool = False,
     ) -> None:
         self.database = database
@@ -84,8 +83,16 @@ class DesktopAssistantRuntime:
             on_error=self._handle_ai_error,
         )
         self.buffer = TypedBuffer()
-        self.app_detector = app_detector or AppDetector()
-        self.cursor_locator = cursor_locator or CursorLocator()
+        self.component_factory = component_factory or _component_factory_for(
+            injector=injector,
+            overlay=overlay,
+            tray=tray,
+            listener=listener,
+            app_detector=app_detector,
+            cursor_locator=cursor_locator,
+        )
+        self.app_detector = app_detector or self.component_factory.create_app_detector()
+        self.cursor_locator = cursor_locator or self.component_factory.create_cursor_locator()
         if injector is not None:
             self.injector = injector
             self.health.text_injector_started = True
@@ -118,9 +125,9 @@ class DesktopAssistantRuntime:
         self.diagnostics.info("runtime_initialized", health=self.health.snapshot())
         self._print("Keyboard Assistant initialized.")
 
-    def _create_text_injector(self, allow_null_injector: bool) -> WindowsTextInjector | NullTextInjector:
+    def _create_text_injector(self, allow_null_injector: bool) -> TextInjector:
         try:
-            injector = WindowsTextInjector()
+            injector = self.component_factory.create_text_injector()
             self.health.text_injector_started = True
             self.health.mark("text_injector_started")
             return injector
@@ -135,7 +142,10 @@ class DesktopAssistantRuntime:
 
     def _create_overlay(self) -> Overlay:
         try:
-            overlay = SuggestionOverlay(on_close=self.stop, on_select=self._accept_selected_from_overlay)
+            overlay = self.component_factory.create_overlay(
+                on_close=self.stop,
+                on_select=self._accept_selected_from_overlay,
+            )
             self.health.overlay_started = True
             self.health.mark("overlay_started")
             return overlay
@@ -147,7 +157,7 @@ class DesktopAssistantRuntime:
 
     def _create_tray(self) -> Tray:
         try:
-            tray = TrayIcon(
+            tray = self.component_factory.create_tray(
                 on_toggle_pause=self.toggle_pause,
                 on_open_settings=self.open_settings,
                 on_exit=self.stop,
@@ -163,7 +173,7 @@ class DesktopAssistantRuntime:
             return NullTrayIcon()
 
     def _create_listener(self) -> KeyboardListener:
-        return WindowsKeyboardListener(
+        return self.component_factory.create_keyboard_listener(
             self._handle_keyboard_event,
             on_error=self._handle_keyboard_listener_error,
         )
@@ -618,3 +628,22 @@ def _buffer_metadata(text: str) -> str:
         f"len={len(text)} current_word_len={len(context.current_word)} "
         f"previous_words={len(context.previous_words)}"
     )
+
+
+def _default_component_factory() -> RuntimeComponentFactory:
+    from keyboard_assistant.runtime.windows_factory import WindowsRuntimeComponentFactory
+
+    return WindowsRuntimeComponentFactory()
+
+
+def _component_factory_for(
+    injector: TextInjector | None,
+    overlay: Overlay | None,
+    tray: Tray | None,
+    listener: KeyboardListener | None,
+    app_detector: AppDetectorProtocol | None,
+    cursor_locator: CursorLocatorProtocol | None,
+) -> RuntimeComponentFactory:
+    if all(component is not None for component in (injector, overlay, tray, listener, app_detector, cursor_locator)):
+        return NullRuntimeComponentFactory()
+    return _default_component_factory()

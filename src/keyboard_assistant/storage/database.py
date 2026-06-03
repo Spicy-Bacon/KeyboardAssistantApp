@@ -17,6 +17,8 @@ DEFAULT_SETTINGS = {
     "local_ai_enabled": "false",
     "local_ai_provider": "none",
     "local_ai_model": "",
+    "local_ai_endpoint": "http://127.0.0.1:11434",
+    "local_ai_timeout_seconds": "30.0",
     "appearance_theme": "dark",
     "suggestion_size": "medium",
     "suggestion_opacity": "94",
@@ -501,6 +503,8 @@ class Database:
             "enabled": self.get_bool_setting("local_ai_enabled", False),
             "provider": self.get_setting("local_ai_provider", "none"),
             "model": self.get_setting("local_ai_model", ""),
+            "endpoint": self.get_setting("local_ai_endpoint", "http://127.0.0.1:11434"),
+            "timeout_seconds": self.get_setting("local_ai_timeout_seconds", "30.0"),
         }
 
     def set_model_settings(
@@ -508,6 +512,8 @@ class Database:
         provider: str | None = None,
         model: str | None = None,
         enabled: bool | None = None,
+        endpoint: str | None = None,
+        timeout_seconds: float | None = None,
     ) -> None:
         if provider is not None:
             self.set_setting("local_ai_provider", provider)
@@ -515,6 +521,12 @@ class Database:
             self.set_setting("local_ai_model", model)
         if enabled is not None:
             self.set_bool_setting("local_ai_enabled", enabled)
+        if endpoint is not None:
+            self.set_setting("local_ai_endpoint", endpoint)
+        if timeout_seconds is not None:
+            if timeout_seconds <= 0:
+                raise ValueError("local_ai_timeout_seconds must be positive")
+            self.set_setting("local_ai_timeout_seconds", str(float(timeout_seconds)))
 
     def _count(self, table: str, where: str, params: tuple[Any, ...]) -> int:
         with self.connect() as connection:

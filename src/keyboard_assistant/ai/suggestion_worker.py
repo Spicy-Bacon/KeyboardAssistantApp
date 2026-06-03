@@ -66,11 +66,7 @@ class LocalAISuggestionWorker:
     def _run(self, sequence: int, text: str, app_context: AppContext) -> None:
         try:
             settings = self.database.get_model_settings()
-            service = self.service_factory(
-                provider_name=str(settings["provider"]),
-                model=str(settings["model"]),
-                enabled=bool(settings["enabled"]),
-            )
+            service = self._create_service(settings)
             result = service.suggest_next(text)
             suggestions = self._suggestions_from_result(result)
         except Exception as exc:
@@ -114,6 +110,23 @@ class LocalAISuggestionWorker:
                 auto_apply=False,
             )
         ]
+
+    def _create_service(self, settings: dict[str, str | bool]) -> LocalAIService:
+        kwargs = {
+            "provider_name": str(settings["provider"]),
+            "model": str(settings["model"]),
+            "enabled": bool(settings["enabled"]),
+            "endpoint": str(settings.get("endpoint", "http://127.0.0.1:11434")),
+            "timeout_seconds": float(settings.get("timeout_seconds", "30.0")),
+        }
+        try:
+            return self.service_factory(**kwargs)
+        except TypeError:
+            return self.service_factory(
+                provider_name=kwargs["provider_name"],
+                model=kwargs["model"],
+                enabled=kwargs["enabled"],
+            )
 
 
 def _clean_ai_text(text: str) -> str:

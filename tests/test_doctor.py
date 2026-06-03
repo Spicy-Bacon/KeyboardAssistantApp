@@ -6,7 +6,8 @@ from pathlib import Path
 from unittest.mock import patch
 
 from keyboard_assistant.desktop import main
-from keyboard_assistant.diagnostics.doctor import DoctorCheck, format_doctor_checks
+from keyboard_assistant.diagnostics.doctor import DoctorCheck, format_doctor_checks, run_desktop_doctor
+from keyboard_assistant.storage.database import Database
 
 
 class DoctorTests(unittest.TestCase):
@@ -19,6 +20,26 @@ class DoctorTests(unittest.TestCase):
         )
         self.assertIn("OK   database: ready", output)
         self.assertIn("FAIL keyboard_hook: denied", output)
+
+    def test_doctor_report_includes_core_diagnostics_without_hook_test(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            database = Database(Path(tempdir) / "test.sqlite3")
+            database.initialize()
+            checks = run_desktop_doctor(database, test_hook=False)
+
+        names = {check.name for check in checks}
+        self.assertIn("os", names)
+        self.assertIn("python", names)
+        self.assertIn("package", names)
+        self.assertIn("database", names)
+        self.assertIn("language_data", names)
+        self.assertIn("correction_engine", names)
+        self.assertIn("text_injector", names)
+        self.assertIn("keyboard_listener", names)
+        self.assertIn("local_ai", names)
+        self.assertIn("diagnostics", names)
+        formatted = format_doctor_checks(checks)
+        self.assertNotIn("recieve_message", formatted)
 
     def test_desktop_doctor_exits_nonzero_on_failed_check(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
