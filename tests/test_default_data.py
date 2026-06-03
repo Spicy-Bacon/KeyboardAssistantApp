@@ -216,6 +216,20 @@ class DefaultDataTests(unittest.TestCase):
 
         self.assertLess(elapsed, 0.20)
 
+    def test_common_phrase_rules_are_indexed_by_prefix(self) -> None:
+        indexed_rules = {
+            rule
+            for rules in defaults.PHRASE_RULES_BY_PREFIX.values()
+            for rule in rules
+        }
+
+        self.assertEqual(indexed_rules, set(defaults.PHRASE_RULES))
+        self.assertEqual(defaults.PHRASE_RULES_BY_PREFIX[("thank",)][0].suggestion, "you")
+        self.assertGreaterEqual(
+            defaults.PHRASE_RULES_BY_PREFIX[("thank",)][0].confidence,
+            defaults.PHRASE_RULES_BY_PREFIX[("thank",)][-1].confidence,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

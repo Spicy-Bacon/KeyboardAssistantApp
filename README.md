@@ -100,7 +100,9 @@ Current limitations:
 $env:PYTHONPATH="src"
 python -m unittest discover -s tests
 python scripts\validate_language_data.py
+python scripts\audit_language_data_quality.py
 python -m unittest tests.test_fresh_install_benchmark -v
+python scripts\profile_startup.py
 ```
 
 The fresh-install benchmark uses `tests/fixtures/fresh_install_cases.json`, disables learning and local AI, and enforces an 85% minimum deterministic pass rate.
@@ -124,13 +126,13 @@ Current TSV formats:
 
 Current bundled dataset sizes:
 
-- `15,357` common typo rules
+- `15,356` common typo rules
 - `50,502` common word frequency entries
-- `18,811` phrase prediction rules
+- `18,813` phrase prediction rules
 - `576` confusion rules
 - `82` contraction rules
 
-The data loader parses these files once through `importlib.resources`, so the same path works from source checkouts and the packaged zipapp. Runtime lookup structures are precomputed as dictionaries, sets, word-length buckets, phrase prefix maps, and confusion-rule first-word indexes.
+The data loader parses these files once through `importlib.resources`, so the same path works from source checkouts and the packaged zipapp. Runtime lookup structures are precomputed as dictionaries, sets, word-length buckets, phrase prefix maps, full phrase-prefix indexes, and confusion-rule first-word indexes.
 
 ## Build a Packaged Artifact
 

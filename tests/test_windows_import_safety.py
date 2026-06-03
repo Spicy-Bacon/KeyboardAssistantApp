@@ -104,6 +104,20 @@ class WindowsImportSafetyTests(unittest.TestCase):
             """
         )
 
+    def test_cli_import_does_not_load_desktop_ui_modules(self) -> None:
+        self.assert_probe_ok(
+            """
+            import sys
+            from keyboard_assistant import cli
+
+            assert cli is not None
+            assert "keyboard_assistant.desktop" not in sys.modules
+            assert "keyboard_assistant.runtime.desktop_runtime" not in sys.modules
+            assert "keyboard_assistant.ui.tray_icon" not in sys.modules
+            assert "keyboard_assistant.ui.suggestion_overlay" not in sys.modules
+            """
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

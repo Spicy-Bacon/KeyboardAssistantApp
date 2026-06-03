@@ -135,6 +135,16 @@ def _load_phrase_rules() -> tuple[PhraseRule, ...]:
     )
 
 
+def _index_phrase_rules_by_prefix(rules: tuple[PhraseRule, ...]) -> dict[tuple[str, ...], tuple[PhraseRule, ...]]:
+    by_prefix: dict[tuple[str, ...], list[PhraseRule]] = {}
+    for rule in rules:
+        by_prefix.setdefault(tuple(rule.prefix.split()), []).append(rule)
+    return {
+        prefix: tuple(sorted(prefix_rules, key=lambda rule: rule.confidence, reverse=True))
+        for prefix, prefix_rules in by_prefix.items()
+    }
+
+
 def _legacy_contextual_replacements(rules: tuple[ConfusionRule, ...]) -> dict[tuple[str, str], str]:
     replacements: dict[tuple[str, str], str] = {}
     for rule in rules:
@@ -185,6 +195,7 @@ CONFUSION_RULES_BY_FIRST_WORD = _index_confusion_rules_by_first_word(CONFUSION_R
 CONTEXTUAL_REPLACEMENTS = _legacy_contextual_replacements(CONFUSION_RULES)
 
 PHRASE_RULES = _load_phrase_rules()
+PHRASE_RULES_BY_PREFIX = _index_phrase_rules_by_prefix(PHRASE_RULES)
 NEXT_WORD_FALLBACKS = _legacy_next_word_fallbacks(PHRASE_RULES)
 NEXT_WORD_CONFIDENCE = _legacy_next_word_confidence(PHRASE_RULES)
 
