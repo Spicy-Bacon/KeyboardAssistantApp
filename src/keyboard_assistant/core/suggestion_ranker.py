@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from keyboard_assistant.core.candidate_generator import Candidate
 from keyboard_assistant.core.models import AppContext, Suggestion
+from keyboard_assistant.core.safety_gate import AutoApplySafetyGate
 from keyboard_assistant.data.defaults import COMMON_WORDS, COMMON_WORD_FREQUENCIES
 from keyboard_assistant.storage.database import Database
 
@@ -49,12 +50,14 @@ class SuggestionRanker:
 
     def __init__(self, database: Database) -> None:
         self.database = database
+        self.safety_gate = AutoApplySafetyGate(database)
 
     def rank(
         self,
         candidates: list[Candidate],
         app_context: AppContext | None = None,
         correction_strength: str = "balanced",
+        source_text: str = "",
     ) -> list[Suggestion]:
         app_context = app_context or AppContext()
         min_confidence = MIN_SUGGESTION_CONFIDENCE.get(
@@ -78,7 +81,7 @@ class SuggestionRanker:
             reverse=True,
         )
         return [
-            self._to_suggestion(candidate, score, correction_strength)
+            self._to_suggestion(candidate, score, app_context, correction_strength, source_text)
             for score, candidate in ranked[:3]
         ]
 
@@ -99,12 +102,22 @@ class SuggestionRanker:
 
         return max(0.0, min(score, 1.0))
 
-    def _to_suggestion(self, candidate: Candidate, score: float, correction_strength: str) -> Suggestion:
+    def _to_suggestion(
+        self,
+        candidate: Candidate,
+        score: float,
+        app_context: AppContext,
+        correction_strength: str,
+        source_text: str,
+    ) -> Suggestion:
         auto_threshold = AUTO_APPLY_THRESHOLDS.get(correction_strength, AUTO_APPLY_THRESHOLDS["balanced"])
-        auto_apply = (
-            candidate.should_auto_apply
-            and not _has_real_word_risk(candidate)
-            and score >= auto_threshold
+        auto_apply = self.safety_gate.allow_auto_apply(
+            candidate,
+            score,
+            app_context=app_context,
+            correction_strength=correction_strength,
+            source_text=source_text,
+            minimum_score=auto_threshold,
         )
         return Suggestion(
             original=candidate.original_text,

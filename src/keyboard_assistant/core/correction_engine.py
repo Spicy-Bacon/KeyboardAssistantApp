@@ -40,6 +40,7 @@ class CorrectionEngine:
                 self.candidate_generator.generate(text, app_context),
                 app_context=app_context,
                 correction_strength=correction_strength,
+                source_text=text,
             )
         )
         return suggestions[:3]

@@ -11,6 +11,7 @@ from keyboard_assistant.storage.database import Database
 FIXTURE = Path(__file__).parent / "fixtures" / "fresh_install_cases.json"
 MIN_PASS_RATE = 0.85
 MAX_FALSE_AUTO_RATE = 0.03
+MIN_NEGATIVE_NO_AUTOCORRECT_RATE = 0.98
 
 
 class FreshInstallBenchmarkTests(unittest.TestCase):
@@ -19,7 +20,7 @@ class FreshInstallBenchmarkTests(unittest.TestCase):
         self.assertGreaterEqual(len(cases), 100)
         self.assertGreaterEqual(
             sum(1 for case in cases if case["expected_suggestion"] is None),
-            20,
+            120,
         )
 
         with tempfile.TemporaryDirectory() as tempdir:
@@ -65,14 +66,19 @@ class FreshInstallBenchmarkTests(unittest.TestCase):
             pass_rate = (len(cases) - len(failures)) / len(cases)
             false_auto_rate = false_auto_count / len(cases)
             report_lines = ["Fresh-install benchmark report:"]
+            report_lines.append(f"- total_pass_rate: {len(cases) - len(failures)}/{len(cases)} ({pass_rate:.1%})")
             for category in sorted(category_totals):
                 total = category_totals[category]
                 passed = category_passes[category]
                 report_lines.append(f"- {category}: {passed}/{total} ({passed / total:.1%})")
             report_lines.append(f"- false_auto_corrections: {false_auto_count}")
+            report_lines.append(f"- false_auto_correction_rate: {false_auto_rate:.1%}")
             print("\n" + "\n".join(report_lines))
             self.assertGreaterEqual(pass_rate, MIN_PASS_RATE, "\n".join(failures[:20]))
             self.assertLessEqual(false_auto_rate, MAX_FALSE_AUTO_RATE, "\n".join(failures[:20]))
+            negative_total = category_totals["negative_no_autocorrect"]
+            negative_pass_rate = category_passes["negative_no_autocorrect"] / negative_total
+            self.assertGreaterEqual(negative_pass_rate, MIN_NEGATIVE_NO_AUTOCORRECT_RATE, "\n".join(failures[:20]))
 
 
 if __name__ == "__main__":

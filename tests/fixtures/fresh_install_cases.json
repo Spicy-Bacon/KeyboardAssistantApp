@@ -1,1430 +1,2078 @@
 [
-  {
-    "input": "teh",
-    "expected_suggestion": "the",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "recieve",
-    "expected_suggestion": "receive",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "definately",
-    "expected_suggestion": "definitely",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "seperate",
-    "expected_suggestion": "separate",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "occured",
-    "expected_suggestion": "occurred",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "untill",
-    "expected_suggestion": "until",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "adress",
-    "expected_suggestion": "address",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "becuase",
-    "expected_suggestion": "because",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "wierd",
-    "expected_suggestion": "weird",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "helllo",
-    "expected_suggestion": "hello",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "thier",
-    "expected_suggestion": "their",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "acheive",
-    "expected_suggestion": "achieve",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "abbout",
-    "expected_suggestion": "about",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "abotu",
-    "expected_suggestion": "about",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "absense",
-    "expected_suggestion": "absence",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "absolutly",
-    "expected_suggestion": "absolutely",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "acccept",
-    "expected_suggestion": "accept",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "acceptible",
-    "expected_suggestion": "acceptable",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "accidentaly",
-    "expected_suggestion": "accidentally",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "accidently",
-    "expected_suggestion": "accidentally",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "accomodate",
-    "expected_suggestion": "accommodate",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "acommodate",
-    "expected_suggestion": "accommodate",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "accomodation",
-    "expected_suggestion": "accommodation",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "acommodation",
-    "expected_suggestion": "accommodation",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "acheivement",
-    "expected_suggestion": "achievement",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "achievment",
-    "expected_suggestion": "achievement",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "acknowlege",
-    "expected_suggestion": "acknowledge",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "acquaintence",
-    "expected_suggestion": "acquaintance",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "acrosss",
-    "expected_suggestion": "across",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "actualy",
-    "expected_suggestion": "actually",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "additonal",
-    "expected_suggestion": "additional",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "adminstration",
-    "expected_suggestion": "administration",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "advantange",
-    "expected_suggestion": "advantage",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "affraid",
-    "expected_suggestion": "afraid",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "agian",
-    "expected_suggestion": "again",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "agreemeent",
-    "expected_suggestion": "agreement",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "allready",
-    "expected_suggestion": "already",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "almsot",
-    "expected_suggestion": "almost",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "alomst",
-    "expected_suggestion": "almost",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "alow",
-    "expected_suggestion": "allow",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "alredy",
-    "expected_suggestion": "already",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "althought",
-    "expected_suggestion": "although",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "amature",
-    "expected_suggestion": "amateur",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "amazng",
-    "expected_suggestion": "amazing",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "ammount",
-    "expected_suggestion": "amount",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "anbd",
-    "expected_suggestion": "and",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "andd",
-    "expected_suggestion": "and",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "annouce",
-    "expected_suggestion": "announce",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "annoucement",
-    "expected_suggestion": "announcement",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "anomoly",
-    "expected_suggestion": "anomaly",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "apparant",
-    "expected_suggestion": "apparent",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "apparantly",
-    "expected_suggestion": "apparently",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "appearence",
-    "expected_suggestion": "appearance",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "aplication",
-    "expected_suggestion": "application",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "applicaiton",
-    "expected_suggestion": "application",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "applyed",
-    "expected_suggestion": "applied",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "appologize",
-    "expected_suggestion": "apologize",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "aproach",
-    "expected_suggestion": "approach",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "apropriate",
-    "expected_suggestion": "appropriate",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "aproval",
-    "expected_suggestion": "approval",
-    "type": "typo",
-    "should_auto_apply": true
-  },
-  {
-    "input": "dont",
-    "expected_suggestion": "don't",
-    "type": "apostrophe",
-    "should_auto_apply": true
-  },
-  {
-    "input": "cant",
-    "expected_suggestion": "can't",
-    "type": "apostrophe",
-    "should_auto_apply": true
-  },
-  {
-    "input": "doesnt",
-    "expected_suggestion": "doesn't",
-    "type": "apostrophe",
-    "should_auto_apply": true
-  },
-  {
-    "input": "im",
-    "expected_suggestion": "I'm",
-    "type": "apostrophe",
-    "should_auto_apply": true
-  },
-  {
-    "input": "youre",
-    "expected_suggestion": "you're",
-    "type": "apostrophe",
-    "should_auto_apply": true
-  },
-  {
-    "input": "theyre",
-    "expected_suggestion": "they're",
-    "type": "apostrophe",
-    "should_auto_apply": true
-  },
-  {
-    "input": "ill",
-    "expected_suggestion": "I'll",
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "hell",
-    "expected_suggestion": "he'll",
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "shell",
-    "expected_suggestion": "she'll",
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "were",
-    "expected_suggestion": "we're",
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "i",
-    "expected_suggestion": "I",
-    "type": "capitalization",
-    "should_auto_apply": true
-  },
-  {
-    "input": "hello. how",
-    "expected_suggestion": "How",
-    "type": "capitalization",
-    "should_auto_apply": true
-  },
-  {
-    "input": "thanks! i",
-    "expected_suggestion": "I",
-    "type": "capitalization",
-    "should_auto_apply": true
-  },
-  {
-    "input": "ok? let",
-    "expected_suggestion": "Let",
-    "type": "capitalization",
-    "should_auto_apply": true
-  },
-  {
-    "input": "iphone",
-    "expected_suggestion": "iPhone",
-    "type": "capitalization",
-    "should_auto_apply": false
-  },
-  {
-    "input": "ebay",
-    "expected_suggestion": "eBay",
-    "type": "capitalization",
-    "should_auto_apply": false
-  },
-  {
-    "input": "macos",
-    "expected_suggestion": "macOS",
-    "type": "capitalization",
-    "should_auto_apply": false
-  },
-  {
-    "input": "exeter",
-    "expected_suggestion": "Exeter",
-    "type": "capitalization",
-    "should_auto_apply": false
-  },
-  {
-    "input": "tge",
-    "expected_suggestion": "the",
-    "type": "keyboard_neighbor",
-    "should_auto_apply": false
-  },
-  {
-    "input": "peolpe",
-    "expected_suggestion": "people",
-    "type": "transposition",
-    "should_auto_apply": false
-  },
-  {
-    "input": "abot",
-    "expected_suggestion": "about",
-    "type": "edit_distance",
-    "should_auto_apply": false
-  },
-  {
-    "input": "abouyt",
-    "expected_suggestion": "about",
-    "type": "edit_distance",
-    "should_auto_apply": false
-  },
-  {
-    "input": "sooon",
-    "expected_suggestion": "soon",
-    "type": "repeated_character",
-    "should_auto_apply": false
-  },
-  {
-    "input": "goood",
-    "expected_suggestion": "good",
-    "type": "repeated_character",
-    "should_auto_apply": false
-  },
-  {
-    "input": "pleaase",
-    "expected_suggestion": "please",
-    "type": "repeated_character",
-    "should_auto_apply": false
-  },
-  {
-    "input": "frend",
-    "expected_suggestion": "friend",
-    "type": "edit_distance",
-    "should_auto_apply": false
-  },
-  {
-    "input": "your welcome",
-    "expected_suggestion": "you're welcome",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "should of",
-    "expected_suggestion": "should have",
-    "type": "contextual",
-    "should_auto_apply": true
-  },
-  {
-    "input": "could of",
-    "expected_suggestion": "could have",
-    "type": "contextual",
-    "should_auto_apply": true
-  },
-  {
-    "input": "would of",
-    "expected_suggestion": "would have",
-    "type": "contextual",
-    "should_auto_apply": true
-  },
-  {
-    "input": "to much",
-    "expected_suggestion": "too much",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "I will meat you later",
-    "expected_suggestion": "meet",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "their is a problem",
-    "expected_suggestion": "there",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "your going now",
-    "expected_suggestion": "you're",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "its ready",
-    "expected_suggestion": "it's",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "I am better then",
-    "expected_suggestion": "than",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "I will loose weight",
-    "expected_suggestion": "lose",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "this will effect the result",
-    "expected_suggestion": "affect",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "thank ",
-    "expected_suggestion": "you",
-    "type": "next_word",
-    "should_auto_apply": false
-  },
-  {
-    "input": "let me ",
-    "expected_suggestion": "know",
-    "type": "next_word",
-    "should_auto_apply": false
-  },
-  {
-    "input": "please let ",
-    "expected_suggestion": "me",
-    "type": "next_word",
-    "should_auto_apply": false
-  },
-  {
-    "input": "as soon ",
-    "expected_suggestion": "as",
-    "type": "next_word",
-    "should_auto_apply": false
-  },
-  {
-    "input": "at the ",
-    "expected_suggestion": "moment",
-    "type": "next_word",
-    "should_auto_apply": false
-  },
-  {
-    "input": "in the ",
-    "expected_suggestion": "morning",
-    "type": "next_word",
-    "should_auto_apply": false
-  },
-  {
-    "input": "by the ",
-    "expected_suggestion": "way",
-    "type": "next_word",
-    "should_auto_apply": false
-  },
-  {
-    "input": "I will ",
-    "expected_suggestion": "check",
-    "type": "next_word",
-    "should_auto_apply": false
-  },
-  {
-    "input": "I have ",
-    "expected_suggestion": "attached",
-    "type": "next_word",
-    "should_auto_apply": false
-  },
-  {
-    "input": "looking forward ",
-    "expected_suggestion": "to",
-    "type": "next_word",
-    "should_auto_apply": false
-  },
-  {
-    "input": "hello about",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "iPhone",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "macOS",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "ready",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "form",
-    "expected_suggestion": null,
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "class",
-    "expected_suggestion": null,
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "function",
-    "expected_suggestion": null,
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "apple",
-    "expected_suggestion": null,
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "from",
-    "expected_suggestion": null,
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "message",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "project",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "student",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "study",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "meeting",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "email",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "today",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "tomorrow",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "university",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "research",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "result",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "argument",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "evidence",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "teacher",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "window",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "weight",
-    "expected_suggestion": null,
-    "type": "no_suggestion",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a account",
-    "expected_suggestion": "an account",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a address",
-    "expected_suggestion": "an address",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a agenda",
-    "expected_suggestion": "an agenda",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a analysis",
-    "expected_suggestion": "an analysis",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a answer",
-    "expected_suggestion": "an answer",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a apple",
-    "expected_suggestion": "an apple",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a argument",
-    "expected_suggestion": "an argument",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a attachment",
-    "expected_suggestion": "an attachment",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a author",
-    "expected_suggestion": "an author",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a email",
-    "expected_suggestion": "an email",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a event",
-    "expected_suggestion": "an event",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a exam",
-    "expected_suggestion": "an exam",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a example",
-    "expected_suggestion": "an example",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a exercise",
-    "expected_suggestion": "an exercise",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a experiment",
-    "expected_suggestion": "an experiment",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a extension",
-    "expected_suggestion": "an extension",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a honest answer",
-    "expected_suggestion": "an honest answer",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a hour",
-    "expected_suggestion": "an hour",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a idea",
-    "expected_suggestion": "an idea",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a image",
-    "expected_suggestion": "an image",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a important point",
-    "expected_suggestion": "an important point",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a introduction",
-    "expected_suggestion": "an introduction",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a invitation",
-    "expected_suggestion": "an invitation",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a issue",
-    "expected_suggestion": "an issue",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a lots of",
-    "expected_suggestion": "a lot of",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a online class",
-    "expected_suggestion": "an online class",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a option",
-    "expected_suggestion": "an option",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a outline",
-    "expected_suggestion": "an outline",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a update",
-    "expected_suggestion": "an update",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "a urgent message",
-    "expected_suggestion": "an urgent message",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "accept for",
-    "expected_suggestion": "except for",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "access of",
-    "expected_suggestion": "access to",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "according with",
-    "expected_suggestion": "according to",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "advice me",
-    "expected_suggestion": "advise me",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "advise for",
-    "expected_suggestion": "advice for",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "affect of this",
-    "expected_suggestion": "effect of this",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "afraid from",
-    "expected_suggestion": "afraid of",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "agree to the idea",
-    "expected_suggestion": "agree with the idea",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "agree to this point",
-    "expected_suggestion": "agree with this point",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "alot of",
-    "expected_suggestion": "a lot of",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an basic idea",
-    "expected_suggestion": "a basic idea",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an clear answer",
-    "expected_suggestion": "a clear answer",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an daily update",
-    "expected_suggestion": "a daily update",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an european example",
-    "expected_suggestion": "a european example",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an good example",
-    "expected_suggestion": "a good example",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an helpful answer",
-    "expected_suggestion": "a helpful answer",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an new email",
-    "expected_suggestion": "a new email",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an one page",
-    "expected_suggestion": "a one page",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an one time",
-    "expected_suggestion": "a one time",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an regular update",
-    "expected_suggestion": "a regular update",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an simple outline",
-    "expected_suggestion": "a simple outline",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an unique idea",
-    "expected_suggestion": "a unique idea",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an unit",
-    "expected_suggestion": "a unit",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an university",
-    "expected_suggestion": "a university",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an useful example",
-    "expected_suggestion": "a useful example",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an useful note",
-    "expected_suggestion": "a useful note",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an user",
-    "expected_suggestion": "a user",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "an weekly update",
-    "expected_suggestion": "a weekly update",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "apologise for late reply",
-    "expected_suggestion": "apologise for the late reply",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "apologize for late reply",
-    "expected_suggestion": "apologize for the late reply",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "approach for",
-    "expected_suggestion": "approach to",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "arrive to",
-    "expected_suggestion": "arrive at",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "arrived to",
-    "expected_suggestion": "arrived at",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "arriving to",
-    "expected_suggestion": "arriving at",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "as per my last email",
-    "expected_suggestion": "as mentioned earlier",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "as per your request",
-    "expected_suggestion": "as requested",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "attached herewith",
-    "expected_suggestion": "attached",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "attention on",
-    "expected_suggestion": "attention to",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "bad in",
-    "expected_suggestion": "bad at",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "bare with me",
-    "expected_suggestion": "bear with me",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "based off",
-    "expected_suggestion": "based on",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "based off of",
-    "expected_suggestion": "based on",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "beckon call",
-    "expected_suggestion": "beck and call",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "belong with",
-    "expected_suggestion": "belong to",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "belongs with",
-    "expected_suggestion": "belongs to",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "better then",
-    "expected_suggestion": "better than",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "by enlarge",
-    "expected_suggestion": "by and large",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "case and point",
-    "expected_suggestion": "case in point",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "continue on",
-    "expected_suggestion": "continue",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "contribution for",
-    "expected_suggestion": "contribution to",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "cope up with",
-    "expected_suggestion": "cope with",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "could had",
-    "expected_suggestion": "could have",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "could have began",
-    "expected_suggestion": "could have begun",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "could have did",
-    "expected_suggestion": "could have done",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "could have spoke",
-    "expected_suggestion": "could have spoken",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "could have went",
-    "expected_suggestion": "could have gone",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "could have wrote",
-    "expected_suggestion": "could have written",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "could to",
-    "expected_suggestion": "could",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "deep seeded",
-    "expected_suggestion": "deep seated",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "depend of",
-    "expected_suggestion": "depend on",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "depending of",
-    "expected_suggestion": "depending on",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "depends of",
-    "expected_suggestion": "depends on",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "different then",
-    "expected_suggestion": "different than",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "discuss about",
-    "expected_suggestion": "discuss",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "discuss about the",
-    "expected_suggestion": "discuss the",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "discuss about this",
-    "expected_suggestion": "discuss this",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "effect the outcome",
-    "expected_suggestion": "affect the outcome",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "effect the result",
-    "expected_suggestion": "affect the result",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "enter in",
-    "expected_suggestion": "enter",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "every day tasks",
-    "expected_suggestion": "everyday tasks",
-    "type": "contextual",
-    "should_auto_apply": false
-  },
-  {
-    "input": "well",
-    "expected_suggestion": null,
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "then",
-    "expected_suggestion": null,
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "than",
-    "expected_suggestion": null,
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "effect",
-    "expected_suggestion": null,
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  },
-  {
-    "input": "affect",
-    "expected_suggestion": null,
-    "type": "negative_no_autocorrect",
-    "should_auto_apply": false
-  }
+    {
+        "input":  "teh",
+        "expected_suggestion":  "the",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "recieve",
+        "expected_suggestion":  "receive",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "definately",
+        "expected_suggestion":  "definitely",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "seperate",
+        "expected_suggestion":  "separate",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "occured",
+        "expected_suggestion":  "occurred",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "untill",
+        "expected_suggestion":  "until",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "adress",
+        "expected_suggestion":  "address",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "becuase",
+        "expected_suggestion":  "because",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "wierd",
+        "expected_suggestion":  "weird",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "helllo",
+        "expected_suggestion":  "hello",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "thier",
+        "expected_suggestion":  "their",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "acheive",
+        "expected_suggestion":  "achieve",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "abbout",
+        "expected_suggestion":  "about",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "abotu",
+        "expected_suggestion":  "about",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "absense",
+        "expected_suggestion":  "absence",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "absolutly",
+        "expected_suggestion":  "absolutely",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "acccept",
+        "expected_suggestion":  "accept",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "acceptible",
+        "expected_suggestion":  "acceptable",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "accidentaly",
+        "expected_suggestion":  "accidentally",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "accidently",
+        "expected_suggestion":  "accidentally",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "accomodate",
+        "expected_suggestion":  "accommodate",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "acommodate",
+        "expected_suggestion":  "accommodate",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "accomodation",
+        "expected_suggestion":  "accommodation",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "acommodation",
+        "expected_suggestion":  "accommodation",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "acheivement",
+        "expected_suggestion":  "achievement",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "achievment",
+        "expected_suggestion":  "achievement",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "acknowlege",
+        "expected_suggestion":  "acknowledge",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "acquaintence",
+        "expected_suggestion":  "acquaintance",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "acrosss",
+        "expected_suggestion":  "across",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "actualy",
+        "expected_suggestion":  "actually",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "additonal",
+        "expected_suggestion":  "additional",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "adminstration",
+        "expected_suggestion":  "administration",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "advantange",
+        "expected_suggestion":  "advantage",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "affraid",
+        "expected_suggestion":  "afraid",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "agian",
+        "expected_suggestion":  "again",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "agreemeent",
+        "expected_suggestion":  "agreement",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "allready",
+        "expected_suggestion":  "already",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "almsot",
+        "expected_suggestion":  "almost",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "alomst",
+        "expected_suggestion":  "almost",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "alow",
+        "expected_suggestion":  "allow",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "alredy",
+        "expected_suggestion":  "already",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "althought",
+        "expected_suggestion":  "although",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "amature",
+        "expected_suggestion":  "amateur",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "amazng",
+        "expected_suggestion":  "amazing",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "ammount",
+        "expected_suggestion":  "amount",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "anbd",
+        "expected_suggestion":  "and",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "andd",
+        "expected_suggestion":  "and",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "annouce",
+        "expected_suggestion":  "announce",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "annoucement",
+        "expected_suggestion":  "announcement",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "anomoly",
+        "expected_suggestion":  "anomaly",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "apparant",
+        "expected_suggestion":  "apparent",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "apparantly",
+        "expected_suggestion":  "apparently",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "appearence",
+        "expected_suggestion":  "appearance",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "aplication",
+        "expected_suggestion":  "application",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "applicaiton",
+        "expected_suggestion":  "application",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "applyed",
+        "expected_suggestion":  "applied",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "appologize",
+        "expected_suggestion":  "apologize",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "aproach",
+        "expected_suggestion":  "approach",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "apropriate",
+        "expected_suggestion":  "appropriate",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "aproval",
+        "expected_suggestion":  "approval",
+        "type":  "typo",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "dont",
+        "expected_suggestion":  "don\u0027t",
+        "type":  "apostrophe",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "cant",
+        "expected_suggestion":  "can\u0027t",
+        "type":  "apostrophe",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "doesnt",
+        "expected_suggestion":  "doesn\u0027t",
+        "type":  "apostrophe",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "im",
+        "expected_suggestion":  "I\u0027m",
+        "type":  "apostrophe",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "youre",
+        "expected_suggestion":  "you\u0027re",
+        "type":  "apostrophe",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "theyre",
+        "expected_suggestion":  "they\u0027re",
+        "type":  "apostrophe",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "ill",
+        "expected_suggestion":  "I\u0027ll",
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "hell",
+        "expected_suggestion":  "he\u0027ll",
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "shell",
+        "expected_suggestion":  "she\u0027ll",
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "were",
+        "expected_suggestion":  "we\u0027re",
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "i",
+        "expected_suggestion":  "I",
+        "type":  "capitalization",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "hello. how",
+        "expected_suggestion":  "How",
+        "type":  "capitalization",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "thanks! i",
+        "expected_suggestion":  "I",
+        "type":  "capitalization",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "ok? let",
+        "expected_suggestion":  "Let",
+        "type":  "capitalization",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "iphone",
+        "expected_suggestion":  "iPhone",
+        "type":  "capitalization",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "ebay",
+        "expected_suggestion":  "eBay",
+        "type":  "capitalization",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "macos",
+        "expected_suggestion":  "macOS",
+        "type":  "capitalization",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "exeter",
+        "expected_suggestion":  "Exeter",
+        "type":  "capitalization",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "tge",
+        "expected_suggestion":  "the",
+        "type":  "keyboard_neighbor",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "peolpe",
+        "expected_suggestion":  "people",
+        "type":  "transposition",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "abot",
+        "expected_suggestion":  "about",
+        "type":  "edit_distance",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "abouyt",
+        "expected_suggestion":  "about",
+        "type":  "edit_distance",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "sooon",
+        "expected_suggestion":  "soon",
+        "type":  "repeated_character",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "goood",
+        "expected_suggestion":  "good",
+        "type":  "repeated_character",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "pleaase",
+        "expected_suggestion":  "please",
+        "type":  "repeated_character",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "frend",
+        "expected_suggestion":  "friend",
+        "type":  "edit_distance",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "your welcome",
+        "expected_suggestion":  "you\u0027re welcome",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "should of",
+        "expected_suggestion":  "should have",
+        "type":  "contextual",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "could of",
+        "expected_suggestion":  "could have",
+        "type":  "contextual",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "would of",
+        "expected_suggestion":  "would have",
+        "type":  "contextual",
+        "should_auto_apply":  true
+    },
+    {
+        "input":  "to much",
+        "expected_suggestion":  "too much",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "I will meat you later",
+        "expected_suggestion":  "meet",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "their is a problem",
+        "expected_suggestion":  "there",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "your going now",
+        "expected_suggestion":  "you\u0027re",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "its ready",
+        "expected_suggestion":  "it\u0027s",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "I am better then",
+        "expected_suggestion":  "than",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "I will loose weight",
+        "expected_suggestion":  "lose",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "this will effect the result",
+        "expected_suggestion":  "affect",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "thank ",
+        "expected_suggestion":  "you",
+        "type":  "next_word",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "let me ",
+        "expected_suggestion":  "know",
+        "type":  "next_word",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "please let ",
+        "expected_suggestion":  "me",
+        "type":  "next_word",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "as soon ",
+        "expected_suggestion":  "as",
+        "type":  "next_word",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "at the ",
+        "expected_suggestion":  "moment",
+        "type":  "next_word",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "in the ",
+        "expected_suggestion":  "morning",
+        "type":  "next_word",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "by the ",
+        "expected_suggestion":  "way",
+        "type":  "next_word",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "I will ",
+        "expected_suggestion":  "check",
+        "type":  "next_word",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "I have ",
+        "expected_suggestion":  "attached",
+        "type":  "next_word",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "looking forward ",
+        "expected_suggestion":  "to",
+        "type":  "next_word",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "hello about",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "iPhone",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "macOS",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "ready",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "form",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "class",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "function",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "apple",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "from",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "message",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "project",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "student",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "study",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "meeting",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "email",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "today",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "tomorrow",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "university",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "research",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "result",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "argument",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "evidence",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "teacher",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "window",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "weight",
+        "expected_suggestion":  null,
+        "type":  "no_suggestion",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a account",
+        "expected_suggestion":  "an account",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a address",
+        "expected_suggestion":  "an address",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a agenda",
+        "expected_suggestion":  "an agenda",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a analysis",
+        "expected_suggestion":  "an analysis",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a answer",
+        "expected_suggestion":  "an answer",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a apple",
+        "expected_suggestion":  "an apple",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a argument",
+        "expected_suggestion":  "an argument",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a attachment",
+        "expected_suggestion":  "an attachment",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a author",
+        "expected_suggestion":  "an author",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a email",
+        "expected_suggestion":  "an email",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a event",
+        "expected_suggestion":  "an event",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a exam",
+        "expected_suggestion":  "an exam",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a example",
+        "expected_suggestion":  "an example",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a exercise",
+        "expected_suggestion":  "an exercise",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a experiment",
+        "expected_suggestion":  "an experiment",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a extension",
+        "expected_suggestion":  "an extension",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a honest answer",
+        "expected_suggestion":  "an honest answer",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a hour",
+        "expected_suggestion":  "an hour",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a idea",
+        "expected_suggestion":  "an idea",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a image",
+        "expected_suggestion":  "an image",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a important point",
+        "expected_suggestion":  "an important point",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a introduction",
+        "expected_suggestion":  "an introduction",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a invitation",
+        "expected_suggestion":  "an invitation",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a issue",
+        "expected_suggestion":  "an issue",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a lots of",
+        "expected_suggestion":  "a lot of",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a online class",
+        "expected_suggestion":  "an online class",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a option",
+        "expected_suggestion":  "an option",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a outline",
+        "expected_suggestion":  "an outline",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a update",
+        "expected_suggestion":  "an update",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "a urgent message",
+        "expected_suggestion":  "an urgent message",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "accept for",
+        "expected_suggestion":  "except for",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "access of",
+        "expected_suggestion":  "access to",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "according with",
+        "expected_suggestion":  "according to",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "advice me",
+        "expected_suggestion":  "advise me",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "advise for",
+        "expected_suggestion":  "advice for",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "affect of this",
+        "expected_suggestion":  "effect of this",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "afraid from",
+        "expected_suggestion":  "afraid of",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "agree to the idea",
+        "expected_suggestion":  "agree with the idea",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "agree to this point",
+        "expected_suggestion":  "agree with this point",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "alot of",
+        "expected_suggestion":  "a lot of",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an basic idea",
+        "expected_suggestion":  "a basic idea",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an clear answer",
+        "expected_suggestion":  "a clear answer",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an daily update",
+        "expected_suggestion":  "a daily update",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an european example",
+        "expected_suggestion":  "a european example",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an good example",
+        "expected_suggestion":  "a good example",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an helpful answer",
+        "expected_suggestion":  "a helpful answer",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an new email",
+        "expected_suggestion":  "a new email",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an one page",
+        "expected_suggestion":  "a one page",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an one time",
+        "expected_suggestion":  "a one time",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an regular update",
+        "expected_suggestion":  "a regular update",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an simple outline",
+        "expected_suggestion":  "a simple outline",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an unique idea",
+        "expected_suggestion":  "a unique idea",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an unit",
+        "expected_suggestion":  "a unit",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an university",
+        "expected_suggestion":  "a university",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an useful example",
+        "expected_suggestion":  "a useful example",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an useful note",
+        "expected_suggestion":  "a useful note",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an user",
+        "expected_suggestion":  "a user",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "an weekly update",
+        "expected_suggestion":  "a weekly update",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "apologise for late reply",
+        "expected_suggestion":  "apologise for the late reply",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "apologize for late reply",
+        "expected_suggestion":  "apologize for the late reply",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "approach for",
+        "expected_suggestion":  "approach to",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "arrive to",
+        "expected_suggestion":  "arrive at",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "arrived to",
+        "expected_suggestion":  "arrived at",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "arriving to",
+        "expected_suggestion":  "arriving at",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "as per my last email",
+        "expected_suggestion":  "as mentioned earlier",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "as per your request",
+        "expected_suggestion":  "as requested",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "attached herewith",
+        "expected_suggestion":  "attached",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "attention on",
+        "expected_suggestion":  "attention to",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "bad in",
+        "expected_suggestion":  "bad at",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "bare with me",
+        "expected_suggestion":  "bear with me",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "based off",
+        "expected_suggestion":  "based on",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "based off of",
+        "expected_suggestion":  "based on",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "beckon call",
+        "expected_suggestion":  "beck and call",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "belong with",
+        "expected_suggestion":  "belong to",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "belongs with",
+        "expected_suggestion":  "belongs to",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "better then",
+        "expected_suggestion":  "better than",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "by enlarge",
+        "expected_suggestion":  "by and large",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "case and point",
+        "expected_suggestion":  "case in point",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "continue on",
+        "expected_suggestion":  "continue",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "contribution for",
+        "expected_suggestion":  "contribution to",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "cope up with",
+        "expected_suggestion":  "cope with",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "could had",
+        "expected_suggestion":  "could have",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "could have began",
+        "expected_suggestion":  "could have begun",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "could have did",
+        "expected_suggestion":  "could have done",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "could have spoke",
+        "expected_suggestion":  "could have spoken",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "could have went",
+        "expected_suggestion":  "could have gone",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "could have wrote",
+        "expected_suggestion":  "could have written",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "could to",
+        "expected_suggestion":  "could",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "deep seeded",
+        "expected_suggestion":  "deep seated",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "depend of",
+        "expected_suggestion":  "depend on",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "depending of",
+        "expected_suggestion":  "depending on",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "depends of",
+        "expected_suggestion":  "depends on",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "different then",
+        "expected_suggestion":  "different than",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "discuss about",
+        "expected_suggestion":  "discuss",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "discuss about the",
+        "expected_suggestion":  "discuss the",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "discuss about this",
+        "expected_suggestion":  "discuss this",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "effect the outcome",
+        "expected_suggestion":  "affect the outcome",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "effect the result",
+        "expected_suggestion":  "affect the result",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "enter in",
+        "expected_suggestion":  "enter",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "every day tasks",
+        "expected_suggestion":  "everyday tasks",
+        "type":  "contextual",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "well",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "then",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "than",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "effect",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "affect",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "about",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "account",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "across",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "actually",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "after",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "again",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "almost",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "already",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "always",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "another",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "around",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "because",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "before",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "between",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "business",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "calendar",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "college",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "company",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "complete",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "computer",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "country",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "current",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "different",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "during",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "example",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "family",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "friend",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "general",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "government",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "important",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "interest",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "language",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "morning",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "number",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "office",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "people",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "question",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "really",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "school",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "service",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "support",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "system",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "through",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "without",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "working",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "loose",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "lose",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "advice",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "advise",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "accept",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "except",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "string",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "public",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "static",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "import",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "return",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "recieve_message",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "userName",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "KeyboardAssistantApp",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "parseJSON",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "HTTPServer",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "npm-install",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "src/keyboard_assistant/core",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "src\\keyboard_assistant\\core",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "https://example.com",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "http://localhost:3000",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "www.example.com",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "test_file.py",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "package.json",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "README.md",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "--help",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "--model",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "-Verbose",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "public static void main",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "def recieve_message():",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "const userName = value",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "import keyboard_assistant",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "return recieve_message()",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "git status",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "python -m keyboard_assistant.cli",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "qwen3:4b",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "ChatGPT",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "PowerShell",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "VisualStudioCode",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "OpenAI",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "Ollama",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "Qwen",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "USA",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "UK",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "HTML",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "JSON",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "API",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "ID",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "OK",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "to",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "be",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "we",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "he",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "it",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "my",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "go",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "up",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "no",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "yes",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "A",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "B",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "x",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    },
+    {
+        "input":  "y",
+        "expected_suggestion":  null,
+        "type":  "negative_no_autocorrect",
+        "should_auto_apply":  false
+    }
 ]
