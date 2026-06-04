@@ -68,6 +68,21 @@ export type DoctorPayload = {
   checks: Array<{ name: string; ok: boolean; detail: string }>;
 };
 
+export type BackendMode = "tauri" | "demo";
+
+export class BackendUnavailableError extends Error {
+  command: string;
+  causeText: string;
+
+  constructor(command: string, cause: unknown) {
+    const causeText = formatError(cause);
+    super(`Backend unavailable while running ${command}: ${causeText}`);
+    this.name = "BackendUnavailableError";
+    this.command = command;
+    this.causeText = causeText;
+  }
+}
+
 const mock = {
   settings: {
     assistant_enabled: true,
@@ -137,18 +152,54 @@ const mock = {
   } satisfies DoctorPayload
 };
 
+function isTauriRuntime() {
+  return "__TAURI_INTERNALS__" in window;
+}
+
+function isDemoMode() {
+  return import.meta.env.VITE_KEYBOARD_ASSISTANT_DEMO === "1" || new URLSearchParams(window.location.search).has("demo");
+}
+
+function canUseMockFallback() {
+  return !isTauriRuntime() || isDemoMode();
+}
+
+function formatError(error: unknown) {
+  if (typeof error === "string") return error;
+  if (error instanceof Error) return error.message;
+  try {
+    return JSON.stringify(error);
+  } catch {
+    return String(error);
+  }
+}
+
+function validateLocalAiChanges(changes: Record<string, string | boolean | number>) {
+  const normalized = { ...changes };
+  if ("timeout_seconds" in normalized) {
+    const value = normalized.timeout_seconds;
+    const timeout = typeof value === "number" ? value : Number(String(value).trim());
+    if (!Number.isFinite(timeout) || timeout <= 0) {
+      throw new Error("Local AI timeout must be a positive number of seconds.");
+    }
+    normalized.timeout_seconds = timeout;
+  }
+  return normalized;
+}
+
 async function call<T>(command: string, args?: Record<string, unknown>, fallback?: T): Promise<T> {
   try {
     return await invoke<T>(command, args);
   } catch (error) {
-    if (fallback !== undefined) {
+    if (fallback !== undefined && canUseMockFallback()) {
       return fallback;
     }
-    throw error;
+    throw new BackendUnavailableError(command, error);
   }
 }
 
 export const api = {
+  backendMode: (): BackendMode => (canUseMockFallback() ? "demo" : "tauri"),
   getSettings: () => call<Settings>("getSettings", undefined, mock.settings),
   updateSetting: (key: "assistant" | "strength" | "learning", value: string) =>
     call<Settings>("updateSetting", { key, value }, mock.settings),
@@ -169,7 +220,7 @@ export const api = {
   clearLearningData: () => call<PrivacyPayload>("clearLearningData", undefined, mock.privacy),
   getLocalAIStatus: () => call<LocalAiPayload>("getLocalAIStatus", undefined, mock.localAi),
   updateLocalAISettings: (changes: Record<string, string | boolean | number>) =>
-    call<LocalAiPayload>("updateLocalAISettings", { changes }, mock.localAi),
+    call<LocalAiPayload>("updateLocalAISettings", { changes: validateLocalAiChanges(changes) }, mock.localAi),
   runDoctor: () => call<DoctorPayload>("runDoctor", undefined, mock.doctor),
   launchDesktopRuntime: () => call<{ ok: boolean }>("launchDesktopRuntime", undefined, { ok: true }),
   launchPythonSettings: () => call<{ ok: boolean }>("launchPythonSettings", undefined, { ok: true })

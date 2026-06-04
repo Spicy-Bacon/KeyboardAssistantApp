@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   api,
   Appearance,
@@ -7,8 +7,22 @@ import {
   DoctorPayload,
   LocalAiPayload,
   PrivacyPayload,
-  Settings
+  Settings,
+  BackendUnavailableError
 } from "./backend";
+import {
+  Button,
+  EmptyState,
+  MetricGrid,
+  PageHeader,
+  PathLine,
+  SelectDropdown,
+  SettingsCard,
+  SettingsRow,
+  StatusPill,
+  TextInput,
+  ToggleSwitch
+} from "./components/ui";
 
 type Section =
   | "General"
@@ -41,6 +55,11 @@ type AppState = {
   doctor: DoctorPayload | null;
 };
 
+type BackendState = {
+  mode: "loading" | "connected" | "demo" | "unavailable";
+  message: string;
+};
+
 const initialState: AppState = {
   settings: null,
   appearance: null,
@@ -55,6 +74,7 @@ export default function App() {
   const [active, setActive] = useState<Section>("General");
   const [state, setState] = useState<AppState>(initialState);
   const [status, setStatus] = useState("Loading backend state");
+  const [backend, setBackend] = useState<BackendState>({ mode: "loading", message: "Loading backend state" });
   const [appInput, setAppInput] = useState("");
   const [wordInput, setWordInput] = useState("");
 
@@ -64,80 +84,146 @@ export default function App() {
 
   async function refreshAll() {
     setStatus("Loading backend state");
-    const [settings, appearance, apps, dictionary, privacy, localAi, doctor] = await Promise.all([
-      api.getSettings(),
-      api.getAppearance(),
-      api.getApps(),
-      api.getDictionary(),
-      api.getPrivacySummary(),
-      api.getLocalAIStatus(),
-      api.runDoctor()
-    ]);
-    setState({ settings, appearance, apps, dictionary, privacy, localAi, doctor });
-    setStatus("Connected to local backend");
+    setBackend({ mode: "loading", message: "Loading backend state" });
+    try {
+      const [settings, appearance, apps, dictionary, privacy, localAi, doctor] = await Promise.all([
+        api.getSettings(),
+        api.getAppearance(),
+        api.getApps(),
+        api.getDictionary(),
+        api.getPrivacySummary(),
+        api.getLocalAIStatus(),
+        api.runDoctor()
+      ]);
+      setState({ settings, appearance, apps, dictionary, privacy, localAi, doctor });
+      if (api.backendMode() === "demo") {
+        setBackend({ mode: "demo", message: "Demo data is shown because the UI is running outside Tauri or demo mode is enabled." });
+        setStatus("Demo data");
+      } else {
+        setBackend({ mode: "connected", message: "Connected to local Python backend" });
+        setStatus("Connected to local backend");
+      }
+    } catch (error) {
+      handleBackendError(error);
+    }
+  }
+
+  function handleBackendError(error: unknown) {
+    const message = error instanceof BackendUnavailableError ? error.message : error instanceof Error ? error.message : String(error);
+    setBackend({ mode: "unavailable", message });
+    setStatus("Backend unavailable");
+  }
+
+  function handleActionError(error: unknown) {
+    if (error instanceof BackendUnavailableError) {
+      handleBackendError(error);
+      return;
+    }
+    const message = error instanceof Error ? error.message : String(error);
+    setStatus(message);
   }
 
   async function updateSetting(key: "assistant" | "strength" | "learning", value: string) {
-    const settings = await api.updateSetting(key, value);
-    setState((current) => ({ ...current, settings }));
-    setStatus("Settings updated");
+    try {
+      const settings = await api.updateSetting(key, value);
+      setState((current) => ({ ...current, settings }));
+      setStatus("Settings updated");
+    } catch (error) {
+      handleActionError(error);
+    }
   }
 
   async function updateAppearance(key: "theme" | "size" | "opacity" | "animations", value: string) {
-    const appearance = await api.updateAppearance(key, value);
-    setState((current) => ({ ...current, appearance }));
-    setStatus("Appearance updated");
+    try {
+      const appearance = await api.updateAppearance(key, value);
+      setState((current) => ({ ...current, appearance }));
+      setStatus("Appearance updated");
+    } catch (error) {
+      handleActionError(error);
+    }
   }
 
   async function addExcludedApp() {
     if (!appInput.trim()) return;
-    const apps = await api.addExcludedApp(appInput.trim(), appInput.trim());
-    setState((current) => ({ ...current, apps }));
-    setAppInput("");
-    setStatus("App rule added");
+    try {
+      const apps = await api.addExcludedApp(appInput.trim(), appInput.trim());
+      setState((current) => ({ ...current, apps }));
+      setAppInput("");
+      setStatus("App rule added");
+    } catch (error) {
+      handleActionError(error);
+    }
   }
 
   async function removeExcludedApp(identifier: string) {
-    const apps = await api.removeExcludedApp(identifier);
-    setState((current) => ({ ...current, apps }));
-    setStatus("App rule removed");
+    try {
+      const apps = await api.removeExcludedApp(identifier);
+      setState((current) => ({ ...current, apps }));
+      setStatus("App rule removed");
+    } catch (error) {
+      handleActionError(error);
+    }
   }
 
   async function addDictionaryWord(neverCorrect: boolean) {
     if (!wordInput.trim()) return;
-    const dictionary = await api.addDictionaryWord(wordInput.trim(), neverCorrect);
-    setState((current) => ({ ...current, dictionary }));
-    setWordInput("");
-    setStatus("Dictionary updated");
+    try {
+      const dictionary = await api.addDictionaryWord(wordInput.trim(), neverCorrect);
+      setState((current) => ({ ...current, dictionary }));
+      setWordInput("");
+      setStatus("Dictionary updated");
+    } catch (error) {
+      handleActionError(error);
+    }
   }
 
   async function removeDictionaryWord(word: string) {
-    const dictionary = await api.removeDictionaryWord(word);
-    setState((current) => ({ ...current, dictionary }));
-    setStatus("Dictionary word removed");
+    try {
+      const dictionary = await api.removeDictionaryWord(word);
+      setState((current) => ({ ...current, dictionary }));
+      setStatus("Dictionary word removed");
+    } catch (error) {
+      handleActionError(error);
+    }
   }
 
   async function clearLearningData() {
-    const privacy = await api.clearLearningData();
-    setState((current) => ({ ...current, privacy }));
-    setStatus("Learning data cleared");
+    try {
+      const privacy = await api.clearLearningData();
+      setState((current) => ({ ...current, privacy }));
+      setStatus("Learning data cleared");
+    } catch (error) {
+      handleActionError(error);
+    }
   }
 
   async function updateLocalAi(changes: Record<string, string | boolean | number>) {
-    const localAi = await api.updateLocalAISettings(changes);
-    const settings = await api.getSettings();
-    setState((current) => ({ ...current, localAi, settings }));
-    setStatus("Local AI settings updated");
+    try {
+      const localAi = await api.updateLocalAISettings(changes);
+      const settings = await api.getSettings();
+      setState((current) => ({ ...current, localAi, settings }));
+      setStatus("Local AI settings updated");
+    } catch (error) {
+      handleActionError(error);
+    }
   }
 
   async function launchDesktopRuntime() {
-    await api.launchDesktopRuntime();
-    setStatus("Desktop runtime launched");
+    try {
+      await api.launchDesktopRuntime();
+      setStatus("Desktop runtime launched");
+    } catch (error) {
+      handleActionError(error);
+    }
   }
 
   async function launchPythonSettings() {
-    await api.launchPythonSettings();
-    setStatus("Python settings fallback launched");
+    try {
+      await api.launchPythonSettings();
+      setStatus("Python settings fallback launched");
+    } catch (error) {
+      handleActionError(error);
+    }
   }
 
   const content = useMemo(() => {
@@ -215,10 +301,22 @@ export default function App() {
         </div>
       </aside>
       <main className="main">
+        <BackendBanner backend={backend} />
         <div className="page-frame" key={active}>
           {content}
         </div>
       </main>
+    </div>
+  );
+}
+
+function BackendBanner({ backend }: { backend: BackendState }) {
+  if (backend.mode === "connected") return null;
+  const label = backend.mode === "demo" ? "Demo data" : backend.mode === "unavailable" ? "Backend unavailable" : "Connecting";
+  return (
+    <div className={`backend-banner ${backend.mode}`}>
+      <strong>{label}</strong>
+      <span>{backend.message}</span>
     </div>
   );
 }
@@ -508,7 +606,7 @@ function LocalAiPage({
           <TextInput value={localAi?.endpoint ?? ""} placeholder="http://127.0.0.1:11434" onChange={(value) => updateLocalAi({ endpoint: value })} />
         </SettingsRow>
         <SettingsRow title="Timeout" description="Request timeout in seconds.">
-          <TextInput value={String(localAi?.timeout_seconds ?? 30)} placeholder="30" onChange={(value) => updateLocalAi({ timeout_seconds: Number(value) || 30 })} />
+          <TextInput value={String(localAi?.timeout_seconds ?? 30)} placeholder="30" onChange={(value) => updateLocalAi({ timeout_seconds: value })} />
         </SettingsRow>
       </SettingsCard>
     </>
@@ -570,98 +668,4 @@ function learningRows(privacy: PrivacyPayload | null) {
     privacy.data_counts.phrase_frequency +
     privacy.data_counts.word_frequency_user
   );
-}
-
-function PageHeader({ title, subtitle }: { title: string; subtitle: string }) {
-  return (
-    <header className="page-header">
-      <div>
-        <h1>{title}</h1>
-        <p>{subtitle}</p>
-      </div>
-    </header>
-  );
-}
-
-function SettingsCard({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <section className="settings-card">
-      <h2>{title}</h2>
-      <div className="card-body">{children}</div>
-    </section>
-  );
-}
-
-function SettingsRow({ title, description, children }: { title: string; description: string; children: ReactNode }) {
-  return (
-    <div className="settings-row">
-      <div className="settings-copy">
-        <div className="row-title">{title}</div>
-        <div className="row-subtitle">{description}</div>
-      </div>
-      <div className="settings-control">{children}</div>
-    </div>
-  );
-}
-
-function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: (checked: boolean) => void }) {
-  return (
-    <button className={`toggle ${checked ? "checked" : ""}`} onClick={() => onChange(!checked)} aria-pressed={checked}>
-      <span />
-    </button>
-  );
-}
-
-function SelectDropdown<T extends string>({ value, options, onChange }: { value: T; options: T[]; onChange: (value: T) => void }) {
-  return (
-    <select className="select" value={value} onChange={(event) => onChange(event.target.value as T)}>
-      {options.map((option) => (
-        <option value={option} key={option}>
-          {option}
-        </option>
-      ))}
-    </select>
-  );
-}
-
-function Button({ children, onClick, muted, danger }: { children: ReactNode; onClick?: () => void; muted?: boolean; danger?: boolean }) {
-  return (
-    <button className={`button ${muted ? "muted" : ""} ${danger ? "danger" : ""}`} onClick={onClick}>
-      {children}
-    </button>
-  );
-}
-
-function TextInput({ value, placeholder, onChange }: { value: string; placeholder: string; onChange: (value: string) => void }) {
-  return <input className="text-input" value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} />;
-}
-
-function StatusPill({ status, label }: { status: "ok" | "warn"; label: string }) {
-  return <span className={`status-pill ${status}`}>{label}</span>;
-}
-
-function MetricGrid({ metrics }: { metrics: Array<[string, number]> }) {
-  return (
-    <div className="metric-grid">
-      {metrics.map(([label, value]) => (
-        <div className="metric" key={label}>
-          <strong>{value}</strong>
-          <span>{label}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function PathLine({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="path-line">
-      <span>{label}</span>
-      <code>{value || "Unavailable"}</code>
-    </div>
-  );
-}
-
-function EmptyState({ label }: { label: string }) {
-  return <div className="empty-state">{label}</div>;
 }

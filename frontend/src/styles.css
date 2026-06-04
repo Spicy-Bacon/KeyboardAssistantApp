@@ -155,6 +155,39 @@ select {
   animation: page-in var(--transition-normal);
 }
 
+.backend-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(980px, 100%);
+  min-height: 42px;
+  margin: 0 auto 16px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  background: rgba(27, 35, 48, 0.92);
+}
+
+.backend-banner strong {
+  white-space: nowrap;
+}
+
+.backend-banner span {
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.backend-banner.demo {
+  border-color: rgba(248, 198, 111, 0.42);
+  background: rgba(248, 198, 111, 0.1);
+}
+
+.backend-banner.unavailable {
+  border-color: rgba(249, 112, 102, 0.5);
+  background: rgba(249, 112, 102, 0.12);
+}
+
 @keyframes page-in {
   from {
     opacity: 0;

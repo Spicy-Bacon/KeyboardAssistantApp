@@ -130,14 +130,19 @@ fn updateLocalAISettings(changes: HashMap<String, Value>) -> CommandResult<Value
     let mut args = vec!["local-ai".to_string(), "set".to_string()];
     for (key, value) in changes {
         match key.as_str() {
-            "enabled" => args.extend([
-                "--enabled".to_string(),
-                if value.as_bool().unwrap_or(false) { "on" } else { "off" }.to_string(),
-            ]),
-            "provider" => args.extend(["--provider".to_string(), value.as_str().unwrap_or("none").to_string()]),
-            "model" => args.extend(["--model".to_string(), value.as_str().unwrap_or("").to_string()]),
-            "endpoint" => args.extend(["--endpoint".to_string(), value.as_str().unwrap_or("").to_string()]),
-            "timeout_seconds" => args.extend(["--timeout".to_string(), value.to_string()]),
+            "enabled" => {
+                let enabled = value
+                    .as_bool()
+                    .ok_or_else(|| "local-ai set: enabled must be a boolean".to_string())?;
+                args.extend([
+                    "--enabled".to_string(),
+                    if enabled { "on" } else { "off" }.to_string(),
+                ]);
+            }
+            "provider" => args.extend(["--provider".to_string(), json_string_arg("local-ai set", "provider", &value)?]),
+            "model" => args.extend(["--model".to_string(), json_string_arg("local-ai set", "model", &value)?]),
+            "endpoint" => args.extend(["--endpoint".to_string(), json_string_arg("local-ai set", "endpoint", &value)?]),
+            "timeout_seconds" => args.extend(["--timeout".to_string(), timeout_arg(&value)?]),
             _ => return Err("unsupported local AI setting".into()),
         }
     }
@@ -168,17 +173,27 @@ fn launchPythonSettings() -> CommandResult<Value> {
 }
 
 fn run_json(args: &[&str]) -> CommandResult<Value> {
-    let output = python_command(args).output().map_err(|error| error.to_string())?;
+    let context = args.join(" ");
+    let output = python_command(args)
+        .output()
+        .map_err(|error| format!("failed to run Python CLI command '{context}': {error}"))?;
     let stdout = String::from_utf8_lossy(&output.stdout);
     let stderr = String::from_utf8_lossy(&output.stderr);
     if !output.status.success() {
-        return Err(if stderr.trim().is_empty() {
-            stdout.trim().to_string()
+        let detail = if stderr.trim().is_empty() {
+            stdout.trim()
         } else {
-            stderr.trim().to_string()
-        });
+            stderr.trim()
+        };
+        return Err(format!("Python CLI command '{context}' failed: {detail}"));
     }
-    serde_json::from_str(stdout.trim()).map_err(|error| format!("invalid JSON from Python CLI: {error}"))
+    serde_json::from_str(stdout.trim()).map_err(|error| {
+        format!(
+            "Python CLI command '{context}' returned invalid JSON: {error}. stdout='{}' stderr='{}'",
+            excerpt(stdout.trim()),
+            excerpt(stderr.trim())
+        )
+    })
 }
 
 fn spawn_module(module: &str) -> CommandResult<()> {
@@ -206,6 +221,40 @@ fn python_module_command(module: &str) -> Command {
         .arg("-m")
         .arg(module);
     command
+}
+
+fn json_string_arg(context: &str, key: &str, value: &Value) -> CommandResult<String> {
+    value
+        .as_str()
+        .map(str::to_string)
+        .ok_or_else(|| format!("{context}: {key} must be a string"))
+}
+
+fn timeout_arg(value: &Value) -> CommandResult<String> {
+    let timeout = if let Some(number) = value.as_f64() {
+        number
+    } else if let Some(text) = value.as_str() {
+        text.trim()
+            .parse::<f64>()
+            .map_err(|_| "local-ai set: timeout_seconds must be a positive number".to_string())?
+    } else {
+        return Err("local-ai set: timeout_seconds must be a number or numeric string".to_string());
+    };
+    if !timeout.is_finite() || timeout <= 0.0 {
+        return Err("local-ai set: timeout_seconds must be a positive number".to_string());
+    }
+    Ok(timeout.to_string())
+}
+
+fn excerpt(value: &str) -> String {
+    const LIMIT: usize = 500;
+    let mut chars = value.chars();
+    let preview = chars.by_ref().take(LIMIT).collect::<String>();
+    if chars.next().is_none() {
+        value.to_string()
+    } else {
+        format!("{preview}...")
+    }
 }
 
 fn repo_root() -> PathBuf {
