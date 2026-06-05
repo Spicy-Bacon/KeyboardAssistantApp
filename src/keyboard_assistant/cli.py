@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 import sys
 
@@ -31,29 +32,39 @@ def build_parser() -> argparse.ArgumentParser:
 
     settings = subparsers.add_parser("settings", help="View or change global assistant settings.")
     settings_sub = settings.add_subparsers(dest="settings_command")
-    settings_sub.add_parser("show", help="Show current settings.")
+    show_settings = settings_sub.add_parser("show", help="Show current settings.")
+    show_settings.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
     set_setting = settings_sub.add_parser("set", help="Set a global setting.")
     set_setting.add_argument("key", choices=["assistant", "strength", "learning"])
     set_setting.add_argument("value")
+    set_setting.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
 
     apps = subparsers.add_parser("apps", help="Manage app-specific behavior.")
     apps_sub = apps.add_subparsers(dest="apps_command")
-    apps_sub.add_parser("list", help="List app profiles.")
+    list_apps = apps_sub.add_parser("list", help="List app profiles.")
+    list_apps.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
     set_app = apps_sub.add_parser("set", help="Create or update an app profile.")
     set_app.add_argument("identifier", help="Executable or app identifier, for example code.exe.")
     set_app.add_argument("--name", default=None, help="Display name.")
     set_app.add_argument("--status", choices=sorted(VALID_ASSISTANT_STATUSES), default=None)
     set_app.add_argument("--strength", choices=sorted(VALID_CORRECTION_STRENGTHS), default=None)
     set_app.add_argument("--learning", choices=["on", "off"], default=None)
+    set_app.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
+    remove_app = apps_sub.add_parser("remove", help="Remove an app profile.")
+    remove_app.add_argument("identifier", help="Executable or app identifier, for example code.exe.")
+    remove_app.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
 
     dictionary = subparsers.add_parser("dictionary", help="Manage personal dictionary.")
     dict_sub = dictionary.add_subparsers(dest="dictionary_command")
-    dict_sub.add_parser("list", help="List personal dictionary words.")
+    list_dictionary = dict_sub.add_parser("list", help="List personal dictionary words.")
+    list_dictionary.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
     add_word = dict_sub.add_parser("add", help="Add a personal dictionary word.")
     add_word.add_argument("word")
     add_word.add_argument("--never-correct", action="store_true")
+    add_word.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
     remove_word = dict_sub.add_parser("remove", help="Remove a personal dictionary word.")
     remove_word.add_argument("word")
+    remove_word.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
     export_dictionary = dict_sub.add_parser("export", help="Export personal dictionary to JSON.")
     export_dictionary.add_argument("path", type=Path)
     import_dictionary = dict_sub.add_parser("import", help="Import personal dictionary from JSON.")
@@ -61,38 +72,47 @@ def build_parser() -> argparse.ArgumentParser:
 
     privacy = subparsers.add_parser("privacy", help="Inspect or clear local learning data.")
     privacy_sub = privacy.add_subparsers(dest="privacy_command")
-    privacy_sub.add_parser("summary", help="Show local data counts.")
-    privacy_sub.add_parser("clear-learning", help="Clear adaptive learning data.")
+    privacy_summary = privacy_sub.add_parser("summary", help="Show local data counts.")
+    privacy_summary.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
+    clear_learning = privacy_sub.add_parser("clear-learning", help="Clear adaptive learning data.")
+    clear_learning.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
 
     diagnostics = subparsers.add_parser("diagnostics", help="Inspect or clear privacy-safe diagnostics.")
     diagnostics_sub = diagnostics.add_subparsers(dest="diagnostics_command")
     show_diagnostics = diagnostics_sub.add_parser("show", help="Show recent diagnostic events.")
     show_diagnostics.add_argument("--limit", type=int, default=20)
-    diagnostics_sub.add_parser("clear", help="Delete diagnostic log.")
+    show_diagnostics.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
+    clear_diagnostics = diagnostics_sub.add_parser("clear", help="Delete diagnostic log.")
+    clear_diagnostics.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
 
     appearance = subparsers.add_parser("appearance", help="View or change overlay appearance.")
     appearance_sub = appearance.add_subparsers(dest="appearance_command")
-    appearance_sub.add_parser("show", help="Show appearance settings.")
+    show_appearance = appearance_sub.add_parser("show", help="Show appearance settings.")
+    show_appearance.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
     set_appearance = appearance_sub.add_parser("set", help="Set appearance settings.")
     set_appearance.add_argument("--theme", choices=sorted(VALID_THEMES), default=None)
     set_appearance.add_argument("--size", choices=sorted(VALID_SUGGESTION_SIZES), default=None)
     set_appearance.add_argument("--opacity", type=int, default=None)
     set_appearance.add_argument("--animations", choices=["on", "off"], default=None)
+    set_appearance.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
 
     local_ai = subparsers.add_parser("local-ai", help="Manage optional local AI settings.")
     local_ai_sub = local_ai.add_subparsers(dest="local_ai_command")
-    local_ai_sub.add_parser("status", help="Show local AI status.")
+    local_ai_status = local_ai_sub.add_parser("status", help="Show local AI status.")
+    local_ai_status.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
     configure_ai = local_ai_sub.add_parser("set", help="Configure local AI.")
     configure_ai.add_argument("--enabled", choices=["on", "off"], default=None)
     configure_ai.add_argument("--provider", choices=["none", "ollama"], default=None)
     configure_ai.add_argument("--model", default=None)
     configure_ai.add_argument("--endpoint", default=None)
     configure_ai.add_argument("--timeout", type=float, default=None)
+    configure_ai.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
     test_ai = local_ai_sub.add_parser("test", help="Send a short test prompt to the configured local model.")
     test_ai.add_argument("--prompt", default="Suggest the next word after: I will")
 
     doctor = subparsers.add_parser("doctor", help="Run privacy-safe runtime diagnostics.")
     doctor.add_argument("--test-hook", action="store_true", help="Attempt to install the Windows keyboard hook.")
+    doctor.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
 
     startup = subparsers.add_parser("startup", help="Manage Windows startup-on-login registration.")
     startup_sub = startup.add_subparsers(dest="startup_command")
@@ -201,6 +221,9 @@ def _is_top_level_help(argv: list[str]) -> bool:
 def _handle_settings(args: argparse.Namespace, database: Database) -> int:
     if args.settings_command in {None, "show"}:
         settings = database.get_settings()
+        if getattr(args, "json", False):
+            _print_json(_settings_payload(database))
+            return 0
         print(f"assistant: {'on' if settings.assistant_enabled else 'off'}")
         print(f"strength: {settings.correction_strength}")
         print(f"learning: {'on' if settings.learning_enabled else 'off'}")
@@ -213,6 +236,9 @@ def _handle_settings(args: argparse.Namespace, database: Database) -> int:
         database.set_bool_setting("learning_enabled", _parse_on_off(value))
     elif args.key == "strength":
         database.set_setting("correction_strength", value)
+    if getattr(args, "json", False):
+        _print_json({"ok": True, "settings": _settings_payload(database)})
+        return 0
     print("Updated.")
     return 0
 
@@ -220,6 +246,9 @@ def _handle_settings(args: argparse.Namespace, database: Database) -> int:
 def _handle_apps(args: argparse.Namespace, database: Database) -> int:
     if args.apps_command in {None, "list"}:
         profiles = database.list_app_profiles()
+        if getattr(args, "json", False):
+            _print_json(_apps_payload(database))
+            return 0
         if not profiles:
             print("No app profiles.")
             return 0
@@ -231,6 +260,14 @@ def _handle_apps(args: argparse.Namespace, database: Database) -> int:
             )
         return 0
 
+    if args.apps_command == "remove":
+        database.remove_app_profile(args.identifier)
+        if getattr(args, "json", False):
+            _print_json({"ok": True, "apps": _apps_payload(database)})
+            return 0
+        print("Removed.")
+        return 0
+
     learning = None if args.learning is None else args.learning == "on"
     database.upsert_app_profile(
         app_identifier=args.identifier,
@@ -239,6 +276,9 @@ def _handle_apps(args: argparse.Namespace, database: Database) -> int:
         correction_strength=args.strength,
         learning_enabled=learning,
     )
+    if getattr(args, "json", False):
+        _print_json({"ok": True, "apps": _apps_payload(database)})
+        return 0
     print("Updated.")
     return 0
 
@@ -246,6 +286,9 @@ def _handle_apps(args: argparse.Namespace, database: Database) -> int:
 def _handle_dictionary(args: argparse.Namespace, database: Database) -> int:
     if args.dictionary_command in {None, "list"}:
         words = database.list_personal_words()
+        if getattr(args, "json", False):
+            _print_json(_dictionary_payload(database))
+            return 0
         if not words:
             print("Personal dictionary is empty.")
             return 0
@@ -256,11 +299,17 @@ def _handle_dictionary(args: argparse.Namespace, database: Database) -> int:
 
     if args.dictionary_command == "add":
         database.add_personal_word(args.word, never_correct=args.never_correct)
+        if getattr(args, "json", False):
+            _print_json({"ok": True, "dictionary": _dictionary_payload(database)})
+            return 0
         print("Added.")
         return 0
 
     if args.dictionary_command == "remove":
         database.remove_personal_word(args.word)
+        if getattr(args, "json", False):
+            _print_json({"ok": True, "dictionary": _dictionary_payload(database)})
+            return 0
         print("Removed.")
         return 0
 
@@ -279,12 +328,18 @@ def _handle_dictionary(args: argparse.Namespace, database: Database) -> int:
 
 def _handle_privacy(args: argparse.Namespace, database: Database) -> int:
     if args.privacy_command in {None, "summary"}:
+        if getattr(args, "json", False):
+            _print_json(_privacy_payload(database))
+            return 0
         for table, count in database.data_summary().items():
             print(f"{table}: {count}")
         return 0
 
     if args.privacy_command == "clear-learning":
         database.clear_learning_data()
+        if getattr(args, "json", False):
+            _print_json({"ok": True, "privacy": _privacy_payload(database)})
+            return 0
         print("Cleared learning data.")
         return 0
 
@@ -295,6 +350,22 @@ def _handle_diagnostics(args: argparse.Namespace, database: Database) -> int:
     logger = DiagnosticsLogger(default_log_path(database.path))
     if args.diagnostics_command in {None, "show"}:
         events = logger.read_events(limit=args.limit)
+        if getattr(args, "json", False):
+            _print_json(
+                {
+                    "log_path": str(default_log_path(database.path)),
+                    "events": [
+                        {
+                            "timestamp": event.timestamp,
+                            "level": event.level,
+                            "event": event.event,
+                            "metadata": event.metadata,
+                        }
+                        for event in events
+                    ],
+                }
+            )
+            return 0
         if not events:
             print("No diagnostics.")
             return 0
@@ -304,6 +375,9 @@ def _handle_diagnostics(args: argparse.Namespace, database: Database) -> int:
 
     if args.diagnostics_command == "clear":
         logger.clear()
+        if getattr(args, "json", False):
+            _print_json({"ok": True, "log_path": str(default_log_path(database.path))})
+            return 0
         print("Cleared diagnostics.")
         return 0
 
@@ -313,6 +387,9 @@ def _handle_diagnostics(args: argparse.Namespace, database: Database) -> int:
 def _handle_appearance(args: argparse.Namespace, database: Database) -> int:
     if args.appearance_command in {None, "show"}:
         appearance = database.get_appearance_settings()
+        if getattr(args, "json", False):
+            _print_json(_appearance_payload(database))
+            return 0
         print(f"theme: {appearance.theme}")
         print(f"size: {appearance.suggestion_size}")
         print(f"opacity: {appearance.opacity}")
@@ -327,6 +404,9 @@ def _handle_appearance(args: argparse.Namespace, database: Database) -> int:
             opacity=args.opacity,
             animations_enabled=animations,
         )
+        if getattr(args, "json", False):
+            _print_json({"ok": True, "appearance": _appearance_payload(database)})
+            return 0
         print("Updated.")
         return 0
 
@@ -343,6 +423,9 @@ def _handle_local_ai(args: argparse.Namespace, database: Database) -> int:
             endpoint=str(settings["endpoint"]),
             timeout_seconds=float(settings["timeout_seconds"]),
         )
+        if getattr(args, "json", False):
+            _print_json(_local_ai_payload(database, service.status()))
+            return 0
         print(service.status())
         return 0
 
@@ -355,6 +438,9 @@ def _handle_local_ai(args: argparse.Namespace, database: Database) -> int:
             endpoint=args.endpoint,
             timeout_seconds=args.timeout,
         )
+        if getattr(args, "json", False):
+            _print_json({"ok": True, "local_ai": _local_ai_payload(database)})
+            return 0
         print("Updated.")
         return 0
 
@@ -380,9 +466,21 @@ def _handle_doctor(args: argparse.Namespace, database: Database) -> int:
     from keyboard_assistant.diagnostics.doctor import format_doctor_checks, run_desktop_doctor
 
     checks = run_desktop_doctor(database, test_hook=args.test_hook)
-    print(format_doctor_checks(checks))
     critical_names = {"python", "package", "database", "language_data", "correction_engine", "diagnostics"}
-    return 0 if all(check.ok for check in checks if check.name in critical_names) else 1
+    critical_ok = all(check.ok for check in checks if check.name in critical_names)
+    if getattr(args, "json", False):
+        _print_json(
+            {
+                "ok": critical_ok,
+                "checks": [
+                    {"name": check.name, "ok": check.ok, "detail": check.detail}
+                    for check in checks
+                ],
+            }
+        )
+        return 0 if critical_ok else 1
+    print(format_doctor_checks(checks))
+    return 0 if critical_ok else 1
 
 
 def _handle_startup(args: argparse.Namespace) -> int:
@@ -423,6 +521,99 @@ def _parse_on_off(value: str) -> bool:
     if value in {"off", "false", "0", "no"}:
         return False
     raise ValueError("value must be on or off")
+
+
+def _print_json(payload: object) -> None:
+    print(json.dumps(payload, indent=2, sort_keys=True))
+
+
+def _settings_payload(database: Database) -> dict[str, object]:
+    settings = database.get_settings()
+    model_settings = database.get_model_settings()
+    return {
+        "assistant_enabled": settings.assistant_enabled,
+        "correction_strength": settings.correction_strength,
+        "learning_enabled": settings.learning_enabled,
+        "local_ai_enabled": bool(model_settings["enabled"]),
+    }
+
+
+def _appearance_payload(database: Database) -> dict[str, object]:
+    appearance = database.get_appearance_settings()
+    return {
+        "theme": appearance.theme,
+        "suggestion_size": appearance.suggestion_size,
+        "opacity": appearance.opacity,
+        "animations_enabled": appearance.animations_enabled,
+    }
+
+
+def _apps_payload(database: Database) -> dict[str, object]:
+    profiles = [
+        {
+            "app_name": profile.app_name,
+            "app_identifier": profile.app_identifier,
+            "assistant_status": profile.assistant_status,
+            "correction_strength": profile.correction_strength,
+            "learning_enabled": profile.learning_enabled,
+        }
+        for profile in database.list_app_profiles()
+    ]
+    return {
+        "profiles": profiles,
+        "enabled_apps": [profile for profile in profiles if profile["assistant_status"] != "off"],
+        "excluded_apps": [profile for profile in profiles if profile["assistant_status"] == "off"],
+    }
+
+
+def _dictionary_payload(database: Database) -> dict[str, object]:
+    words = [
+        {
+            "word": row["word"],
+            "source": row["source"],
+            "frequency": int(row["frequency"]),
+            "never_correct": bool(row["never_correct"]),
+            "updated_at": row["updated_at"],
+        }
+        for row in database.list_personal_words()
+    ]
+    return {
+        "words": words,
+        "never_correct_words": [word for word in words if word["never_correct"]],
+    }
+
+
+def _privacy_payload(database: Database) -> dict[str, object]:
+    settings = database.get_settings()
+    return {
+        "local_only": True,
+        "learning_enabled": settings.learning_enabled,
+        "data_counts": database.data_summary(),
+        "database_path": str(database.path),
+        "diagnostics_log_path": str(default_log_path(database.path)),
+    }
+
+
+def _local_ai_payload(database: Database, status: str | None = None) -> dict[str, object]:
+    settings = database.get_model_settings()
+    service_status = status
+    if service_status is None:
+        service_status = LocalAIService(
+            provider_name=str(settings["provider"]),
+            model=str(settings["model"]),
+            enabled=bool(settings["enabled"]),
+            endpoint=str(settings["endpoint"]),
+            timeout_seconds=float(settings["timeout_seconds"]),
+        ).status()
+    return {
+        "enabled": bool(settings["enabled"]),
+        "provider": settings["provider"],
+        "model": settings["model"],
+        "endpoint": settings["endpoint"],
+        "timeout_seconds": float(settings["timeout_seconds"]),
+        "status": service_status,
+        "required": False,
+    }
 
 
 if __name__ == "__main__":

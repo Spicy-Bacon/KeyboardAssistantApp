@@ -4,9 +4,12 @@ from unittest.mock import patch
 from keyboard_assistant.core.models import Suggestion
 from keyboard_assistant.core.models import AppearanceSettings
 from keyboard_assistant.ui.suggestion_overlay import calculate_overlay_position
+from keyboard_assistant.ui.suggestion_overlay import build_overlay_layout
 from keyboard_assistant.ui.suggestion_overlay import chip_rects
 from keyboard_assistant.ui.suggestion_overlay import choice_index_at_x
 from keyboard_assistant.ui.suggestion_overlay import is_drag_handle_x
+from keyboard_assistant.ui.suggestion_overlay import OverlayRenderState
+from keyboard_assistant.ui.suggestion_overlay import rect_center
 from keyboard_assistant.ui.suggestion_overlay import SuggestionOverlay
 from keyboard_assistant.ui.suggestion_overlay import _format_label
 from keyboard_assistant.ui.suggestion_overlay import _measure_width
@@ -72,6 +75,23 @@ class OverlayGeometryTests(unittest.TestCase):
         self.assertGreater(rects[0][1], 0)
         self.assertGreaterEqual(rects[0][0], 32)
 
+    def test_selected_chip_has_internal_margin(self) -> None:
+        appearance = AppearanceSettings(theme="dark", suggestion_size="medium")
+        layout = build_overlay_layout(["typed", "receive", "today"], appearance, focus_index=1)
+        left, top, right, bottom = layout.chip_rects[layout.focus_index]
+
+        self.assertGreater(left, 0)
+        self.assertGreater(top, 0)
+        self.assertLess(right, layout.width)
+        self.assertLess(bottom, layout.height)
+
+    def test_text_rects_are_centered_in_chip_boxes(self) -> None:
+        appearance = AppearanceSettings(theme="dark", suggestion_size="medium")
+        layout = build_overlay_layout(["typed", "receive", "today"], appearance, focus_index=1)
+
+        for chip, text in zip(layout.chip_rects, layout.text_rects, strict=True):
+            self.assertEqual(rect_center(chip), rect_center(text))
+
     def test_chip_layout_uses_equal_width_slots(self) -> None:
         appearance = AppearanceSettings(theme="dark", suggestion_size="medium")
         rects = chip_rects(["a", "longer", "mid"], appearance)
@@ -87,6 +107,72 @@ class OverlayGeometryTests(unittest.TestCase):
         self.assertEqual(chip_rects(labels, appearance), chip_rects(labels, appearance))
         self.assertEqual(_format_label(1, Suggestion("teh", "the", "typo", 0.96), focus_index=1), "the")
 
+    def test_focus_index_changes_selected_chip_without_changing_layout(self) -> None:
+        appearance = AppearanceSettings(theme="dark", suggestion_size="medium")
+        labels = ["typed", "corrected", "next"]
+        left_focused = build_overlay_layout(labels, appearance, focus_index=0)
+        middle_focused = build_overlay_layout(labels, appearance, focus_index=1)
+
+        self.assertEqual(left_focused.chip_rects, middle_focused.chip_rects)
+        self.assertEqual(left_focused.focus_index, 0)
+        self.assertEqual(middle_focused.focus_index, 1)
+
+    def test_position_clamps_to_offset_monitor_bounds(self) -> None:
+        x, y = calculate_overlay_position(
+            3900,
+            500,
+            300,
+            38,
+            1920,
+            1080,
+            screen_left=1920,
+            screen_top=0,
+        )
+
+        self.assertGreaterEqual(x, 1928)
+        self.assertLessEqual(x, 3532)
+        self.assertEqual(y, 518)
+
+    def test_render_state_repeated_updates_do_not_crash(self) -> None:
+        appearance = AppearanceSettings(theme="dark", suggestion_size="medium")
+        state = OverlayRenderState(appearance)
+        suggestions = _sample_suggestions()
+
+        for _ in range(10):
+            layout = state.update(suggestions, appearance, focus_index=1, now=1.0)
+
+        self.assertTrue(state.visible)
+        self.assertEqual(layout.labels, ("typed", "receive", "today"))
+
+    def test_empty_suggestions_hide_render_state(self) -> None:
+        appearance = AppearanceSettings(theme="dark", suggestion_size="medium")
+        state = OverlayRenderState(appearance)
+        state.update(_sample_suggestions(), appearance, focus_index=1, now=1.0)
+
+        layout = state.update([], appearance, now=1.1)
+
+        self.assertFalse(state.visible)
+        self.assertEqual(layout.labels, ())
+
+    def test_transition_state_updates_without_windows_gui(self) -> None:
+        appearance = AppearanceSettings(theme="dark", suggestion_size="medium", animations_enabled=True)
+        state = OverlayRenderState(appearance)
+        state.update(_sample_suggestions(), appearance, focus_index=1, now=1.0)
+
+        state.update(
+            [
+                Suggestion("typed", "typed", "typed", 1.0),
+                Suggestion("typed", "received", "typo", 0.96),
+                Suggestion("", "tomorrow", "next_word", 0.72),
+            ],
+            appearance,
+            focus_index=1,
+            now=1.02,
+        )
+
+        self.assertTrue(state.transition.is_active(now=1.03))
+        self.assertGreater(state.transition.slide_offset(38, now=1.03), 0)
+
     def test_drag_handle_hit_area_is_separate_from_choices(self) -> None:
         appearance = AppearanceSettings(theme="dark", suggestion_size="medium")
         rects = chip_rects(["left", "middle", "right"], appearance)
@@ -100,6 +186,14 @@ class OverlayGeometryTests(unittest.TestCase):
         with patch("keyboard_assistant.ui.suggestion_overlay._is_windows_overlay_available", return_value=False):
             with self.assertRaisesRegex(RuntimeError, "Windows-only"):
                 SuggestionOverlay()
+
+
+def _sample_suggestions() -> list[Suggestion]:
+    return [
+        Suggestion("typed", "typed", "typed", 1.0),
+        Suggestion("typed", "receive", "typo", 0.96),
+        Suggestion("", "today", "next_word", 0.72),
+    ]
 
 
 if __name__ == "__main__":
