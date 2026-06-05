@@ -2,6 +2,10 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .venv/
+.tmp/
+node_modules/
+frontend/node_modules/
+*.tsbuildinfo
 dist/
 .keyboard_assistant.sqlite3
 *.sqlite3
