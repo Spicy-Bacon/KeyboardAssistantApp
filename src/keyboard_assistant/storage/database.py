@@ -203,6 +203,9 @@ class Database:
             (resolved_name, app_identifier.lower(), resolved_status, resolved_strength, int(resolved_learning)),
         )
 
+    def remove_app_profile(self, app_identifier: str) -> None:
+        self.execute("DELETE FROM app_profiles WHERE lower(app_identifier) = lower(?)", (app_identifier,))
+
     def record_accepted_suggestion(
         self,
         input_text: str,

@@ -2,7 +2,16 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .venv/
+.tmp/
+node_modules/
+frontend/node_modules/
+*.tsbuildinfo
 dist/
 .keyboard_assistant.sqlite3
 *.sqlite3
 *.diagnostics.log
+frontend/node_modules/
+frontend/dist/
+frontend/*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
