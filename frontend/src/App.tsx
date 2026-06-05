@@ -34,15 +34,20 @@ type Section =
   | "Local AI"
   | "Diagnostics";
 
-const sections: Section[] = [
-  "General",
-  "Assistant",
-  "Apps",
-  "Dictionary",
-  "Privacy",
-  "Appearance",
-  "Local AI",
-  "Diagnostics"
+type SectionMeta = {
+  label: Section;
+  icon: string;
+};
+
+const sections: SectionMeta[] = [
+  { label: "General", icon: "/tab-icons/general.png" },
+  { label: "Assistant", icon: "/tab-icons/assistant.png" },
+  { label: "Apps", icon: "/tab-icons/apps.png" },
+  { label: "Dictionary", icon: "/tab-icons/dictionary.png" },
+  { label: "Privacy", icon: "/tab-icons/privacy.png" },
+  { label: "Appearance", icon: "/tab-icons/appearance.png" },
+  { label: "Local AI", icon: "/tab-icons/local-ai.png" },
+  { label: "Diagnostics", icon: "/tab-icons/diagnostics.png" }
 ];
 
 type AppState = {
@@ -277,21 +282,21 @@ export default function App() {
     <div className="shell">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-mark">KA</div>
+          <img className="brand-mark" src="/app-icon.png" alt="" aria-hidden="true" />
           <div>
             <div className="brand-title">Keyboard Assistant</div>
             <div className="brand-subtitle">Local settings</div>
           </div>
         </div>
         <nav className="nav">
-          {sections.map((section) => (
+          {sections.map(({ label, icon }) => (
             <button
-              className={`nav-item ${active === section ? "active" : ""}`}
-              key={section}
-              onClick={() => setActive(section)}
+              className={`nav-item ${active === label ? "active" : ""}`}
+              key={label}
+              onClick={() => setActive(label)}
             >
-              <span className="nav-dot" />
-              <span>{section}</span>
+              <img className="nav-icon" src={icon} alt="" aria-hidden="true" />
+              <span>{label}</span>
             </button>
           ))}
         </nav>
