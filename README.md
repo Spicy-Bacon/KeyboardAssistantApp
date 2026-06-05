@@ -47,6 +47,7 @@ python -m keyboard_assistant.cli "i am going home"
 ## Run the Desktop Prototype
 
 This starts the current Windows-focused live prototype. It uses a global keyboard hook, a cursor-aware typed-buffer fallback, and a compact always-on-top suggestion overlay.
+The live suggestion overlay intentionally remains in the Python/Win32 runtime for low-latency typing while the Tauri frontend migration focuses on settings first. See [Live Overlay Strategy](docs/live_overlay_strategy.md).
 
 ```powershell
 $env:PYTHONPATH="src"
@@ -81,7 +82,7 @@ The new experimental frontend is a separate Tauri + React settings app:
 
 ```powershell
 cd frontend
-npm install
+npm ci
 npm run tauri dev
 ```
 

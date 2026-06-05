@@ -3,7 +3,9 @@ from __future__ import annotations
 from collections.abc import Callable
 import ctypes
 from ctypes import wintypes
+from dataclasses import dataclass
 import queue
+import time
 
 from keyboard_assistant.core.models import Suggestion
 from keyboard_assistant.core.models import AppearanceSettings
@@ -16,6 +18,7 @@ WM_LBUTTONDOWN = 0x0201
 WM_MOUSEMOVE = 0x0200
 WM_SETCURSOR = 0x0020
 WM_NCLBUTTONDOWN = 0x00A1
+WM_TIMER = 0x0113
 WM_APP_DRAIN_QUEUE = 0x8001
 WS_POPUP = 0x80000000
 WS_EX_LAYERED = 0x00080000
@@ -25,6 +28,7 @@ WS_EX_TOPMOST = 0x00000008
 SW_HIDE = 0
 SW_SHOWNOACTIVATE = 4
 LWA_ALPHA = 0x00000002
+SRCCOPY = 0x00CC0020
 DT_LEFT = 0x00000000
 DT_CENTER = 0x00000001
 DT_VCENTER = 0x00000004
@@ -40,12 +44,17 @@ CLEARTYPE_QUALITY = 5
 DEFAULT_PITCH = 0
 FW_NORMAL = 400
 FONT_FACE = "Segoe UI"
+MONITOR_DEFAULTTONEAREST = 2
+ANIMATION_TIMER_ID = 41
+ANIMATION_TIMER_MS = 16
+TRANSITION_DURATION_MS = 150
+WINDOW_MOVE_JITTER_PX = 2
 THEMES = {
     "dark": {
         "text_primary": 0x00F2F2F2,
         "text_secondary": 0x00B8B8B8,
-        "background": 0x00242424,
-        "highlight_background": 0x003A3A3A,
+        "background": 0x00212121,
+        "highlight_background": 0x00363636,
     },
     "light": {
         "text_primary": 0x001F2937,
@@ -56,22 +65,23 @@ THEMES = {
     "system": {
         "text_primary": 0x00F2F2F2,
         "text_secondary": 0x00B8B8B8,
-        "background": 0x00242424,
-        "highlight_background": 0x003A3A3A,
+        "background": 0x00212121,
+        "highlight_background": 0x00363636,
     },
 }
 OVERLAY_RADIUS_MM = 1.5
 CHIP_RADIUS_MM = 1.5
 DRAG_HANDLE_WIDTH = 24
-DOT_SIZE = 3
-DOT_GAP = 4
-OVERLAY_PADDING_X = 8
-CHIP_VERTICAL_MARGIN = 4
+DRAG_HANDLE_GAP = 6
+DOT_SIZE = 2
+DOT_GAP = 3
+OVERLAY_PADDING_X = 10
+CHIP_VERTICAL_MARGIN = 5
 CHIP_GAP = 6
 SIZE_CONFIG = {
-    "small": {"height": 30, "font_height": -13, "char_width": 7, "padding": 20, "min_choice_width": 92},
-    "medium": {"height": 36, "font_height": -15, "char_width": 8, "padding": 24, "min_choice_width": 118},
-    "large": {"height": 44, "font_height": -17, "char_width": 10, "padding": 28, "min_choice_width": 144},
+    "small": {"height": 32, "font_height": -13, "char_width": 7, "padding": 22, "min_choice_width": 92},
+    "medium": {"height": 38, "font_height": -15, "char_width": 8, "padding": 26, "min_choice_width": 118},
+    "large": {"height": 46, "font_height": -17, "char_width": 10, "padding": 30, "min_choice_width": 144},
 }
 
 
@@ -95,6 +105,105 @@ HMENU = getattr(wintypes, "HMENU", wintypes.HANDLE)
 HFONT = getattr(wintypes, "HFONT", wintypes.HANDLE)
 HGDIOBJ = getattr(wintypes, "HGDIOBJ", wintypes.HANDLE)
 HRGN = getattr(wintypes, "HRGN", wintypes.HANDLE)
+HBITMAP = getattr(wintypes, "HBITMAP", wintypes.HANDLE)
+HMONITOR = getattr(wintypes, "HMONITOR", wintypes.HANDLE)
+UINT_PTR = getattr(wintypes, "UINT_PTR", ctypes.c_size_t)
+
+
+@dataclass(frozen=True)
+class ScreenBounds:
+    left: int
+    top: int
+    right: int
+    bottom: int
+
+    @property
+    def width(self) -> int:
+        return max(0, self.right - self.left)
+
+    @property
+    def height(self) -> int:
+        return max(0, self.bottom - self.top)
+
+
+@dataclass(frozen=True)
+class OverlayLayout:
+    labels: tuple[str, ...]
+    focus_index: int
+    width: int
+    height: int
+    chip_rects: tuple[tuple[int, int, int, int], ...]
+    text_rects: tuple[tuple[int, int, int, int], ...]
+
+    @property
+    def choice_bounds(self) -> list[tuple[int, int]]:
+        return [(left, right) for left, _top, right, _bottom in self.chip_rects]
+
+
+@dataclass
+class OverlayTransition:
+    duration_ms: int = TRANSITION_DURATION_MS
+    started_at: float | None = None
+
+    def start(self, now: float | None = None) -> None:
+        self.started_at = now if now is not None else time.monotonic()
+
+    def stop(self) -> None:
+        self.started_at = None
+
+    def is_active(self, now: float | None = None) -> bool:
+        return self.progress(now) < 1.0
+
+    def progress(self, now: float | None = None) -> float:
+        if self.started_at is None:
+            return 1.0
+        current = now if now is not None else time.monotonic()
+        elapsed_ms = max(0.0, (current - self.started_at) * 1000.0)
+        return min(1.0, elapsed_ms / max(1, self.duration_ms))
+
+    def slide_offset(self, height: int, now: float | None = None) -> int:
+        progress = _ease_out_cubic(self.progress(now))
+        return round((1.0 - progress) * max(3, height * 0.12))
+
+    def alpha_factor(self, now: float | None = None) -> float:
+        progress = _ease_out_cubic(self.progress(now))
+        return 0.9 + 0.1 * progress
+
+
+class OverlayRenderState:
+    def __init__(self, appearance: AppearanceSettings | None = None) -> None:
+        self.appearance = appearance or AppearanceSettings()
+        self.layout = build_overlay_layout([], self.appearance)
+        self.transition = OverlayTransition()
+        self.visible = False
+
+    def update(
+        self,
+        suggestions: list[Suggestion],
+        appearance: AppearanceSettings,
+        focus_index: int = 0,
+        now: float | None = None,
+    ) -> OverlayLayout:
+        labels = tuple(_format_label(index, suggestion, focus_index) for index, suggestion in enumerate(suggestions[:3]))
+        focus = max(0, min(focus_index, max(0, len(labels) - 1)))
+        previous_labels = self.layout.labels
+        self.appearance = appearance
+        self.layout = build_overlay_layout(labels, appearance, focus)
+        if not labels:
+            self.visible = False
+            self.transition.stop()
+            return self.layout
+        if self.visible and labels != previous_labels and appearance.animations_enabled:
+            self.transition.start(now)
+        elif not self.visible:
+            self.transition.stop()
+        self.visible = True
+        return self.layout
+
+    def hide(self) -> None:
+        self.visible = False
+        self.layout = build_overlay_layout([], self.appearance)
+        self.transition.stop()
 
 
 if WndProc is not None:
@@ -122,9 +231,19 @@ if WndProc is not None:
             ("fIncUpdate", wintypes.BOOL),
             ("rgbReserved", ctypes.c_byte * 32),
         ]
+
+
+    class MONITORINFO(ctypes.Structure):
+        _fields_ = [
+            ("cbSize", wintypes.DWORD),
+            ("rcMonitor", wintypes.RECT),
+            ("rcWork", wintypes.RECT),
+            ("dwFlags", wintypes.DWORD),
+        ]
 else:
     WNDCLASS = None
     PAINTSTRUCT = None
+    MONITORINFO = None
 
 
 class SuggestionOverlay:
@@ -147,12 +266,13 @@ class SuggestionOverlay:
         self.on_close = on_close
         self.on_select = on_select
         self._queue: queue.Queue[Callable[[], None]] = queue.Queue()
-        self._labels: list[str] = []
-        self._focus_index = 0
+        self._render_state = OverlayRenderState()
+        self._layout = self._render_state.layout
         self._choice_bounds: list[tuple[int, int]] = []
-        self._chip_rects: list[tuple[int, int, int, int]] = []
-        self._transition_offset = 0
         self._appearance = AppearanceSettings()
+        self._target_alpha = int(self._appearance.opacity * 255 / 100)
+        self._last_window_rect: tuple[int, int, int, int] | None = None
+        self._visible = False
         self._closed = False
         self._wnd_proc_ref = WndProc(self._wnd_proc)
         self._class_name = f"KeyboardAssistantSuggestionOverlay{id(self)}"
@@ -173,6 +293,7 @@ class SuggestionOverlay:
             return
         self._closed = True
         if getattr(self, "hwnd", None):
+            self._stop_animation_timer()
             self.user32.DestroyWindow(self.hwnd)
             self.hwnd = None
         if self._class_registered:
@@ -185,35 +306,46 @@ class SuggestionOverlay:
             self.user32.PostMessageW(self.hwnd, WM_APP_DRAIN_QUEUE, 0, 0)
 
     def show_suggestions(self, suggestions: list[Suggestion], x: int, y: int, focus_index: int = 0) -> None:
-        self._focus_index = max(0, min(focus_index, max(0, len(suggestions[:3]) - 1)))
-        labels = [
-            _format_label(index, suggestion, self._focus_index)
-            for index, suggestion in enumerate(suggestions[:3])
-        ]
-        if labels != self._labels and self._appearance.animations_enabled:
-            self._transition_offset = 3
-        self._labels = labels
-        self._chip_rects = chip_rects(self._labels, self._appearance)
-        self._choice_bounds = [(left, right) for left, _top, right, _bottom in self._chip_rects]
-        width = _measure_width(self._labels, self._appearance)
-        height = _size_config(self._appearance)["height"]
-        screen_width = self.user32.GetSystemMetrics(0)
-        screen_height = self.user32.GetSystemMetrics(1)
-        pos_x, pos_y = calculate_overlay_position(x, y, width, height, screen_width, screen_height)
-        self.user32.MoveWindow(self.hwnd, pos_x, pos_y, width, height, True)
-        self._round_window(width, height)
+        layout = self._render_state.update(suggestions, self._appearance, focus_index)
+        self._layout = layout
+        self._choice_bounds = layout.choice_bounds
+        if not layout.labels:
+            self.hide()
+            return
+        bounds = self._screen_bounds_for_anchor(x, y)
+        pos_x, pos_y = calculate_overlay_position(
+            x,
+            y,
+            layout.width,
+            layout.height,
+            bounds.width,
+            bounds.height,
+            screen_left=bounds.left,
+            screen_top=bounds.top,
+        )
+        self._move_or_resize_window(pos_x, pos_y, layout.width, layout.height)
+        self._round_window(layout.width, layout.height)
         self.user32.ShowWindow(self.hwnd, SW_SHOWNOACTIVATE)
-        self.user32.InvalidateRect(self.hwnd, None, True)
+        self._visible = True
+        self._apply_alpha()
+        self._invalidate(erase=False)
+        self._start_animation_timer_if_needed()
 
     def apply_appearance(self, appearance: AppearanceSettings) -> None:
         self._appearance = appearance
         if getattr(self, "hwnd", None):
             alpha = max(30, min(100, appearance.opacity))
-            self.user32.SetLayeredWindowAttributes(self.hwnd, 0, int(alpha * 255 / 100), LWA_ALPHA)
-            self.user32.InvalidateRect(self.hwnd, None, True)
+            self._target_alpha = int(alpha * 255 / 100)
+            self._apply_alpha()
+            self._invalidate(erase=False)
 
     def hide(self) -> None:
         if getattr(self, "hwnd", None):
+            self._render_state.hide()
+            self._layout = self._render_state.layout
+            self._choice_bounds = []
+            self._visible = False
+            self._stop_animation_timer()
             self.user32.ShowWindow(self.hwnd, SW_HIDE)
 
     def _register_class(self) -> None:
@@ -263,6 +395,10 @@ class SuggestionOverlay:
         self.user32.RegisterClassW.restype = wintypes.ATOM
         self.user32.PostMessageW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
         self.user32.PostMessageW.restype = wintypes.BOOL
+        self.user32.SetTimer.argtypes = [wintypes.HWND, UINT_PTR, wintypes.UINT, wintypes.LPVOID]
+        self.user32.SetTimer.restype = UINT_PTR
+        self.user32.KillTimer.argtypes = [wintypes.HWND, UINT_PTR]
+        self.user32.KillTimer.restype = wintypes.BOOL
         self.user32.SendMessageW.argtypes = [wintypes.HWND, wintypes.UINT, wintypes.WPARAM, wintypes.LPARAM]
         self.user32.SendMessageW.restype = wintypes.LPARAM
         self.user32.ReleaseCapture.argtypes = []
@@ -273,9 +409,41 @@ class SuggestionOverlay:
         self.user32.SetCursor.restype = HCURSOR
         self.user32.SetWindowRgn.argtypes = [wintypes.HWND, HRGN, wintypes.BOOL]
         self.user32.SetWindowRgn.restype = ctypes.c_int
+        self.user32.MoveWindow.argtypes = [
+            wintypes.HWND,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+            wintypes.BOOL,
+        ]
+        self.user32.MoveWindow.restype = wintypes.BOOL
+        self.user32.InvalidateRect.argtypes = [wintypes.HWND, ctypes.POINTER(wintypes.RECT), wintypes.BOOL]
+        self.user32.InvalidateRect.restype = wintypes.BOOL
+        self.user32.GetClientRect.argtypes = [wintypes.HWND, ctypes.POINTER(wintypes.RECT)]
+        self.user32.GetClientRect.restype = wintypes.BOOL
+        self.user32.FillRect.argtypes = [wintypes.HDC, ctypes.POINTER(wintypes.RECT), HBRUSH]
+        self.user32.FillRect.restype = ctypes.c_int
+        self.user32.DrawTextW.argtypes = [
+            wintypes.HDC,
+            wintypes.LPCWSTR,
+            ctypes.c_int,
+            ctypes.POINTER(wintypes.RECT),
+            wintypes.UINT,
+        ]
+        self.user32.DrawTextW.restype = ctypes.c_int
+        self.user32.BeginPaint.argtypes = [wintypes.HWND, ctypes.POINTER(PAINTSTRUCT)]
+        self.user32.BeginPaint.restype = wintypes.HDC
+        self.user32.EndPaint.argtypes = [wintypes.HWND, ctypes.POINTER(PAINTSTRUCT)]
+        self.user32.EndPaint.restype = wintypes.BOOL
         if hasattr(self.user32, "GetDpiForWindow"):
             self.user32.GetDpiForWindow.argtypes = [wintypes.HWND]
             self.user32.GetDpiForWindow.restype = wintypes.UINT
+        if hasattr(self.user32, "MonitorFromPoint") and MONITORINFO is not None:
+            self.user32.MonitorFromPoint.argtypes = [wintypes.POINT, wintypes.DWORD]
+            self.user32.MonitorFromPoint.restype = HMONITOR
+            self.user32.GetMonitorInfoW.argtypes = [HMONITOR, ctypes.POINTER(MONITORINFO)]
+            self.user32.GetMonitorInfoW.restype = wintypes.BOOL
         self.user32.UnregisterClassW.argtypes = [wintypes.LPCWSTR, HINSTANCE]
         self.user32.UnregisterClassW.restype = wintypes.BOOL
         self.gdi32.CreateFontW.argtypes = [
@@ -306,6 +474,28 @@ class SuggestionOverlay:
         self.gdi32.CreateRoundRectRgn.restype = HRGN
         self.gdi32.SelectObject.argtypes = [wintypes.HDC, HGDIOBJ]
         self.gdi32.SelectObject.restype = HGDIOBJ
+        self.gdi32.CreateCompatibleDC.argtypes = [wintypes.HDC]
+        self.gdi32.CreateCompatibleDC.restype = wintypes.HDC
+        self.gdi32.CreateCompatibleBitmap.argtypes = [wintypes.HDC, ctypes.c_int, ctypes.c_int]
+        self.gdi32.CreateCompatibleBitmap.restype = HBITMAP
+        self.gdi32.DeleteDC.argtypes = [wintypes.HDC]
+        self.gdi32.DeleteDC.restype = wintypes.BOOL
+        self.gdi32.BitBlt.argtypes = [
+            wintypes.HDC,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+            ctypes.c_int,
+            wintypes.HDC,
+            ctypes.c_int,
+            ctypes.c_int,
+            wintypes.DWORD,
+        ]
+        self.gdi32.BitBlt.restype = wintypes.BOOL
+        self.gdi32.SetBkMode.argtypes = [wintypes.HDC, ctypes.c_int]
+        self.gdi32.SetBkMode.restype = ctypes.c_int
+        self.gdi32.SetTextColor.argtypes = [wintypes.HDC, wintypes.COLORREF]
+        self.gdi32.SetTextColor.restype = wintypes.COLORREF
         self.gdi32.DeleteObject.argtypes = [HGDIOBJ]
         self.gdi32.DeleteObject.restype = wintypes.BOOL
         self.gdi32.GetStockObject.argtypes = [ctypes.c_int]
@@ -344,6 +534,9 @@ class SuggestionOverlay:
     def _wnd_proc(self, hwnd: int, message: int, w_param: int, l_param: int) -> int:
         if message == WM_APP_DRAIN_QUEUE:
             self._drain_queue()
+            return 0
+        if message == WM_TIMER and w_param == ANIMATION_TIMER_ID:
+            self._on_animation_tick()
             return 0
         if message == WM_PAINT:
             self._paint(hwnd)
@@ -392,26 +585,46 @@ class SuggestionOverlay:
         try:
             rect = wintypes.RECT()
             self.user32.GetClientRect(hwnd, ctypes.byref(rect))
-            theme = _theme(self._appearance)
-            config = _size_config(self._appearance)
-            brush = self.gdi32.CreateSolidBrush(theme["background"])
-            self.user32.FillRect(hdc, ctypes.byref(rect), brush)
-            self.gdi32.DeleteObject(brush)
-            self._paint_drag_handle(hdc, theme, config)
-            self.gdi32.SetBkMode(hdc, 1)
-            font = self._create_text_font(config)
-            previous_font = self.gdi32.SelectObject(hdc, font) if font else None
-            previous_pen = self.gdi32.SelectObject(hdc, self.gdi32.GetStockObject(NULL_PEN))
+            width = max(1, rect.right - rect.left)
+            height = max(1, rect.bottom - rect.top)
+            memory_dc = self.gdi32.CreateCompatibleDC(hdc)
+            bitmap = self.gdi32.CreateCompatibleBitmap(hdc, width, height)
+            previous_bitmap = self.gdi32.SelectObject(memory_dc, bitmap)
+            try:
+                self._paint_content(memory_dc, rect)
+                self.gdi32.BitBlt(hdc, 0, 0, width, height, memory_dc, 0, 0, SRCCOPY)
+            finally:
+                if previous_bitmap:
+                    self.gdi32.SelectObject(memory_dc, previous_bitmap)
+                if bitmap:
+                    self.gdi32.DeleteObject(bitmap)
+                if memory_dc:
+                    self.gdi32.DeleteDC(memory_dc)
+        finally:
+            self.user32.EndPaint(hwnd, ctypes.byref(paint))
 
-            for index, label in enumerate(self._labels):
-                left, top, right, bottom = (
-                    self._chip_rects[index]
-                    if index < len(self._chip_rects)
-                    else (OVERLAY_PADDING_X, CHIP_VERTICAL_MARGIN, 120, config["height"] - CHIP_VERTICAL_MARGIN)
-                )
-                offset = self._transition_offset if self._appearance.animations_enabled else 0
-                label_rect = wintypes.RECT(left, top + offset, right, bottom + offset)
-                if index == self._focus_index:
+    def _paint_content(self, hdc: int, rect: wintypes.RECT) -> None:
+        theme = _theme(self._appearance)
+        config = _size_config(self._appearance)
+        brush = self.gdi32.CreateSolidBrush(theme["background"])
+        self.user32.FillRect(hdc, ctypes.byref(rect), brush)
+        self.gdi32.DeleteObject(brush)
+        if not self._render_state.visible:
+            return
+        self._paint_drag_handle(hdc, theme, config)
+        self.gdi32.SetBkMode(hdc, 1)
+        font = self._create_text_font(config)
+        previous_font = self.gdi32.SelectObject(hdc, font) if font else None
+        previous_pen = self.gdi32.SelectObject(hdc, self.gdi32.GetStockObject(NULL_PEN))
+        try:
+            slide = self._render_state.transition.slide_offset(config["height"]) if self._appearance.animations_enabled else 0
+            slide = min(slide, max(0, CHIP_VERTICAL_MARGIN - 2))
+            for index, label in enumerate(self._layout.labels):
+                if index >= len(self._layout.chip_rects):
+                    continue
+                left, top, right, bottom = self._layout.chip_rects[index]
+                label_rect = wintypes.RECT(left, top + slide, right, bottom + slide)
+                if index == self._layout.focus_index:
                     highlight = self.gdi32.CreateSolidBrush(theme["highlight_background"])
                     previous_brush = self.gdi32.SelectObject(hdc, highlight)
                     radius = self._mm_to_pixels(CHIP_RADIUS_MM) * 2
@@ -427,7 +640,10 @@ class SuggestionOverlay:
                     if previous_brush:
                         self.gdi32.SelectObject(hdc, previous_brush)
                     self.gdi32.DeleteObject(highlight)
-                self.gdi32.SetTextColor(hdc, theme["text_primary"] if index == self._focus_index else theme["text_secondary"])
+                self.gdi32.SetTextColor(
+                    hdc,
+                    theme["text_primary"] if index == self._layout.focus_index else theme["text_secondary"],
+                )
                 self.user32.DrawTextW(
                     hdc,
                     label,
@@ -435,15 +651,68 @@ class SuggestionOverlay:
                     ctypes.byref(label_rect),
                     DT_CENTER | DT_VCENTER | DT_SINGLELINE,
                 )
-            self._transition_offset = 0
         finally:
-            if "previous_pen" in locals() and previous_pen:
+            if previous_pen:
                 self.gdi32.SelectObject(hdc, previous_pen)
-            if "previous_font" in locals() and previous_font:
+            if previous_font:
                 self.gdi32.SelectObject(hdc, previous_font)
-            if "font" in locals() and font:
+            if font:
                 self.gdi32.DeleteObject(font)
-            self.user32.EndPaint(hwnd, ctypes.byref(paint))
+
+    def _move_or_resize_window(self, x: int, y: int, width: int, height: int) -> None:
+        next_rect = (x, y, width, height)
+        previous = self._last_window_rect
+        if previous:
+            prev_x, prev_y, prev_width, prev_height = previous
+            same_size = prev_width == width and prev_height == height
+            tiny_move = abs(prev_x - x) <= WINDOW_MOVE_JITTER_PX and abs(prev_y - y) <= WINDOW_MOVE_JITTER_PX
+            if same_size and tiny_move:
+                return
+        self.user32.MoveWindow(self.hwnd, x, y, width, height, False)
+        self._last_window_rect = next_rect
+
+    def _invalidate(self, erase: bool = False) -> None:
+        if getattr(self, "hwnd", None):
+            self.user32.InvalidateRect(self.hwnd, None, bool(erase))
+
+    def _apply_alpha(self) -> None:
+        factor = self._render_state.transition.alpha_factor() if self._appearance.animations_enabled else 1.0
+        alpha = max(1, min(255, round(self._target_alpha * factor)))
+        self.user32.SetLayeredWindowAttributes(self.hwnd, 0, alpha, LWA_ALPHA)
+
+    def _start_animation_timer_if_needed(self) -> None:
+        if not self._appearance.animations_enabled:
+            return
+        if self._render_state.transition.is_active():
+            self.user32.SetTimer(self.hwnd, ANIMATION_TIMER_ID, ANIMATION_TIMER_MS, None)
+
+    def _stop_animation_timer(self) -> None:
+        if getattr(self, "hwnd", None):
+            self.user32.KillTimer(self.hwnd, ANIMATION_TIMER_ID)
+
+    def _on_animation_tick(self) -> None:
+        if not self._render_state.transition.is_active():
+            self._render_state.transition.stop()
+            self._apply_alpha()
+            self._stop_animation_timer()
+            self._invalidate(erase=False)
+            return
+        self._apply_alpha()
+        self._invalidate(erase=False)
+
+    def _screen_bounds_for_anchor(self, x: int, y: int) -> ScreenBounds:
+        if hasattr(self.user32, "MonitorFromPoint") and MONITORINFO is not None:
+            try:
+                point = wintypes.POINT(x, y)
+                monitor = self.user32.MonitorFromPoint(point, MONITOR_DEFAULTTONEAREST)
+                if monitor:
+                    info = MONITORINFO()
+                    info.cbSize = ctypes.sizeof(MONITORINFO)
+                    if self.user32.GetMonitorInfoW(monitor, ctypes.byref(info)):
+                        return ScreenBounds(info.rcWork.left, info.rcWork.top, info.rcWork.right, info.rcWork.bottom)
+            except OSError:
+                pass
+        return ScreenBounds(0, 0, self.user32.GetSystemMetrics(0), self.user32.GetSystemMetrics(1))
 
     def _create_text_font(self, config: dict[str, int]) -> int:
         return self.gdi32.CreateFontW(
@@ -501,11 +770,31 @@ def _format_label(index: int, suggestion: Suggestion, focus_index: int = 0) -> s
     return suggestion.replacement
 
 
+def build_overlay_layout(
+    labels: list[str] | tuple[str, ...],
+    appearance: AppearanceSettings,
+    focus_index: int = 0,
+) -> OverlayLayout:
+    label_tuple = tuple(labels[:3])
+    focus = max(0, min(focus_index, max(0, len(label_tuple) - 1)))
+    rects = tuple(chip_rects(list(label_tuple), appearance))
+    width = _measure_width(list(label_tuple), appearance)
+    height = _size_config(appearance)["height"] if label_tuple else 0
+    return OverlayLayout(
+        labels=label_tuple,
+        focus_index=focus,
+        width=width,
+        height=height,
+        chip_rects=rects,
+        text_rects=tuple(_text_rect(rect) for rect in rects),
+    )
+
+
 def _measure_width(labels: list[str], appearance: AppearanceSettings) -> int:
     if not labels:
         return 0
     rects = chip_rects(labels, appearance)
-    return min(max(220, rects[-1][2] + OVERLAY_PADDING_X), 900)
+    return min(max(240, rects[-1][2] + OVERLAY_PADDING_X), 900)
 
 
 def _choice_bounds(labels: list[str], appearance: AppearanceSettings) -> list[tuple[int, int]]:
@@ -520,7 +809,7 @@ def chip_rects(labels: list[str], appearance: AppearanceSettings) -> list[tuple[
     top = CHIP_VERTICAL_MARGIN
     bottom = config["height"] - CHIP_VERTICAL_MARGIN
     rects: list[tuple[int, int, int, int]] = []
-    x = OVERLAY_PADDING_X + DRAG_HANDLE_WIDTH
+    x = OVERLAY_PADDING_X + DRAG_HANDLE_WIDTH + DRAG_HANDLE_GAP
     for label in labels:
         rects.append((x, top, x + slot_width, bottom))
         x += slot_width + CHIP_GAP
@@ -542,6 +831,20 @@ def _label_width(label: str, config: dict[str, int]) -> int:
     return max(config["min_choice_width"], len(label) * config["char_width"] + config["padding"])
 
 
+def _text_rect(rect: tuple[int, int, int, int]) -> tuple[int, int, int, int]:
+    return rect
+
+
+def rect_center(rect: tuple[int, int, int, int]) -> tuple[float, float]:
+    left, top, right, bottom = rect
+    return ((left + right) / 2, (top + bottom) / 2)
+
+
+def _ease_out_cubic(progress: float) -> float:
+    clamped = max(0.0, min(1.0, progress))
+    return 1 - pow(1 - clamped, 3)
+
+
 def calculate_overlay_position(
     anchor_x: int,
     anchor_y: int,
@@ -550,15 +853,24 @@ def calculate_overlay_position(
     screen_width: int,
     screen_height: int,
     margin: int = 8,
+    screen_left: int = 0,
+    screen_top: int = 0,
 ) -> tuple[int, int]:
-    pos_x = min(max(anchor_x + 10, margin), max(margin, screen_width - width - margin))
+    screen_right = screen_left + screen_width
+    screen_bottom = screen_top + screen_height
+    left_limit = screen_left + margin
+    right_limit = max(left_limit, screen_right - width - margin)
+    top_limit = screen_top + margin
+    bottom_limit = max(top_limit, screen_bottom - height - margin)
+
+    pos_x = min(max(anchor_x + 10, left_limit), right_limit)
     below_y = anchor_y + 18
     above_y = anchor_y - height - 10
-    if below_y + height + margin <= screen_height:
+    if below_y + height + margin <= screen_bottom:
         pos_y = below_y
     else:
         pos_y = above_y
-    pos_y = min(max(pos_y, margin), max(margin, screen_height - height - margin))
+    pos_y = min(max(pos_y, top_limit), bottom_limit)
     return pos_x, pos_y
 
 
